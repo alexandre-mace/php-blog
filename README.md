@@ -1,0 +1,2 @@
+# BlogOC
+School blog project
