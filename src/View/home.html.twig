@@ -1,0 +1,57 @@
+{% extends'template.html.twig' %}
+
+{% block pageHeader %}
+
+	<header class="masthead" style="background-image: url('../../assets/img/home-bg.jpg')">
+	    <div class="overlay"></div>
+	    <div class="container">
+	        <div class="row">
+	            <div class="col-lg-8 col-md-10 mx-auto">
+	                <div class="site-heading">
+	                    <h1>Blog d'Alexandre Macé</h1>
+	                    <span class="subheading">Développeur web en formation chez OpenClassrooms</span>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</header>
+
+{% endblock %}
+
+{% block mainContent %}
+
+	<div class="container">
+	    <div class="row">
+	        <div class="col-lg-8 col-md-10 mx-auto">
+				
+			    {% for post in lastPosts %}
+
+		            <div class="post-preview">
+		                <a href="{{ post.title }}.html"> <!-- Pas sur du tout parce que c'est le lien vers le detail du post, il va falloir prendre en compte l'achitecture des fichiers ! -->
+		                    <h2 class="post-title">
+		                        {{ post.title }}
+		                    </h2>
+		                    <h3 class="post-subtitle">
+		                        {{ post.intro }}
+		                    </h3>
+		                </a>
+		                <p class="post-meta">
+		                	Dernière modification le {{ post.lastWriteDate }}
+		                </p>
+		            </div>
+		            <hr>
+			        
+			    {% endfor %}
+
+	            <!-- Pager -->
+	            <div class="clearfix">
+	                <a class="btn btn-primary float-right" href="#">Tous les posts</a> <!-- Lien à modifier -->
+	            </div>
+
+	        </div>
+	    </div>
+	</div>
+
+	<hr>
+
+{% endblock %}
