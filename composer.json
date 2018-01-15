@@ -1,0 +1,16 @@
+{
+    "name": "alexandre/blogoc",
+    "description": "School blog project : Creating a PHP Blog with admin system using composer and twig.",
+    "authors": [
+        {
+            "name": "alexandre-mace",
+            "email": "alex-mace@hotmail.fr"
+        }
+    ],
+    "require": {
+        "components/jquery": "^3.2",
+        "twbs/bootstrap": "4.0.0-beta.2",
+        "fortawesome/font-awesome": "^4.7",
+        "twig/twig": "^2.4"
+    }
+}
