@@ -2,7 +2,7 @@
 
 {% block pageHeader %}
 
-	<header class="masthead" style="background-image: url('../../assets/img/post-bg.jpg')">
+	<header class="masthead" style="background-image: url('../assets/img/post-bg.jpg')">
 	    <div class="overlay"></div>
 	    <div class="container">
 	        <div class="row">
@@ -57,28 +57,37 @@
 	        </div>
 	    </div>
 	</div>
+	
+	<div class="container">
+	    <div class="row">
+	        <div class="col-lg-8 col-md-10 mx-auto">
+				
+			    <form name="addComment" id="commentForm" novalidate>
+			        <div class="control-group">
+			            <div class="form-group floating-label-form-group controls">
+			                <label>Pseudo</label>
+			                <input type="text" class="form-control" placeholder="Pseudo" id="pseudo" required data-validation-required-message="Veuillez écrire votre pseudo.">
+			                <p class="help-block text-danger"></p>
+			            </div>
+			        </div>
+				    <div class="control-group">
+				        <div class="form-group floating-label-form-group controls">
+				            <label>Ajouter un commentaire</label>
+				            <textarea rows="5" class="form-control" placeholder="Commentaire" id="commentaire" required data-validation-required-message="Veuillez écrire un commentaire."></textarea>
+				            <p class="help-block text-danger"></p>
+				        </div>
+				    </div>
+				    <br>
+				    <div id="success"></div>
+				    <div class="form-group">
+				        <button type="submit" class="btn btn-primary" id="addCommentButton">Ajouter un commentaire</button>
+				    </div>
+				</form>
 
-    <form name="addComment" id="commentForm" novalidate>
-        <div class="control-group">
-            <div class="form-group floating-label-form-group controls">
-                <label>Pseudo</label>
-                <input type="text" class="form-control" placeholder="Pseudo" id="pseudo" required data-validation-required-message="Veuillez écrire votre pseudo.">
-                <p class="help-block text-danger"></p>
-            </div>
-        </div>
-	    <div class="control-group">
-	        <div class="form-group floating-label-form-group controls">
-	            <label>Ajouter un commentaire</label>
-	            <textarea rows="5" class="form-control" placeholder="Commentaire" id="commentaire" required data-validation-required-message="Veuillez écrire un commentaire."></textarea>
-	            <p class="help-block text-danger"></p>
 	        </div>
 	    </div>
-	    <br>
-	    <div id="success"></div>
-	    <div class="form-group">
-	        <button type="submit" class="btn btn-primary" id="addCommentButton">Ajouter un commentaire</button>
-	    </div>
-	</form>
+	</div>
+
 
 	<hr>
 
