@@ -9,7 +9,7 @@
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <div class="page-heading">
                         <h1>Les posts</h1>
-                        <span class="subheading">Tous les posts sont accessibles depuis cette page !</span>
+                        <span class="subheading">L'administration des posts sont accessibles depuis cette page !</span>
                     </div>
                 </div>
             </div>
@@ -23,11 +23,11 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
-                
+                <button><a href="">Ajouter un nouveau post</a></button>              <!-- Lien à modifier -->
                 {% for post in posts %}
 
                     <div class="post-preview">
-                        <a href="{{ post.title }}.html">                            <!-- Lien à modifier -->
+                        <a href="{{ post.title }}.html">                    <!-- Lien à modifier -->
                             <h2 class="post-title">
                                 {{ post.title }}
                             </h2>
@@ -35,10 +35,9 @@
                                 {{ post.intro }}
                             </h3>
                         </a>
-                        <p class="post-meta">
-                            Dernière modification le {{ post.lastWriteDate }}
-                        </p>
                     </div>
+                    <button><a href="">Modifier</a></button>                  <!-- Lien à modifier -->
+                    <button><a href="">Supprimer</a></button>                  <!-- Lien à modifier -->
                     <hr>
                     
                 {% endfor %}
