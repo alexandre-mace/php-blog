@@ -12,5 +12,8 @@
         "twbs/bootstrap": "4.0.0-beta.2",
         "fortawesome/font-awesome": "^4.7",
         "twig/twig": "^2.4"
+    },
+    "autoload": {
+        "psr-4": { "App\\": "app/"}
     }
 }
