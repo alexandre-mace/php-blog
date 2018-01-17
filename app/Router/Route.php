@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Router;
+
 Class Route {
 
 	private $name;
@@ -52,4 +54,9 @@ Class Route {
 
 	}
 
+	public function call(){
+
+		// Appeler l'action d'un controleur
+		
+	}
 }
