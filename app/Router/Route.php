@@ -54,6 +54,9 @@ Class Route {
 
 	}
 
+	public function match(){
+		
+	}
 	public function call(){
 
 		// Appeler l'action d'un controleur

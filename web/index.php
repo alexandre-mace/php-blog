@@ -1,17 +1,22 @@
 <?php
 require_once '../vendor/autoload.php';
 
+use App\Request;
+use App\Router\Router;
+
 $loader = new Twig_Loader_Filesystem('../src/View/');
 $twig = new Twig_Environment($loader, array(
     'cache' => false
 ));
 
-$router = New Router;
+$request = Request::createFromGlobals();
 
-Router::addRoute;
+$router = New Router($request);
 
-Router::getCurrentRoute;
-	//try every route by parsing
-	//route match to test it and return route parameters
+$router->addRoute(Route $route);
 
-Route::call
+$route = $router->getRouteByRequest();
+
+$response = $route->call(Request $request, Router $router);
+
+$response->send;
