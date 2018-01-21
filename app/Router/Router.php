@@ -2,34 +2,48 @@
 
 namespace App\Router;
 
-class Router {
+use App\Request;
+
+class Router 
+{
 
 	private $routes;
 
 	private $request;
 
-	public function __construct(Request $request){
+
+	public function __construct(Request $request) 
+	{
 
 		$this->request = $request;
 
 	}
 
-	public function addRoute(Route $route){
+	public function loadRoutes()
+	{
+		
+		// Chargement automatique de toutes les routes du projet
+
+	}
+
+	public function addRoute(Route $route)
+	{
 
 		$this->routes[$route->getName()] = $route;
 
 	}
 
-	public function getRouteByRequest(){
+	public function getRouteByRequest()
+	{
 		
-		foreach ($this->routes as $route) {
-
-			if ($route->match($this->request->getUri)) {
-
+		foreach ($this->routes as $route)
+		{
+			if ($route->path == $this->request->getUri)) 
+			{
 				return $route;
-
 			}
 		}
 
 	}
+
 }

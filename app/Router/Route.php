@@ -2,7 +2,10 @@
 
 namespace App\Router;
 
-Class Route {
+use App\Request;
+
+Class Route 
+{
 
 	private $name;
 
@@ -15,7 +18,8 @@ Class Route {
 	private $action;
 
 
-	public function __construct($name, $path, array $parameters, $controller, $action){
+	public function __construct($name, $path, array $parameters, $controller, $action)
+	{
 
 		$this->name = $name;
 		$this->path = $path;
@@ -25,41 +29,46 @@ Class Route {
 
 	}
 
-	public function getName(){
+	public function getName()
+	{
 
 		return $this->name;
 
 	}
 
-	public function getPath(){
+	public function getPath()
+	{
 
 		return $this->path;
 
 	}
 
-	public function getParameters(){
+	public function getParameters()
+	{
 
 		return $this->parameters;
 
 	}
 
-	public function getController(){
+	public function getController()
+	{
 
 		return $this->controller;
 
 	}
-	public function getAction(){
+
+	public function getAction()
+	{
 
 		return $this->action;
 
 	}
-
-	public function match(){
-		
-	}
-	public function call(){
+ 
+	public function call()
+	{
 
 		// Appeler l'action d'un controleur
 		
 	}
+
 }

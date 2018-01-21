@@ -2,7 +2,8 @@
 
 namespace App;
 
-Class Request {
+Class Request 
+{
 
 	private $post;
 
@@ -15,7 +16,8 @@ Class Request {
 	private $server;
 
 
-	public function __construct(array $post, array $get, array $session, array $cookie, array $server) {
+	public function __construct(array $post, array $get, array $session, array $cookie, array $server)
+	{
 
 		$this->post = $post;
 		$this->get = $get;
@@ -25,46 +27,54 @@ Class Request {
 
 	}
 
-	public static function createFromGlobals {
+	public static function createFromGlobals 
+	{
 
 		session_start();
 		return new Request($_POST, $_GET, $_SESSION, $_COOKIE, $_SERVER);
 
 	}
 
-	public function getPost() {
+	public function getPost()
+	{
 
 		return $this->post;
 
 	}
 
-	public function getGet() {
+	public function getGet()
+	{
 
 		return $this->get;
 
 	}
 
-	public function getSession() {
+	public function getSession()
+	{
 
 		return $this->session;
 
 	}
 
-	public function getCookie() {
+	public function getCookie()
+	{
 
 		return $this->cookie;
 
 	}
 
-	public function getServer() {
+	public function getServer() 
+	{
 
 		return $this->server;
 
 	}
 
-	public function getUri {
+	public function getUri()
+	{
 
 		return $this->server["REQUEST_URI"];
+
 	}
 
 }
