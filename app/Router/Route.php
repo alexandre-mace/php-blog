@@ -52,9 +52,11 @@ Class Route
 		return $this->action;
 	}
  
-	public function call()
+	public function call(Request $request, Router $router)
 	{
-		// Appeler l'action d'un controleur
+		$controller = $this->controller;
+        $controller = new $controller($request, $router);
+        return call_user_func_array([$controller, $this->action], $this->parameters);
 	}
 
 }
