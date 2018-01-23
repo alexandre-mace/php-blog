@@ -33,7 +33,7 @@ class Router
 
 	}
 
-	public function getRouteByRequest()
+	public function getRouteByRequest() // A modifier
 	{
 		
 		foreach ($this->routes as $route)
