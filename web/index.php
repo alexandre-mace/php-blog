@@ -24,4 +24,4 @@ $route = $router->getRouteByRequest();
 
 $response = $route->call($request, $router);
 
-$response->send;
+$response->send();
