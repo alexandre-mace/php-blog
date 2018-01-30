@@ -23,12 +23,13 @@ Class Request
 		$this->session = $session;
 		$this->cookie = $cookie;
 		$this->server = $server;
+		$this->request = $request;
 	}
 
 	public static function createFromGlobals 
 	{
 		session_start();
-		return new Request($_POST, $_GET, $_SESSION, $_COOKIE, $_SERVER);
+		return new Request($_POST, $_GET, $_SESSION, $_COOKIE, $_SERVER, $_REQUEST);
 	}
 
 	public function getPost()
@@ -56,6 +57,11 @@ Class Request
 		return $this->server;
 	}
 
+	public function getRequest()
+	{
+		return $this->request;
+	}
+	
 	public function getUri()
 	{
 		return $this->server["REQUEST_URI"];

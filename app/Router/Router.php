@@ -17,11 +17,6 @@ class Router
 		$this->request = $request;
 	}
 
-	public function loadRoutes()
-	{
-		// Chargement automatique de toutes les routes du projet
-	}
-
 	public function addRoute(Route $route)
 	{
 		$this->routes[$route->getName()] = $route;
@@ -29,10 +24,8 @@ class Router
 
 	public function getRouteByRequest() // A modifier
 	{	
-		foreach ($this->routes as $route)
-		{
-			if ($route->path == $this->request->getUri)) 
-			{
+		foreach ($this->routes as $route) {
+			if ($route->match($this->request->getUri())) {
 				return $route;
 			}
 		}

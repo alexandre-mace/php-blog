@@ -6,7 +6,6 @@ use App\Request;
 
 Class Route 
 {
-
 	private $name;
 
 	private $path;
@@ -16,6 +15,8 @@ Class Route
 	private $controller;
 
 	private $action;
+
+	private $args;
 
 
 	public function __construct($name, $path, array $parameters, $controller, $action)
@@ -59,4 +60,32 @@ Class Route
         return call_user_func_array([$controller, $this->action], $this->parameters);
 	}
 
+	public function match($requestUri){
+		$path = preg_replace_callback("/:(\w+)/", [$this, "parameterMatch"], $this->path);
+		$path = str_replace("/", "\/", $path);
+
+		if (preg_match("/^$path$/", $requestUri, $matches)) {
+			$this->args = array_slice($matches, 1);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	private function parameterMatch($match)
+    {
+        if (isset($this->parameters[$match[1]])) {
+            return sprintf("(%s)",$this->parameters[$match[1]]);
+        }
+        return '([^/]+)';
+    }
+
+	public function generateUrl($args)
+	{
+		$url = str_replace(array_keys($args), $args, $this->path);
+		$url str_replace(":", "", $url);
+		return $url;
+	}
 }
