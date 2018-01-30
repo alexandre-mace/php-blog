@@ -22,7 +22,7 @@ class Router
 		$this->routes[$route->getName()] = $route;
 	}
 
-	public function getRouteByRequest() // A modifier
+	public function getRouteByRequest()
 	{	
 		foreach ($this->routes as $route) {
 			if ($route->match($this->request->getUri())) {
