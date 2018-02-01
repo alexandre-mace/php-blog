@@ -8,13 +8,11 @@ namespace Model;
 class CommentManager extends Manager
 {
 	
-	public function get()
+	public function getComments($postId)
 	{
-
-	}
-
-	public function getAll()
-	{
-		
+		$req = $pdo->prepare('SELECT id, author, date, content FROM comments WHERE post_id = ? ORDER BY date DESC');
+		$req->execute($postId);
+		$comments = $req->fetch();
+		return $comments;		
 	}
 }

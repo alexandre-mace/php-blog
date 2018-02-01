@@ -16,12 +16,12 @@ class Manager
 		$this->pdo = $pdo;
 	}
 
-	public function update()
+	public function insert()
 	{
 
 	}
 
-	public function insert()
+	public function update()
 	{
 
 	}
