@@ -1,7 +1,7 @@
 <?php
 
 use App\Controller;
-use Model\CommentModel;
+use Model\CommentManager;
 /**
 * ¨CommentController
 */
@@ -20,6 +20,7 @@ class CommentController extends Controller
 
 	public function deleteComment()
 	{
-		
+		$commentManager = new CommentManager();
+		$commentManager->delete($commentId, "comments");
 	}
 }

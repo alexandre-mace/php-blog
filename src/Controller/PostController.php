@@ -35,6 +35,7 @@ class PostController extends Controller
 
 	public function deletePost()
 	{
-		
+		$postManager = new PostManager();
+		$postManager->delete($postId, "posts");
 	}
 }

@@ -16,7 +16,7 @@ class Manager
 		$this->pdo = $pdo;
 	}
 
-	public function insert()
+	public function add()
 	{
 
 	}
@@ -26,8 +26,8 @@ class Manager
 
 	}
 
-	public function remove()
+	public function delete($id, $table)
 	{
-		
+		$pdo->exec('DELETE FROM' .$table. 'WHERE id = ' .$id);
 	}
 }

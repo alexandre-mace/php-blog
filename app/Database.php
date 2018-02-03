@@ -5,7 +5,7 @@ namespace App;
 class Database 
 {
 
-	private pdo;
+	private $pdo;
 
 
 	public function __construct()

@@ -1,7 +1,7 @@
 <?php
 
 use App\Controller;
-use Model\AdminModel;
+use Model\AdminManager;
 /**
 * Controller of Admin anthentification
 */
