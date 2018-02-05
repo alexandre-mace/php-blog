@@ -16,17 +16,17 @@ class Manager
 		$this->pdo = $pdo;
 	}
 
+	public function add()
+	{
+
+	}
+
 	public function update()
 	{
 
 	}
 
-	public function insert()
-	{
-
-	}
-
-	public function remove()
+	public function delete()
 	{
 		
 	}

@@ -8,17 +8,17 @@ use Model\CommentModel;
 class CommentController extends Controller
 {
 	
-	public function addAction()
+	public function addComment()
 	{
 
 	}
 
-	public function updateAction()
+	public function updateComment()
 	{
 
 	}
 
-	public function deleteAction()
+	public function deleteComment()
 	{
 		
 	}

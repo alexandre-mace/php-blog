@@ -18,7 +18,7 @@ class Post
 
 	private $lastWriteDate;
 
-	private $comment;
+	private $comments;
 
 
 	public function getId()

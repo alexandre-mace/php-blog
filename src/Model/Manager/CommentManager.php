@@ -8,13 +8,4 @@ namespace Model;
 class CommentManager extends Manager
 {
 	
-	public function get()
-	{
-
-	}
-
-	public function getAll()
-	{
-		
-	}
 }

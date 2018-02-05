@@ -1,24 +1,36 @@
 <?php
 
 use App\Controller;
-use Model\PostModel;
+use Model\PostManager;
 /**
 * ¨PostController
 */
 class PostController extends Controller
 {
 	
-	public function addAction()
+	public function getPost()
+	{
+		$postManager = new PostManager();
+		$post = $postManager->getPost($_GET['id']);
+	}
+	public function getPosts()
+	{
+		$postManager = new PostManager();
+		$posts = $postManager->getPosts();
+	}
+
+	public function addPost()
+	{
+		
+
+	}
+
+	public function updatePost()
 	{
 
 	}
 
-	public function updateAction()
-	{
-
-	}
-
-	public function deleteAction()
+	public function deletePost()
 	{
 		
 	}
