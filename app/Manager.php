@@ -3,7 +3,7 @@
 namespace App;
 
 /**
-* 
+* Main Manager
 */
 class Manager
 {
@@ -28,6 +28,7 @@ class Manager
 
 	public function delete($id, $table)
 	{
-		$pdo->exec('DELETE FROM' .$table. 'WHERE id = ' .$id);
+		$req = $pdo->prepare('DELETE FROM ' .$table. ' WHERE id = ?');
+		$req->execute(array($id));
 	}
 }
