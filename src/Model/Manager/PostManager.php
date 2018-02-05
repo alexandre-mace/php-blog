@@ -22,4 +22,15 @@ class PostManager extends Manager
 		$posts = $req->fetch();
 		return $posts;
 	}
+
+	public function updatePost() 
+	{
+		$req = $pdo->prepare('UPDATE posts SET title = :title, intro = :intro, content = :content WHERE id = :id');
+		$req->execute(array(
+			'title' => $title,
+			'intro' => $intro,
+			'content' => $content,
+			'id' => $postId
+		))
+	}
 }
