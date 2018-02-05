@@ -16,7 +16,7 @@ class Manager
 		$this->pdo = $pdo;
 	}
 
-	public function insert()
+	public function add()
 	{
 
 	}
@@ -26,7 +26,7 @@ class Manager
 
 	}
 
-	public function remove()
+	public function delete()
 	{
 		
 	}
