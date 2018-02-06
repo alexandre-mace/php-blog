@@ -27,7 +27,8 @@ class PostController extends Controller
 
 	public function updatePost()
 	{
-
+		$postManager = new PostManager();
+		$postManager->updatePost($_GET['id']);
 	}
 
 	public function deletePost()
