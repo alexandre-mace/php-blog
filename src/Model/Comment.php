@@ -6,7 +6,7 @@
 class Comment
 {
 
-	private $id;
+	private $postId;
 
 	private $content;
 
@@ -15,14 +15,14 @@ class Comment
 	private $date;
 
 
-	public function getId()
+	public function getPostId()
 	{
-		return $this->id;
+		return $this->postId;
 	}
 
-	public function setId($id)
+	public function setPostId($postId)
 	{
-		$this->id = $id;
+		$this->postId = $postId;
 	}
 
 	public function getContent()

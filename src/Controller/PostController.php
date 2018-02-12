@@ -8,15 +8,12 @@ use Model\PostManager;
 class PostController extends Controller
 {
 	
-	public function renderPost()
+	public function getPost()
 	{
 		$postManager = new PostManager();
-		$commentManager = new CommentManager();
-
 		$post = $postManager->getPost($_GET['id']);
-		$comments = $commentManager->getComments($_GET['id']);
 	}
-	public function renderPosts()
+	public function getPosts()
 	{
 		$postManager = new PostManager();
 		$posts = $postManager->getPosts();
@@ -30,7 +27,8 @@ class PostController extends Controller
 
 	public function updatePost()
 	{
-
+		$postManager = new PostManager();
+		$postManager->updatePost($_GET['id']);
 	}
 
 	public function deletePost()
