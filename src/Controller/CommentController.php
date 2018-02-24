@@ -1,7 +1,10 @@
 <?php
 
+namespace Controller;
+
 use App\Controller;
-use Model\CommentManager;
+use Model\Comment;
+
 /**
 * ¨CommentController
 */

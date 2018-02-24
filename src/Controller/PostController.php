@@ -1,7 +1,10 @@
 <?php
 
+namespace Controller;
+
 use App\Controller;
-use Model\PostManager;
+use Model\Post;
+
 /**
 * ¨PostController
 */
@@ -21,19 +24,22 @@ class PostController extends Controller
 
 	public function addPost()
 	{
-		
-
+		$manager = $this->getDatabase()->getManager(Post::class);
+		$post = new Post();
+		$post->setAddedAt(new \DateTime());
+		$manager->insert($post);		
 	}
 
-	public function updatePost()
+	public function updatePost($id)
 	{
-		$postManager = new PostManager();
-		$postManager->updatePost($_GET['id']);
+		$manager = $this->getDatabase()->getManager(Post::class);
+		$post = $manager->find($id);
 	}
 
-	public function deletePost()
+	public function deletePost($id)
 	{
-		$postManager = new PostManager();
-		$postManager->delete($postId, "posts");
+		$manager = $this->getDatabase()->getManager(Post::class);
+		$post = $manager->find($id);
+		$manager->remove($post);
 	}
 }

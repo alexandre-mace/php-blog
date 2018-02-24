@@ -1,9 +1,14 @@
 <?php
 
+namespace Model;
+
+use App\Model;
+use Manager\CommentManager;
+
 /**
 * Comment
 */
-class Comment
+class Comment extends Model
 {
 
 	private $postId;
@@ -14,6 +19,11 @@ class Comment
 
 	private $date;
 
+
+	public static function getManager()
+	{
+		return CommentManager::class;
+	}
 
 	public function getPostId()
 	{

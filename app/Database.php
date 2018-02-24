@@ -6,6 +6,9 @@ class Database
 {
 
 	private $pdo;
+
+	private $managers = [];
+
 	private static $_databaseInstance
 
 
@@ -28,4 +31,13 @@ class Database
 		return $this->pdo;
 	}
 
+	public function getManager($model)
+	{
+		$managerClass = $model::getManager();
+		if (!isset($this->managers[$model])) {
+			new $managerClass($this->pdo, $model);
+		}
+
+		return $this->managers[$model];
+	}
 }
