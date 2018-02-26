@@ -44,22 +44,22 @@ class Post extends Model
                 "intro"            => [
                     "type"      => "string",
                     "property"  => "intro"
-                ]
+                ],
                 "content"            => [
                     "type"      => "string",
                     "property"  => "content"
-                ]
-                "addedAt"            => [
+                ],
+                "author"            => [
+                    "type"      => "string",
+                    "property"  => "author"
+                ],                
+                "added_at"            => [
                     "type"      => "datetime",
                     "property"  => "addedAt"
-                ]
-                "lastWriteDate"            => [
+                ],
+                "last_write_date"            => [
                     "type"      => "datetime",
                     "property"  => "lastWriteDate"
-                ]
-                "comments"            => [
-                    "type"      => "array",
-                    "property"  => "comments"
                 ]
             ]
         ];

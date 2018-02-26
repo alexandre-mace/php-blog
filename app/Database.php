@@ -35,7 +35,7 @@ class Database
 	{
 		$managerClass = $model::getManager();
 		if (!isset($this->managers[$model])) {
-			new $managerClass($this->pdo, $model);
+			$this->managers[$model] = new $managerClass($this->pdo, $model);
 		}
 
 		return $this->managers[$model];

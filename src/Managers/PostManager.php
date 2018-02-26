@@ -7,30 +7,24 @@ namespace Model;
 */
 class PostManager extends Manager
 {
-	
 	public function getPost($postId)
 	{
-		$req = $pdo->prepare('SELECT id, title, intro, content, author, lastWriteDate, comments FROM posts WHERE id = ?');
-		$req->execute(array($postId));
-		$post = $req->fetch();
-		return $post;
+		$sqlQuery = "SELECT id, title, intro, content, author, lastWriteDate, comments FROM posts WHERE id = ?"
+		$statement = $pdo->prepare($sqlQuery);
+		$statement->execute($postId);
+		$post = $statement->fetch();
+		// A finir	
+	}
+	public function getLastPosts()
+	{
+		$sqlQuery = "SELECT title, intro, lastWriteDate FROM posts ORDER BY added_at DESC LIMIT 5"
+		$statement = $pdo->prepare($sqlQuery);
+		$statement->execute();
+		$lastPosts = $statement->fetch();
+		// A finir
 	}
 
-	public function getPosts()
+	public function getPaginatedPosts()
 	{
-		$req = $pdo->query('SELECT id, title, intro, lastWriteDate FROM posts ORDER BY creation_date DESC');
-		$posts = $req->fetch();
-		return $posts;
-	}
-
-	public function updatePost() 
-	{
-		$req = $pdo->prepare('UPDATE posts SET title = :title, intro = :intro, content = :content WHERE id = :id');
-		$req->execute(array(
-			'title' => $title,
-			'intro' => $intro,
-			'content' => $content,
-			'id' => $postId
-		))
 	}
 }

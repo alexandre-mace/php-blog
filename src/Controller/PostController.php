@@ -11,15 +11,16 @@ use Model\Post;
 class PostController extends Controller
 {
 	
-	public function getPost()
+	public function showPost()
 	{
-		$postManager = new PostManager();
-		$post = $postManager->getPost($_GET['id']);
+		$manager = $this->getDatabase()->getManager(Post::class);
+		$post = $manager->find($id);
 	}
-	public function getPosts()
+
+	public function showLastPosts()
 	{
-		$postManager = new PostManager();
-		$posts = $postManager->getPosts();
+		$manager = $this->getDatabase()->getManager(Post::class);
+		$lastPosts = $manager->getLastPosts();
 	}
 
 	public function addPost()

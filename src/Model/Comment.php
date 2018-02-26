@@ -10,6 +10,7 @@ use Manager\CommentManager;
 */
 class Comment extends Model
 {
+	private $id;
 
 	private $postId;
 
@@ -17,8 +18,37 @@ class Comment extends Model
 
 	private $author;
 
-	private $date;
+	private $added_at;
 
+    public static function metadata()
+    {
+        return [
+            "table"             => "comments",
+            "primaryKey"        => "id",
+            "columns"           => [
+                "id"            => [
+                    "type"      => "integer",
+                    "property"  => "id"
+                ],
+                "post_id"            => [
+                    "type"      => "integer",
+                    "property"  => "postId"
+                ],
+                "content"            => [
+                    "type"      => "string",
+                    "property"  => "content"
+                ],
+                "author"            => [
+                    "type"      => "string",
+                    "property"  => "author"
+                ],
+                "added_at"            => [
+                    "type"      => "datetime",
+                    "property"  => "addedAt"
+                ]
+            ]
+        ];
+    }
 
 	public static function getManager()
 	{
@@ -55,13 +85,13 @@ class Comment extends Model
 		$this->author = $author;
 	}
 
-	public function getDate()
+	public function getAddedAt()
 	{
-		return $this->date;
+		return $this->addedAt;
 	}
 	
-	public function setDate($date)
+	public function setAddedAt($addedAt)
 	{
-		$this->date = $date;
+		$this->addedAt = $addedAt;
 	}
 }

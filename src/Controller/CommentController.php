@@ -13,17 +13,22 @@ class CommentController extends Controller
 	
 	public function addComment()
 	{
-
+		$manager = $this->getDatabase()->getManager(Comment::class);
+		$comment = new Comment();
+		$comment->setAddedAt(new \DateTime());
+		$manager->insert($comment);		
 	}
 
-	public function updateComment()
+	public function updateComment($id)
 	{
-
+		$manager = $this->getDatabase()->getManager(Comment::class);
+		$comment = $manager->find($id);
 	}
 
-	public function deleteComment()
+	public function deleteComment($id)
 	{
-		$commentManager = new CommentManager();
-		$commentManager->delete($commentId, "comments");
+		$manager = $this->getDatabase()->getManager(Comment::class);
+		$comment = $manager->find($id);
+		$manager->remove($comment);
 	}
 }
