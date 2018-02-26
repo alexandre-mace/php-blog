@@ -1,9 +1,14 @@
 <?php
 
+namespace Model;
+
+use App\Model;
+use Manager\PostManager;
+
 /**
 * Post
 */
-class Post
+class Post extends Model
 {
 
 	private $id;
@@ -16,10 +21,54 @@ class Post
 
 	private $author;
 
+	private $addedAt;
+
 	private $lastWriteDate;
 
-	private $comment;
+	private $comments;
 
+    public static function metadata()
+    {
+        return [
+            "table"             => "posts",
+            "primaryKey"        => "id",
+            "columns"           => [
+                "id"            => [
+                    "type"      => "integer",
+                    "property"  => "id"
+                ],
+                "title"            => [
+                    "type"      => "string",
+                    "property"  => "title"
+                ],
+                "intro"            => [
+                    "type"      => "string",
+                    "property"  => "intro"
+                ],
+                "content"            => [
+                    "type"      => "string",
+                    "property"  => "content"
+                ],
+                "author"            => [
+                    "type"      => "string",
+                    "property"  => "author"
+                ],                
+                "added_at"            => [
+                    "type"      => "datetime",
+                    "property"  => "addedAt"
+                ],
+                "last_write_date"            => [
+                    "type"      => "datetime",
+                    "property"  => "lastWriteDate"
+                ]
+            ]
+        ];
+    }
+
+	public static function getManager()
+	{
+		return PostManager::class;
+	}
 
 	public function getId()
 	{
@@ -69,6 +118,16 @@ class Post
 	public function setAuthor($author)
 	{
 		$this->author = $author;
+	}
+
+	public function getAddedAt()
+	{
+		return $this->addedAt;
+	}
+
+	public function setAddedAt($addedAt)
+	{
+		$this->addedAt = $addedAt;
 	}
 
 	public function getLastWriteDate()

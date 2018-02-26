@@ -1,28 +1,68 @@
 <?php
 
+namespace Model;
+
+use App\Model;
+use Manager\CommentManager;
+
 /**
 * Comment
 */
-class Comment
+class Comment extends Model
 {
-
 	private $id;
+
+	private $postId;
 
 	private $content;
 
 	private $author;
 
-	private $date;
+	private $added_at;
 
+    public static function metadata()
+    {
+        return [
+            "table"             => "comments",
+            "primaryKey"        => "id",
+            "columns"           => [
+                "id"            => [
+                    "type"      => "integer",
+                    "property"  => "id"
+                ],
+                "post_id"            => [
+                    "type"      => "integer",
+                    "property"  => "postId"
+                ],
+                "content"            => [
+                    "type"      => "string",
+                    "property"  => "content"
+                ],
+                "author"            => [
+                    "type"      => "string",
+                    "property"  => "author"
+                ],
+                "added_at"            => [
+                    "type"      => "datetime",
+                    "property"  => "addedAt"
+                ]
+            ]
+        ];
+    }
 
-	public function getId()
+	public static function getManager()
 	{
-		return $this->id;
+		return CommentManager::class;
 	}
 
-	public function setId($id)
+	public function getPostId()
 	{
-		$this->id = $id;
+		return $this->postId;
+	}
+
+	public function setPostId($postId)
+	{
+		$this->postId = $postId;
 	}
 
 	public function getContent()
@@ -45,13 +85,13 @@ class Comment
 		$this->author = $author;
 	}
 
-	public function getDate()
+	public function getAddedAt()
 	{
-		return $this->date;
+		return $this->addedAt;
 	}
 	
-	public function setDate($date)
+	public function setAddedAt($addedAt)
 	{
-		$this->date = $date;
+		$this->addedAt = $addedAt;
 	}
 }
