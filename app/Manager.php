@@ -31,14 +31,14 @@ class Manager
 	{
 		$set = [];
 		$parameters = [];
-		foreach (array_keys($this->metadata["columns"]) as $column) 
+		foreach (array_keys($this->metadata["columns"]) as $column)
 		{
 			$sqlValue = $model->getSQLValueByColumn($column);
 			$model->originalData[$column] = $sqlValue;
 			$parameters[$column] = $sqlValue;
 			$set[] = $column = :$column;
 		}
-		$sqlQuery = "INSERT INTO '" . $this->metadata['table']. "' VALUES  '" . implode(",", $set) . "'";
+		$sqlQuery = "INSERT INTO '" . $this->metadata['table'] . "' VALUES  '" . implode(',', $set) . "'";
 		$statement = $this->pdo->prepare($sqlQuery);
 		$statement = execute($parameters);
 		$model->setPrimaryKey($this->pdo->lastInsertId());
@@ -47,13 +47,29 @@ class Manager
 
 	public function update(Model $model)
 	{
-
+		$set = [];
+		$parameters = [];
+		foreach (array_keys($this->metadata["columns"]) as $column) 
+		{
+			$sqlValue = $model->getSQLValueByColumn($column);
+			if ($sqlValue !== $model->originalData[$column]) {
+				$parameters[$column] = $sqlValue;
+				$model->originalData[$column] = $sqlValue;
+				$set[] = $column = :$column;
+			}
+		}
+		if (count($set))
+		{
+			$sqlQuery = "UPDATE '" . $this->metadata['table'] . "' SET '" . implode('s', $set) . "' WHERE '" . $this->metadata['primaryKey'] . "' = :id"; 
+			$statement = $this->pdo->prepare($sqlQuery);
+			$statement->execute(["id" => $model->getPrimaryKey()]);
+		}
 	}
 
 	public function remove(Model $model)
 	{
 		$sqlQuery = "DELETE FROM ' .$this->metadata['table']. ' WHERE ' .$this->metadata['primaryKey']. ' = :id";
 		$statement = $this->pdo->prepare($sqlQuery);
-		$statement->execute(["id" => $model->getPrimaryKey()];
+		$statement->execute(["id" => $model->getPrimaryKey()]);
 	}
 }

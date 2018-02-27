@@ -18,7 +18,7 @@ class RedirectResponse
 
 	public function send()
 	{
-		header(sprintf("location: %s", $this->url));
+		header('location: ' . $this->url);
 	}
 
 }

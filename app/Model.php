@@ -13,6 +13,13 @@ abstract class Model
 	
 	public abstract static function getManager();
 
+    public function hydrate($result)
+    {
+        $this->originalData = $result;
+        foreach ($result as $column => $value) {
+            $this->hydrateProperty($column, $value);
+        }
+    }
 
     private function hydrateProperty($column, $value)
     {
