@@ -19,6 +19,7 @@ abstract class Model
         foreach ($result as $column => $value) {
             $this->hydrateProperty($column, $value);
         }
+        return $this;
     }
 
     private function hydrateProperty($column, $value)

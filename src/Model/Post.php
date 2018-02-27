@@ -139,4 +139,9 @@ class Post extends Model
 	{
 		$this->lastWriteDate = $lastWriteDate;
 	}
+
+	public function getComment()
+	{
+		return $this->comments;
+	} 
 }

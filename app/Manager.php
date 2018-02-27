@@ -38,9 +38,9 @@ class Manager
 			$parameters[$column] = $sqlValue;
 			$set[] = $column = :$column;
 		}
-		$sqlQuery = "INSERT INTO '" . $this->metadata['table'] . "' VALUES  '" . implode(',', $set) . "'";
+		$sqlQuery = "INSERT INTO " . $this->metadata['table'] . " VALUES " . implode(',', $set);
 		$statement = $this->pdo->prepare($sqlQuery);
-		$statement = execute($parameters);
+		$statement->execute($parameters);
 		$model->setPrimaryKey($this->pdo->lastInsertId());
 
 	}
@@ -60,7 +60,7 @@ class Manager
 		}
 		if (count($set))
 		{
-			$sqlQuery = "UPDATE '" . $this->metadata['table'] . "' SET '" . implode('s', $set) . "' WHERE '" . $this->metadata['primaryKey'] . "' = :id"; 
+			$sqlQuery = "UPDATE " . $this->metadata['table'] . " SET " . implode("s", $set) . " WHERE " . $this->metadata['primaryKey'] . " = :id"; 
 			$statement = $this->pdo->prepare($sqlQuery);
 			$statement->execute(["id" => $model->getPrimaryKey()]);
 		}
@@ -68,7 +68,7 @@ class Manager
 
 	public function remove(Model $model)
 	{
-		$sqlQuery = "DELETE FROM ' .$this->metadata['table']. ' WHERE ' .$this->metadata['primaryKey']. ' = :id";
+		$sqlQuery = "DELETE FROM " . $this->metadata['table'] . " WHERE " . $this->metadata['primaryKey'] . " = :id";
 		$statement = $this->pdo->prepare($sqlQuery);
 		$statement->execute(["id" => $model->getPrimaryKey()]);
 	}

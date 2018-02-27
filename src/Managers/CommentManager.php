@@ -2,6 +2,8 @@
 
 namespace Model;
 
+use App\Manager;
+
 /**
 * Comment Manager
 */
