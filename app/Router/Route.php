@@ -68,10 +68,7 @@ Class Route
 			$this->args = array_slice($matches, 1);
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	private function parameterMatch($match)

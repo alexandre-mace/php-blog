@@ -24,7 +24,7 @@ class CommentController extends Controller
 	{
 		$manager = $this->getDatabase()->getManager(Comment::class);
 		$comment = $manager->find($id);
-		$manager->update($post);
+		$manager->update($comment);
 		return $this->redirect("show", ["id" => $comment->getPostId()]);	
 	}
 
