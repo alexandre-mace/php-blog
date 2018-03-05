@@ -25,7 +25,7 @@ class PostController extends Controller
 		$manager = $this->getDatabase()->getManager(Post::class);
 		$lastPosts = $manager->getLastPosts();
 		return $this->render("home.html.twig", [
-            "lastPosts" => $lastPosts;
+            "lastPosts" => $lastPosts
         ]);
 	}
 

@@ -9,18 +9,18 @@ class Database
 
 	private $managers = [];
 
-	private static $_databaseInstance
+	private static $_databaseInstance;
 
 
-	public function __construct($host, $dbName, $user, $password)
+	public function __construct($host, $dbName, $username, $password)
 	{
-		$this->pdo = new \PDO("mysql:dbname=$db;host=$host", $username, $password); // A modifier
+		$this->pdo = new \PDO("mysql:dbname=$dbName;host=$host", $username, $password); // A modifier
 	}
 
 	public static function getInstance()
 	{
 		if (is_null(self::$_databaseInstance)) {
-			self::$_databaseInstance = new App();
+			self::$_databaseInstance = new Database('localhost', 'blog_oc', 'root', '');
 		}
 
 		return self::$_databaseInstance;

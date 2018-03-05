@@ -31,4 +31,11 @@ class Router
 		}
 	}
 
+    public function getRoute($routeName)
+    {
+        if(isset($this->routes[$routeName])) {
+            return $this->routes[$routeName];
+        }
+    }
+
 }

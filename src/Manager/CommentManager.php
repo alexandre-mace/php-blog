@@ -1,6 +1,6 @@
 <?php
 
-namespace Model;
+namespace Manager;
 
 use App\Manager;
 

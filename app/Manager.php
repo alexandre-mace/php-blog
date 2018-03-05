@@ -36,7 +36,7 @@ class Manager
 			$sqlValue = $model->getSQLValueByColumn($column);
 			$model->originalData[$column] = $sqlValue;
 			$parameters[$column] = $sqlValue;
-			$set[] = $column = :$column;
+			$set[] = "" . $column . "= :" . $column . "";
 		}
 		$sqlQuery = "INSERT INTO " . $this->metadata['table'] . " VALUES " . implode(',', $set);
 		$statement = $this->pdo->prepare($sqlQuery);
@@ -55,7 +55,7 @@ class Manager
 			if ($sqlValue !== $model->originalData[$column]) {
 				$parameters[$column] = $sqlValue;
 				$model->originalData[$column] = $sqlValue;
-				$set[] = $column = :$column;
+				$set[] = "" . $column . "= :" . $column . "";
 			}
 		}
 		if (count($set))

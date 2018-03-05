@@ -1,6 +1,6 @@
 <?php
 
-namespace Model;
+namespace Manager;
 
 use App\Manager;
 
@@ -32,9 +32,9 @@ class PostManager extends Manager
 		$statement = $this->pdo->prepare($sqlQuery);
 		$statement->execute();
 		$results = $statement->fetchAll(\PDO::FETCH_ASSOC);
-		array_walk($results, function(&$post)) {
+		array_walk($results, function(&$post) {
 			$post = (new Foo())->hydrate($post);
-		}
+		});
 		return $results;
 	}
 }

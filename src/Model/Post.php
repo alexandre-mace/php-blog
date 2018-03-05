@@ -67,6 +67,7 @@ class Post extends Model
 
 	public static function getManager()
 	{
+		var_dump(PostManager::class);
 		return PostManager::class;
 	}
 
