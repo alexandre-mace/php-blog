@@ -18,7 +18,7 @@ class Comment extends Model
 
 	private $author;
 
-	private $added_at;
+	private $addedAt;
 
     public static function metadata()
     {

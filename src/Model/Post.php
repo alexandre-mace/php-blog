@@ -67,6 +67,7 @@ class Post extends Model
 
 	public static function getManager()
 	{
+		var_dump(PostManager::class);
 		return PostManager::class;
 	}
 
@@ -139,4 +140,9 @@ class Post extends Model
 	{
 		$this->lastWriteDate = $lastWriteDate;
 	}
+
+	public function getComment()
+	{
+		return $this->comments;
+	} 
 }

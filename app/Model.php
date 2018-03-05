@@ -13,26 +13,34 @@ abstract class Model
 	
 	public abstract static function getManager();
 
+    public function hydrate($result)
+    {
+        $this->originalData = $result;
+        foreach ($result as $column => $value) {
+            $this->hydrateProperty($column, $value);
+        }
+        return $this;
+    }
 
     private function hydrateProperty($column, $value)
     {
         switch($this::metadata()["columns"][$column]["type"]) {
             case "integer":
-                $this->'set' . ucfirst($this::metadata()["columns"][$column]["property"]))($value);
+                $this->{'set' . ucfirst($this::metadata()["columns"][$column]["property"])}($value);
                 break;
             case "string":
-                $this->'set' . ucfirst($this::metadata()["columns"][$column]["property"]))($value);
+                $this->{'set' . ucfirst($this::metadata()["columns"][$column]["property"])}($value);
                 break;
             case "datetime":
                 $datetime = \DateTime::createFromFormat("Y-m-d H:i:s", $value);
-                $this->'set' . ucfirst($this::metadata()["columns"][$column]["property"]))($datetime);
+                $this->{'set' . ucfirst($this::metadata()["columns"][$column]["property"])}($datetime);
                 break;
         }
     }
 
 	public function getSQLValueByColumn($column)
 	{
-		$value = $this->'get' . ucfirst($this::metadata()["columns"][$column]["property"]));
+		$value = $this->{'get' . ucfirst($this::metadata()["columns"][$column]["property"])}();
 		if ($value instanceof \DateTime) {
 			return $value->format("Y-m-d H:i:s");
 		}
