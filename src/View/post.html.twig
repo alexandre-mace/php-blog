@@ -2,7 +2,7 @@
 
 {% block pageHeader %}
 
-	<header class="masthead" style="background-image: url('../assets/img/post-bg.jpg')">
+	<header class="masthead" style="background-image: url('/web/assets/img/post-bg.jpg')">
 	    <div class="overlay"></div>
 	    <div class="container">
 	        <div class="row">
@@ -11,7 +11,7 @@
 	                    <h1> {{ post.title }} </h1>
 	                    <h2 class="subheading"> {{ post.intro }} </h2>
                         <p class="post-meta">
-                            Dernière modification le {{ post.lastWriteDate }} par {{ post.author }}
+                            Dernière modification le {{ post.lastWriteDate|date('d-m-Y') }} par {{ post.author }}
                         </p>
 	                </div>
 	            </div>

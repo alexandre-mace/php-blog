@@ -15,8 +15,11 @@ abstract class Model
 
     public function hydrate($result)
     {
+        if(empty($result)) {
+            throw new ModelException("Aucun résultat n'a été trouvé !");
+        }
         $this->originalData = $result;
-        foreach ($result as $column => $value) {
+        foreach($result as $column => $value) {
             $this->hydrateProperty($column, $value);
         }
         return $this;
@@ -50,5 +53,12 @@ abstract class Model
     public function setPrimaryKey($value)
     {
         $this->hydrateProperty($this::metadata()["primaryKey"], $value);
+    }
+
+    public function getPrimaryKey()
+    {
+        $primaryKeyColumn = $this::metadata()["primaryKey"];
+        $property = $this::metadata()["columns"][$primaryKeyColumn]["property"];
+        return $this->{'get'. ucfirst($property)}();
     }
 }

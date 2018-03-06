@@ -2,7 +2,7 @@
 
 {% block pageHeader %}
 
-	<header class="masthead" style="background-image: url('../assets/img/home-bg.jpg')">
+	<header class="masthead" style="background-image: url('/web/assets/img/home-bg.jpg')">
 	    <div class="overlay"></div>
 	    <div class="container">
 	        <div class="row">
@@ -27,7 +27,7 @@
 			    {% for post in lastPosts %}
 
 		            <div class="post-preview">
-		                <a href=""> 								<!-- Lien à modifier -->
+		                <a href="/post/{{ post.id }}"> 
 		                    <h2 class="post-title">
 		                        {{ post.title }}
 		                    </h2>
@@ -36,7 +36,7 @@
 		                    </h3>
 		                </a>
 		                <p class="post-meta">
-		                	Dernière modification le {{ post.lastWriteDate }}
+		                	Dernière modification le {{ post.lastWriteDate|date('d-m-Y') }}
 		                </p>
 		            </div>
 		            <hr>
@@ -45,7 +45,7 @@
 
 	            <!-- Pager -->
 	            <div class="clearfix">
-	                <a class="btn btn-primary float-right" href="#">Tous les posts</a> <!-- Lien à modifier -->
+	                <a class="btn btn-primary float-right" href="/posts">Tous les posts</a> <!-- Lien à modifier -->
 	            </div>
 
 	        </div>

@@ -10,7 +10,7 @@ use Model\Post;
 */
 class PostController extends Controller
 {
-	
+
 	public function showPost($id)
 	{
 		$manager = $this->getDatabase()->getManager(Post::class);
@@ -20,19 +20,10 @@ class PostController extends Controller
         ]);
 	}
 
-	public function showLastPosts()
-	{
-		$manager = $this->getDatabase()->getManager(Post::class);
-		$lastPosts = $manager->getLastPosts();
-		return $this->render("home.html.twig", [
-            "lastPosts" => $lastPosts
-        ]);
-	}
-
 	public function showPaginatedPosts($page = 1)
 	{
 		$manager = $this->getDatabase()->getManager(Post::class);
-		$posts = $manager->getPaginatedPosts();
+		$posts = $manager->getPaginatedPosts($page);
 		return $this->render("posts.html.twig", [
             "posts" => $posts
         ]);
@@ -42,16 +33,22 @@ class PostController extends Controller
 		$manager = $this->getDatabase()->getManager(Post::class);
 		$post = new Post();
 		$post->setAddedAt(new \DateTime());
-		$manager->insert($post);	
-		return $this->redirect("show", ["id" => $post->getId()]);	
+		$post->setTitle("test");
+		$post->setIntro("Lorem Ipsum");
+		$post->setContent("Lorem Ipsum");
+		$post->setAuthor("Lorem");
+		$manager->insert($post);
+		return $this->redirect("post", ["id" => $post->getId()]);
 	}
 
 	public function updatePost($id)
 	{
 		$manager = $this->getDatabase()->getManager(Post::class);
 		$post = $manager->find($id);
+		$post->setTitle("test update");
+		$post->setLastWriteDate(new \DateTime());
 		$manager->update($post);
-		return $this->redirect("show", ["id" => $post->getId()]);
+		return $this->redirect("post", ["id" => $post->getId()]);
 	}
 
 	public function deletePost($id)
