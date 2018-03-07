@@ -29,6 +29,10 @@ class PostManager extends Manager
 
 	public function getPaginatedPosts($page)
 	{
+		$sqlQuery = "SELECT * FROM posts";
+		$statement = $this->pdo->query($sqlQuery);
+		$nbPosts = $statement->rowCount();
+		$nbPages = ceil($nbPosts / 10);
         $start = ($page-1)*10;
 		$sqlQuery = "SELECT * FROM posts ORDER BY added_at LIMIT $start, 10";
 		$statement = $this->pdo->prepare($sqlQuery);
@@ -37,6 +41,8 @@ class PostManager extends Manager
 		array_walk($results, function(&$post) {
 			$post = (new Post())->hydrate($post);
 		});
-		return $results;
+		$arrayReturned = array('nbPages' => $nbPages, 'results' => $results);
+		return $arrayReturned;
 	}
+
 }

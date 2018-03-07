@@ -45,7 +45,51 @@
 
             </div>
         </div>
+
+        {% if nbPages > 1 %}
+        {% set nearbyPagesLimit = 2 %}
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <nav aria-label="posts pagination">
+                        <ul class="pagination pagination-lg justify-content-center">
+                            {% if page == 1 %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="/posts/{{ page - 1 }}" tabindex="-1">Précédent</a>
+                                </li> 
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="/posts/{{ page - 1 }}" tabindex="-1">Précédent</a>
+                                </li> 
+                            {% endif %}
+
+                            {% for i in 1..nbPages %}
+                                {% if page == loop.index %}
+                                    <li class="page-item active">
+                                      <a class="page-link" href="/posts/{{ i }}">{{ i }}<span class="sr-only">(current)</span></a>
+                                    </li>
+                                {% elseif 0 < (page - nearbyPagesLimit) - loop.index %} 
+                                {% elseif 0 > (page + nearbyPagesLimit) - loop.index %}
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" href="/posts/{{ i }}">{{ i }}</a></li>    
+                                {% endif %}                        
+                            {% endfor %}
+
+                            {% if page == nbPages %}
+                                <li class="page-item disabled">
+                                  <a class="page-link" href="/posts/{{ page + 1 }}">Suivant</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                  <a class="page-link" href="/posts/{{ page + 1 }}">Suivant</a>
+                                </li>
+                            {% endif %}  
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        {% endif %}
     </div>
+
 
     <hr>
 

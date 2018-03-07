@@ -23,9 +23,12 @@ class PostController extends Controller
 	public function showPaginatedPosts($page = 1)
 	{
 		$manager = $this->getDatabase()->getManager(Post::class);
-		$posts = $manager->getPaginatedPosts($page);
+		$posts = $manager->getPaginatedPosts($page)['results'];
+		$nbPages = $manager->getPaginatedPosts($page)['nbPages'];
 		return $this->render("posts.html.twig", [
-            "posts" => $posts
+            "posts" => $posts,
+            "page" => $page,
+            "nbPages" => $nbPages
         ]);
 	}
 	public function addPost()
