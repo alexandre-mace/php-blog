@@ -23,9 +23,7 @@ class Manager
             $this->model = $model;
             $this->metadata = $this->model::metadata();
         }
-        else {
-            throw new ManagerException("Cette classe n'est pas une entité.");
-        }
+        throw new ManagerException("Cette classe n'est pas une entité.");
         $this->model = $model;
 	}
 
