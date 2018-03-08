@@ -19,12 +19,12 @@ class Manager
 	{
         $this->pdo = $pdo;
         $reflectionClass = new \ReflectionClass($model);
-        if($reflectionClass->getParentClass()->getName() == Model::class) {
-            $this->model = $model;
-            $this->metadata = $this->model::metadata();
+        if($reflectionClass->getParentClass()->getName() != Model::class) {
+            throw new ManagerException("Cette classe n'est pas une entité.");
+        	$this->model = $model;
         }
-        throw new ManagerException("Cette classe n'est pas une entité.");
         $this->model = $model;
+        $this->metadata = $this->model::metadata();
 	}
 
 	public function find($id)
