@@ -34,7 +34,7 @@ class PostManager extends Manager
 		$nbPosts = $statement->rowCount();
 		$nbPages = ceil($nbPosts / 10);
         $start = ($page-1)*10;
-		$sqlQuery = "SELECT * FROM posts ORDER BY added_at LIMIT $start, 10";
+		$sqlQuery = "SELECT * FROM posts ORDER BY added_at DESC LIMIT $start, 10";
 		$statement = $this->pdo->prepare($sqlQuery);
 		$statement->execute();
 		$results = $statement->fetchAll(\PDO::FETCH_ASSOC);
