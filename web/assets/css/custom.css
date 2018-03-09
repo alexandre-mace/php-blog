@@ -1,0 +1,51 @@
+button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+.fa-heart:hover, a, .page-link, .post-preview > a > .post-title {
+	color: #2A2C43 !important;
+}
+.subheading, .nav-link, .fa-heart, .post-page-heart:hover
+{
+	color: #f2b632 !important;
+}
+.nav-link:hover 
+{
+	color: #906509 !important;
+}
+a:focus, a:hover {
+    color: #f2b632 !important;
+    text-decoration: unset;
+}
+.btn-primary {
+    background-color: unset; !important;
+    border: 2px solid #2A2C43 !important;
+    color: #2A2C43 !important;
+}
+.btn-primary:hover {
+    background-color: #2A2C43 !important;
+    border: 2px solid #2A2C43 !important;
+    color: #fff !important;
+}
+.page-item.active .page-link {
+    z-index: 2;
+    color: #fff !important;
+    background-color: #2A2C43;
+    border-color: #2A2C43;
+}
+.post-preview>a:focus, .post-preview>a:hover {
+    text-decoration: none;
+    color: #f2b632 !important;
+}
+.white {
+	color: #fff !important;
+}
+.disabled a
+{
+	color: #868e96 !important;
+}

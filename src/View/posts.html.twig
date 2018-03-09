@@ -2,8 +2,7 @@
 
 {% block pageHeader %}
 
-    <header class="masthead" style="background-image: url('/web/assets/img/about-bg.jpg')">
-        <div class="overlay"></div>
+    <header class="masthead" style="background-color:#2A2C43;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
@@ -29,7 +28,7 @@
                     <div class="post-preview">
                         <a href="/post/{{ post.id }}">
                             <h2 class="post-title">
-                                {{ post.title }}
+                                {{ post.title }} <span class="badge"><i class="fa fa-heart post-page-heart"></i> {{ post.likes }}</span>
                             </h2>
                             <h3 class="post-subtitle">
                                 {{ post.intro }}
@@ -52,17 +51,7 @@
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <nav aria-label="posts pagination">
                         <ul class="pagination pagination-lg justify-content-center">
-                            {% if page == 1 %}
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="/posts/1" aria-label="Previous">
-                                        <span aria-hidden="true"><i class="fa fa-angle-double-left"></i></span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                </li>
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="/posts/{{ page - 1 }}" tabindex="-1">Précédent</a>
-                                </li> 
-                            {% else %}
+                            {% if page > 1 %}
                                 <li class="page-item">
                                     <a class="page-link" href="/posts/1" aria-label="Previous">
                                         <span aria-hidden="true"><i class="fa fa-angle-double-left"></i></span>
@@ -74,29 +63,13 @@
                                 </li> 
                             {% endif %}
 
-                            {% for i in 1..nbPages %}
-                                {% if page == loop.index %}
-                                    <li class="page-item active">
-                                      <a class="page-link" href="/posts/{{ i }}">{{ i }}<span class="sr-only">(current)</span></a>
-                                    </li>
-                                {% elseif 0 < (page - nearbyPagesLimit) - loop.index %} 
-                                {% elseif 0 > (page + nearbyPagesLimit) - loop.index %}
-                                {% else %}
-                                    <li class="page-item"><a class="page-link" href="/posts/{{ i }}">{{ i }}</a></li>    
-                                {% endif %}                        
+                            {% for p in range(max(page - nearbyPagesLimit, 1), min(page + nearbyPagesLimit, nbPages)) %}
+                                <li class="page-item {{ p==page ? "active" }}">
+                                    <a class="page-link" href="/posts/{{ p }}">{{ p }}<span class="sr-only">(current)</span></a>
+                                </li>
                             {% endfor %}
 
-                            {% if page == nbPages %}
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="/posts/{{ page + 1 }}">Suivant</a>
-                                </li>
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="/posts/{{ nbPages }}" aria-label="Next">
-                                        <span aria-hidden="true"><i class="fa fa-angle-double-right"></i></span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </li>
-                            {% else %}
+                            {% if page < nbPages %}
                                 <li class="page-item">
                                     <a class="page-link" href="/posts/{{ page + 1 }}">Suivant</a>
                                 </li>
@@ -106,7 +79,7 @@
                                         <span class="sr-only">Next</span>
                                     </a>
                                 </li>
-                            {% endif %}  
+                             {% endif %}
                         </ul>
                     </nav>
                 </div>

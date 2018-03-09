@@ -12,7 +12,7 @@ p {
   line-height: 1.5;
   margin: 30px 0; }
   p a {
-    text-decoration: underline; }
+    color: #212529; }
 
 h1,
 h2,
@@ -25,11 +25,14 @@ h6 {
 
 a {
   color: #212529;
+  text-decoration: unset;
   -webkit-transition: all 0.2s;
   -moz-transition: all 0.2s;
   transition: all 0.2s; }
   a:focus, a:hover {
-    color: #0085A1; }
+    color: #0085A1;
+    text-decoration: unset;
+    }
 
 blockquote {
   font-style: italic;

@@ -21,6 +21,8 @@ class Post extends Model
 
 	private $author;
 
+	private $likes;
+
 	private $addedAt;
 
 	private $lastWriteDate;
@@ -52,7 +54,11 @@ class Post extends Model
                 "author"            => [
                     "type"      => "string",
                     "property"  => "author"
-                ],                
+                ],  
+                "likes"            => [
+                    "type"      => "integer",
+                    "property"  => "likes"
+                ],               
                 "added_at"            => [
                     "type"      => "datetime",
                     "property"  => "addedAt"
@@ -118,6 +124,16 @@ class Post extends Model
 	public function setAuthor($author)
 	{
 		$this->author = $author;
+	}
+
+	public function getLikes()
+	{
+		return $this->likes;
+	}
+	
+	public function setLikes($likes)
+	{
+		$this->likes = $likes;
 	}
 
 	public function getAddedAt()
