@@ -20,7 +20,7 @@ class BlogController extends Controller
         ]);
 	}
 
-	public function contact()
+	public function showContact()
 	{
 		return $this->render("contact.html.twig", []);
 	}
