@@ -29,6 +29,8 @@ class Post extends Model
 
 	private $comments;
 
+	private $isReported;
+
     public static function metadata()
     {
         return [
@@ -66,7 +68,11 @@ class Post extends Model
                 "last_write_date"            => [
                     "type"      => "datetime",
                     "property"  => "lastWriteDate"
-                ]
+                ],
+                "is_reported"            => [
+                    "type"      => "boolean",
+                    "property"  => "isReported"
+                ],
             ]
         ];
     }
@@ -160,4 +166,14 @@ class Post extends Model
 	{
 		return $this->comments;
 	} 
+
+	public function getIsReported()
+	{
+		return $this->isReported;
+	}
+	
+	public function setIsReported($isReported)
+	{
+		$this->isReported = $isReported;
+	}
 }
