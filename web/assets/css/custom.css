@@ -7,7 +7,7 @@ button {
     cursor: pointer;
     outline: inherit;
 }
-.fa-heart:hover, a, .page-link, .post-preview > a > .post-title {
+.fa-heart:hover, a, .page-link {
 	color: #2A2C43 !important;
 }
 .subheading, .nav-link, .fa-heart, .post-page-heart:hover
