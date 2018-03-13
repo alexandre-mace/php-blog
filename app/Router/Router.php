@@ -19,6 +19,9 @@ class Router
 
 	public function addRoute(Route $route)
 	{
+		if(isset($this->routes[$route->getName()])) {
+            throw new RouterException("Cette route existe déjà !");
+        }
 		$this->routes[$route->getName()] = $route;
 	}
 
@@ -29,6 +32,7 @@ class Router
 				return $route;
 			}
 		}
+		throw new RouterException("Cette route n'existe pas !");
 	}
 
     public function getRoute($routeName)
@@ -36,6 +40,7 @@ class Router
         if(isset($this->routes[$routeName])) {
             return $this->routes[$routeName];
         }
+        throw new RouterException("Cette route n'existe pas !");
     }
 
 }

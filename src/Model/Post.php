@@ -21,11 +21,15 @@ class Post extends Model
 
 	private $author;
 
+	private $likes;
+
 	private $addedAt;
 
 	private $lastWriteDate;
 
 	private $comments;
+
+	private $isReported;
 
     public static function metadata()
     {
@@ -52,7 +56,11 @@ class Post extends Model
                 "author"            => [
                     "type"      => "string",
                     "property"  => "author"
-                ],                
+                ],  
+                "likes"            => [
+                    "type"      => "integer",
+                    "property"  => "likes"
+                ],               
                 "added_at"            => [
                     "type"      => "datetime",
                     "property"  => "addedAt"
@@ -60,14 +68,17 @@ class Post extends Model
                 "last_write_date"            => [
                     "type"      => "datetime",
                     "property"  => "lastWriteDate"
-                ]
+                ],
+                "is_reported"            => [
+                    "type"      => "boolean",
+                    "property"  => "isReported"
+                ],
             ]
         ];
     }
 
 	public static function getManager()
 	{
-		var_dump(PostManager::class);
 		return PostManager::class;
 	}
 
@@ -121,6 +132,16 @@ class Post extends Model
 		$this->author = $author;
 	}
 
+	public function getLikes()
+	{
+		return $this->likes;
+	}
+	
+	public function setLikes($likes)
+	{
+		$this->likes = $likes;
+	}
+
 	public function getAddedAt()
 	{
 		return $this->addedAt;
@@ -145,4 +166,14 @@ class Post extends Model
 	{
 		return $this->comments;
 	} 
+
+	public function getIsReported()
+	{
+		return $this->isReported;
+	}
+	
+	public function setIsReported($isReported)
+	{
+		$this->isReported = $isReported;
+	}
 }

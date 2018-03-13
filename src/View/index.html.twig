@@ -2,8 +2,7 @@
 
 {% block pageHeader %}
 
-	<header class="masthead" style="background-image: url('../assets/img/home-bg.jpg')">
-	    <div class="overlay"></div>
+	<header class="masthead" style="background-color: #2A2C43">
 	    <div class="container">
 	        <div class="row">
 	            <div class="col-lg-8 col-md-10 mx-auto">
@@ -27,16 +26,16 @@
 			    {% for post in lastPosts %}
 
 		            <div class="post-preview">
-		                <a href=""> 								<!-- Lien à modifier -->
+		                <a href="/post/{{ post.id }}"> 
 		                    <h2 class="post-title">
-		                        {{ post.title }}
+		                        {{ post.title }} <span class="badge"><i class="fa fa-heart post-page-heart"></i> {{ post.likes }}</span>
 		                    </h2>
 		                    <h3 class="post-subtitle">
 		                        {{ post.intro }}
 		                    </h3>
 		                </a>
 		                <p class="post-meta">
-		                	Dernière modification le {{ post.lastWriteDate }}
+		                	Dernière modification le {{ post.lastWriteDate|date('d-m-Y') }}
 		                </p>
 		            </div>
 		            <hr>
@@ -45,7 +44,7 @@
 
 	            <!-- Pager -->
 	            <div class="clearfix">
-	                <a class="btn btn-primary float-right" href="#">Tous les posts</a> <!-- Lien à modifier -->
+	                <a class="btn btn-primary float-right" href="/posts/1">Tous les posts</a> <!-- Lien à modifier -->
 	            </div>
 
 	        </div>

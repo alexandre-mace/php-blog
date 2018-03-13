@@ -42,10 +42,10 @@ class Controller
 		return new RedirectResponse($url);
 	}
 
-	protected function render($view, $data)
+	protected function render($filename, $data = [])
 	{
 		$view = $this->twig->load($filename);
-		$content = $this->twig->render($view, $data);
+		$content = $view->render($data);
 		return new Response($content);
 	}
 

@@ -2,16 +2,15 @@
 
 {% block pageHeader %}
 
-	<header class="masthead" style="background-image: url('../assets/img/post-bg.jpg')">
-	    <div class="overlay"></div>
+	<header class="masthead" style="background-color: #2A2C43">
 	    <div class="container">
 	        <div class="row">
 	            <div class="col-lg-8 col-md-10 mx-auto">
 	                <div class="post-heading">
-	                    <h1> {{ post.title }} </h1>
-	                    <h2 class="subheading"> {{ post.intro }} </h2>
+	                    <h1> {{ post.title }} <span class="badge"><i class="fa fa-heart post-page-heart"></i> {{ post.likes }}</span></h1>
+	                    <h2 class="subheading white"> {{ post.intro }} </h2>
                         <p class="post-meta">
-                            Dernière modification le {{ post.lastWriteDate }} par {{ post.author }}
+                            Dernière modification le {{ post.lastWriteDate|date('d-m-Y') }} par {{ post.author }}
                         </p>
 	                </div>
 	            </div>
@@ -23,13 +22,20 @@
 
 {% block mainContent %}
 
-	<article>
+	<article class="mb-5">
 	    <div class="container">
 	        <div class="row">
 	            <div class="col-lg-8 col-md-10 mx-auto">
 	                
 	                <p> {{ post.content }} </p>
-
+	                <div class="row justify-content-end">
+	                	<div class="col-4 text-center">
+	                		<button data-toggle="tooltip" data-placement="top" title="J'aime ce contenu"><i class="fa fa-heart fa-2x"></i></button>
+	                	</div>
+	                  	<div class="col-4 text-right">
+	                  		<button data-toggle="tooltip" data-placement="top" title="Signaler ce contenu"><i class="fa fa-flag fa-2x"></i></button>
+	                	</div>
+	                </div>
 	            </div>
 	        </div>
 	    </div>

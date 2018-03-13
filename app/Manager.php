@@ -8,7 +8,7 @@ namespace App;
 class Manager
 {
 	
-	private $pdo;
+	protected $pdo;
 
 	private $model;
 
@@ -17,14 +17,23 @@ class Manager
 
 	public function __construct(\PDO $pdo, $model)
 	{
-		$this->pdo = $pdo;
-		$this->model = $model;
-		$this->metadata = $this->model::metadata();
+        $this->pdo = $pdo;
+        $reflectionClass = new \ReflectionClass($model);
+        if($reflectionClass->getParentClass()->getName() != Model::class) {
+            throw new ManagerException("Cette classe n'est pas une entité.");
+        	$this->model = $model;
+        }
+        $this->model = $model;
+        $this->metadata = $this->model::metadata();
 	}
 
 	public function find($id)
 	{
-		return $this->fetch([$this->metadata["primaryKey"] => $id]);
+		$sqlQuery = "SELECT * FROM " . $this->metadata["table"] . " WHERE " . $this->metadata["primaryKey"] . " = ?";
+		$statement = $this->pdo->prepare($sqlQuery);
+		$statement->execute(array($id));
+		$result = $statement->fetch(\PDO::FETCH_ASSOC);
+		return (new $this->model)->hydrate($result);
 	}
 
 	public function insert(Model $model)
@@ -38,7 +47,7 @@ class Manager
 			$parameters[$column] = $sqlValue;
 			$set[] = "" . $column . "= :" . $column . "";
 		}
-		$sqlQuery = "INSERT INTO " . $this->metadata['table'] . " VALUES " . implode(',', $set);
+		$sqlQuery = "INSERT INTO " . $this->metadata['table'] . " SET " . implode(',', $set);
 		$statement = $this->pdo->prepare($sqlQuery);
 		$statement->execute($parameters);
 		$model->setPrimaryKey($this->pdo->lastInsertId());
@@ -60,9 +69,10 @@ class Manager
 		}
 		if (count($set))
 		{
-			$sqlQuery = "UPDATE " . $this->metadata['table'] . " SET " . implode("s", $set) . " WHERE " . $this->metadata['primaryKey'] . " = :id"; 
+			$sqlQuery = "UPDATE " . $this->metadata['table'] . " SET " . implode(',', $set) . " WHERE " . $this->metadata['primaryKey'] . " = :id";  
 			$statement = $this->pdo->prepare($sqlQuery);
-			$statement->execute(["id" => $model->getPrimaryKey()]);
+			$parameters['id'] = $model->getPrimaryKey();
+			$statement->execute($parameters);
 		}
 	}
 
