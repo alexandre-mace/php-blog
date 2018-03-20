@@ -16,17 +16,23 @@ $request = Request::createFromGlobals();
 $router = New Router($request);
 
 $router->addRoute(new Route("index", "/", [], BlogController::class, "index"));
-$router->addRoute(new Route("add", "/add", [], PostController::class, "addPost"));
-$router->addRoute(new Route("addcomment", "/addcomment/:id", ["id" => "[\d]+"], CommentController::class, "addComment"));
-$router->addRoute(new Route("checkComment", "/checkComment/:id", ["id" => "[\d]+"], CommentController::class, "checkComment"));
-$router->addRoute(new Route("deleteComment", "/deleteComment/:id", ["id" => "[\d]+"], CommentController::class, "deleteComment"));
 $router->addRoute(new Route("post", "/post/:id/:page", ["id" => "[\d]+", "page" => "[\d]*"], PostController::class, "showPost"));
 $router->addRoute(new Route("posts", "/posts/:page", ["page" => "[\d]*"], PostController::class, "showPaginatedPosts"));
+$router->addRoute(new Route("reportedPosts", "/reportedposts/:page", ["page" => "[\d]*"], PostController::class, "showReportedPosts"));
 $router->addRoute(new Route("comments", "/comments/:page", ["page" => "[\d]*"], CommentController::class, "showUncheckedComments"));
+$router->addRoute(new Route("contact", "/contact", [], BlogController::class, "showContact"));
+$router->addRoute(new Route("authPage", "/authpage", [], BlogController::class, "showAuth"));
+
+$router->addRoute(new Route("addPost", "/addpost", [], PostController::class, "addPost"));
+$router->addRoute(new Route("addComment", "/addcomment/:id", ["id" => "[\d]+"], CommentController::class, "addComment"));
 $router->addRoute(new Route("update", "/update/:id", ["id" => "[\d]+"], PostController::class, "updatePost"));
 $router->addRoute(new Route("delete", "/delete/:id", ["id" => "[\d]+"], PostController::class, "deletePost"));
-$router->addRoute(new Route("contact", "/contact", [], BlogController::class, "showContact"));
-$router->addRoute(new Route("authpage", "/authpage", [], BlogController::class, "showAuth"));
+$router->addRoute(new Route("deleteComment", "/deletecomment/:id", ["id" => "[\d]+"], CommentController::class, "deleteComment"));
+
+$router->addRoute(new Route("reportPost", "/reportpost/:id", ["id" => "[\d]+"], PostController::class, "reportPost"));
+$router->addRoute(new Route("unReportPost", "/unreportpost/:id", ["id" => "[\d]+"], PostController::class, "unreportPost"));
+$router->addRoute(new Route("reportComment", "/reportcomment/:id", ["id" => "[\d]+"], CommentController::class, "reportComment"));
+$router->addRoute(new Route("checkComment", "/checkcomment/:id", ["id" => "[\d]+"], CommentController::class, "checkComment"));
 $router->addRoute(new Route("auth", "/auth", [], AuthController::class, "auth"));
 
 

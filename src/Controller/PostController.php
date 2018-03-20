@@ -70,4 +70,39 @@ class PostController extends Controller
 		$manager->remove($post);
 		return $this->redirect("posts", ["page" => 1]);
 	}
+
+	public function showReportedPosts($page = 1)
+	{ 
+		$manager = $this->getDatabase()->getManager(Post::class);
+		$results = $manager->getReportedPosts($page);
+		$posts = $results['results'];
+		$nbPages = $results['nbPages'];
+		return $this->render("reportedPosts.html.twig", [
+            "posts" => $posts,
+            "page" => $page,
+            "nbPages" => $nbPages
+        ]);
+	}
+	public function reportPost($id)
+	{
+		$manager = $this->getDatabase()->getManager(Post::class);
+		$post = $manager->find($id);	
+		$post->setIsReported(1);
+		$post->setLastWriteDate(NULL);
+		$manager->update($post);
+		return $this->redirect("reportedPosts", [
+            "page" => 1
+        ]);		
+	}
+	public function unReportPost($id)
+	{
+		$manager = $this->getDatabase()->getManager(Post::class);
+		$post = $manager->find($id);	
+		$post->setIsReported(0);
+		$post->setLastWriteDate(NULL);
+		$manager->update($post);
+		return $this->redirect("reportedPosts", [
+            "page" => 1
+        ]);		
+	}
 }

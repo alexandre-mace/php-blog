@@ -60,10 +60,10 @@ class CommentController extends Controller
         ]);
 	}
 
-	public function checkComment($commentId)
+	public function checkComment($id)
 	{
 		$manager = $this->getDatabase()->getManager(Comment::class);
-		$comment = $manager->find($commentId);	
+		$comment = $manager->find($id);	
 		$comment->setIsChecked(1);
 		$manager->update($comment);
 		var_dump($comment);
