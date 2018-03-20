@@ -2,99 +2,111 @@
 
 {% block pageHeader %}
 
-	<header class="masthead" style="background-color: #2A2C43">
-	    <div class="container">
-	        <div class="row">
-	            <div class="col-lg-8 col-md-10 mx-auto">
-	                <div class="post-heading">
-	                    <h1> {{ post.title }} <span class="badge"><i class="fa fa-heart post-page-heart"></i> {{ post.likes }}</span></h1>
-	                    <h2 class="subheading white"> {{ post.intro }} </h2>
-                        <p class="post-meta">
-                            Dernière modification le {{ post.lastWriteDate|date('d-m-Y') }} par {{ post.author }}
-                        </p>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	</header>
+    <h1> {{ post.title }} <span class="badge"><i class="fa fa-heart post-page-heart"></i> {{ post.likes }}</span></h1>
+    <h2 class="subheading white"> {{ post.intro }} </h2>
+    <p class="post-meta">
+        Dernière modification le {{ post.lastWriteDate|date('d-m-Y') }} par {{ post.author }}
+    </p>
 
 {% endblock %}
 
 {% block mainContent %}
 
 	<article class="mb-5">
-	    <div class="container">
-	        <div class="row">
-	            <div class="col-lg-8 col-md-10 mx-auto">
-	                
-	                <p> {{ post.content }} </p>
-	                <div class="row justify-content-end">
-	                	<div class="col-4 text-center">
-	                		<button data-toggle="tooltip" data-placement="top" title="J'aime ce contenu"><i class="fa fa-heart fa-2x"></i></button>
-	                	</div>
-	                  	<div class="col-4 text-right">
-	                  		<button data-toggle="tooltip" data-placement="top" title="Signaler ce contenu"><i class="fa fa-flag fa-2x"></i></button>
-	                	</div>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
+        <p> {{ post.content }} </p>
+        <div class="row justify-content-end">
+        	<div class="col-4 text-center">
+        		<button data-toggle="tooltip" data-placement="top" title="J'aime ce contenu"><i class="fa fa-heart fa-2x"></i></button>
+        	</div>
+          	<div class="col-4 text-right">
+          		<button data-toggle="tooltip" data-placement="top" title="Signaler ce contenu"><i class="fa fa-flag fa-2x"></i></button>
+        	</div>
+        </div>
 	</article>
 
-	<div class="container">
-	    <div class="row">
-	        <div class="col-lg-8 col-md-10 mx-auto">
-				
-			    {% for comment in post.comments %}
+    {% if comments is not empty %}
+    <hr>
+	{% endif %}
 
-		            <div class="post-preview">
-		                <p class="post-meta">
-		                	Posté par {{ comment.author }}  le {{ comment.date }}
-		                </p>
-		                <p>
-		                	{{ comment.content }}
-		                </p>
-		            </div>
+    {% for comment in comments %}
+        <div class="post-preview">
+            <p class="post-meta">
+             	Posté par {{ comment.author }} le {{ comment.addedAt|date('d-m-Y') }}
+            </p>
+            <p>
+            	{{ comment.content }}
+            </p>
+            <div class="row justify-content-end">
+            	<div class="col-4 text-center">
+            		<button data-toggle="tooltip" data-placement="top" title="J'aime ce contenu"><i class="fa fa-heart"></i></button>
+            	</div>
+              	<div class="col-4 text-right">
+              		<button data-toggle="tooltip" data-placement="top" title="Signaler ce contenu"><i class="fa fa-flag"></i></button>
+            	</div>
+            </div>
+        </div>
+        <hr>      
+    {% endfor %}
 
-		            <hr>
-			        
-			    {% endfor %}
+    {% if nbPages > 1 %}
+    {% set nearbyPagesLimit = 2 %}
+        <nav aria-label="comments pagination">
+            <ul class="pagination pagination-lg justify-content-center">
+                {% if page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="/post/{{ post.id }}/1" aria-label="Previous">
+                            <span aria-hidden="true"><i class="fa fa-angle-double-left"></i></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="/post/{{ post.id }}/{{ page - 1 }}" tabindex="-1">Précédent</a>
+                    </li> 
+                {% endif %}
 
+                {% for p in range(max(page - nearbyPagesLimit, 1), min(page + nearbyPagesLimit, nbPages)) %}
+                    <li class="page-item {{ p==page ? "active" }}">
+                        <a class="page-link" href="/post/{{ post.id }}/{{ p }}">{{ p }}<span class="sr-only">(current)</span></a>
+                    </li>
+                {% endfor %}
+
+                {% if page < nbPages %}
+                    <li class="page-item">
+                        <a class="page-link" href="/post/{{ post.id }}/{{ page + 1 }}">Suivant</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="/post/{{ post.id }}/{{ nbPages }}" aria-label="Next">
+                            <span aria-hidden="true"><i class="fa fa-angle-double-right"></i></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                 {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+
+	{% if session.user %}			
+	    <form method="POST" action="/addcomment/{{ post.id }}" name="addComment" id="commentForm" novalidate>
+	        <div class="control-group">
+	            <div class="form-group floating-label-form-group controls">
+	                <label>Pseudo</label>
+	                <input type="text" class="form-control" placeholder="Pseudo" name="author" id="pseudo" required data-validation-required-message="Veuillez écrire votre pseudo.">
+	                <p class="help-block text-danger"></p>
+	            </div>
 	        </div>
-	    </div>
-	</div>
-	
-	<div class="container">
-	    <div class="row">
-	        <div class="col-lg-8 col-md-10 mx-auto">
-				
-			    <form name="addComment" id="commentForm" novalidate>
-			        <div class="control-group">
-			            <div class="form-group floating-label-form-group controls">
-			                <label>Pseudo</label>
-			                <input type="text" class="form-control" placeholder="Pseudo" id="pseudo" required data-validation-required-message="Veuillez écrire votre pseudo.">
-			                <p class="help-block text-danger"></p>
-			            </div>
-			        </div>
-				    <div class="control-group">
-				        <div class="form-group floating-label-form-group controls">
-				            <label>Ajouter un commentaire</label>
-				            <textarea rows="5" class="form-control" placeholder="Commentaire" id="commentaire" required data-validation-required-message="Veuillez écrire un commentaire."></textarea>
-				            <p class="help-block text-danger"></p>
-				        </div>
-				    </div>
-				    <br>
-				    <div id="success"></div>
-				    <div class="form-group">
-				        <button type="submit" class="btn btn-primary" id="addCommentButton">Ajouter un commentaire</button>
-				    </div>
-				</form>
-
-	        </div>
-	    </div>
-	</div>
-
-
-	<hr>
+		    <div class="control-group">
+		        <div class="form-group floating-label-form-group controls">
+		            <label>Ajouter un commentaire</label>
+		            <textarea rows="5" class="form-control" placeholder="Commentaire" name="content" id="commentaire" required data-validation-required-message="Veuillez écrire un commentaire."></textarea>
+		            <p class="help-block text-danger"></p>
+		        </div>
+		    </div>
+		    <br>
+		    <div id="success"></div>
+		    <div class="form-group">
+		        <button type="submit" class="btn btn-primary" id="addCommentButton">Ajouter un commentaire</button>
+		    </div>
+		</form>
+	{% endif %}
 
 {% endblock %}

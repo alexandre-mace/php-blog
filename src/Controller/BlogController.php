@@ -25,4 +25,9 @@ class BlogController extends Controller
 		return $this->render("contact.html.twig", []);
 	}
 
+	public function showAuth()
+	{
+		return $this->render("auth.html.twig", []);
+	}
+	
 }

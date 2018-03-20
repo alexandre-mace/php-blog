@@ -29,7 +29,15 @@
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand" href="/"><span class="white">Alexandre Macé</span></a>
+                <a class="navbar-brand" href="/">
+                    <span class="white">
+                        {% if session.user.id is defined %}
+                            Salut {{ session.user.id }} !
+                        {% else %}
+                            Alexandre Macé
+                        {% endif %}
+                    </span>
+                </a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fa fa-bars"></i>
@@ -42,6 +50,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/posts/1">Les posts</a>
                         </li>
+                        {% if session.user is defined and session.user.is_admin == 1 %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/comments/1">Les commentaires</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="/contact">Contact</a>
                         </li>
@@ -54,12 +67,27 @@
         </nav>
 
         <!-- Page Header -->
-        {% block pageHeader %}{% endblock %}
+        <header class="masthead" style="background-color: #2A2C43;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 mx-auto">
+                        <div class="site-heading">
+                            {% block pageHeader %}{% endblock %}
+                        </div>                       
+                    </div>
+                </div>
+            </div>
+        </header>
 
         <!-- Main Content -->
         <div class="container">
-                {% block mainContent %}{% endblock %}
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    {% block mainContent %}{% endblock %}
+                </div>
+            </div>
         </div>
+        <hr>
 
         <!-- Footer -->
         <footer>
@@ -85,7 +113,7 @@
                             </li>
                         </ul>
                         <div class="text-center">
-                            <a href="/auth">Se connecter</a>                                                     <!-- Lien à modifier -->       
+                            <a href="/authpage">Se connecter</a>                                                     <!-- Lien à modifier -->       
                         </div>
                         <p class="copyright text-muted">Copyright &copy; <a href="https://alexandremace.com">Alexandre Macé</a> 2018</p>
                     </div>

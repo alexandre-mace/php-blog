@@ -14,7 +14,7 @@ class Controller
 
 	private $router;
 
-	private $twig;
+	protected $twig;
 
 	private $database;
 
@@ -44,6 +44,7 @@ class Controller
 
 	protected function render($filename, $data = [])
 	{
+		$this->twig->addGlobal('session', $_SESSION);
 		$view = $this->twig->load($filename);
 		$content = $view->render($data);
 		return new Response($content);

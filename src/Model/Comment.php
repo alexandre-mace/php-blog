@@ -18,7 +18,14 @@ class Comment extends Model
 
 	private $author;
 
+	private $likes;
+
 	private $addedAt;
+
+	private $isChecked;
+
+	private $isReported;
+
 
     public static function metadata()
     {
@@ -42,10 +49,22 @@ class Comment extends Model
                     "type"      => "string",
                     "property"  => "author"
                 ],
+                "likes"            => [
+                    "type"      => "integer",
+                    "property"  => "likes"
+                ],                   
                 "added_at"            => [
                     "type"      => "datetime",
                     "property"  => "addedAt"
-                ]
+                ],
+                "is_checked"            => [
+                    "type"      => "boolean",
+                    "property"  => "isChecked"
+                ],                
+                "is_reported"            => [
+                    "type"      => "boolean",
+                    "property"  => "isReported"
+                ],                
             ]
         ];
     }
@@ -53,6 +72,16 @@ class Comment extends Model
 	public static function getManager()
 	{
 		return CommentManager::class;
+	}
+
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	public function setId($id)
+	{
+		$this->id = $id;
 	}
 
 	public function getPostId()
@@ -85,6 +114,16 @@ class Comment extends Model
 		$this->author = $author;
 	}
 
+	public function getLikes()
+	{
+		return $this->likes;
+	}
+	
+	public function setLikes($likes)
+	{
+		$this->likes = $likes;
+	}
+
 	public function getAddedAt()
 	{
 		return $this->addedAt;
@@ -93,5 +132,25 @@ class Comment extends Model
 	public function setAddedAt($addedAt)
 	{
 		$this->addedAt = $addedAt;
+	}
+
+	public function getIsChecked()
+	{
+		return $this->isChecked;
+	}
+	
+	public function setIsChecked($isChecked)
+	{
+		$this->isChecked = $isChecked;
+	}
+
+	public function getIsReported()
+	{
+		return $this->isReported;
+	}
+	
+	public function setIsReported($isReported)
+	{
+		$this->isReported = $isReported;
 	}
 }

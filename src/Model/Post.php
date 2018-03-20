@@ -27,8 +27,6 @@ class Post extends Model
 
 	private $lastWriteDate;
 
-	private $comments;
-
 	private $isReported;
 
     public static function metadata()
@@ -161,11 +159,6 @@ class Post extends Model
 	{
 		$this->lastWriteDate = $lastWriteDate;
 	}
-
-	public function getComment()
-	{
-		return $this->comments;
-	} 
 
 	public function getIsReported()
 	{

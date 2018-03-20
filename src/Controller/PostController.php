@@ -4,6 +4,7 @@ namespace Controller;
 
 use App\Controller;
 use Model\Post;
+use Model\Comment;
 
 /**
 * ¨PostController
@@ -11,20 +12,28 @@ use Model\Post;
 class PostController extends Controller
 {
 
-	public function showPost($id)
+	public function showPost($id, $page = 1)
 	{
-		$manager = $this->getDatabase()->getManager(Post::class);
-		$post = $manager->find($id);
+		$postManager = $this->getDatabase()->getManager(Post::class);
+		$commentManager = $this->getDatabase()->getManager(Comment::class);
+		$post = $postManager->find($id);
+		$results = $commentManager->getCommentsByPostId($id, $page);
+		$comments = $results['results'];
+		$nbPages = $results['nbPages'];
 		return $this->render("post.html.twig", [
-            "post" => $post
+            "post" => $post,
+            "comments" => $comments,
+            "page" => $page,
+            "nbPages" => $nbPages
         ]);
 	}
 
 	public function showPaginatedPosts($page = 1)
-	{
+	{ 
 		$manager = $this->getDatabase()->getManager(Post::class);
-		$posts = $manager->getPaginatedPosts($page)['results'];
-		$nbPages = $manager->getPaginatedPosts($page)['nbPages'];
+		$results = $manager->getPaginatedPosts($page);
+		$posts = $results['results'];
+		$nbPages = $results['nbPages'];
 		return $this->render("posts.html.twig", [
             "posts" => $posts,
             "page" => $page,
@@ -59,6 +68,6 @@ class PostController extends Controller
 		$manager = $this->getDatabase()->getManager(Post::class);
 		$post = $manager->find($id);
 		$manager->remove($post);
-		return $this->redirect("index");
+		return $this->redirect("posts", ["page" => 1]);
 	}
 }

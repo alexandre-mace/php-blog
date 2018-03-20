@@ -2,53 +2,33 @@
 
 {% block pageHeader %}
 
-	<header class="masthead" style="background-color: #2A2C43;">
-	    <div class="container">
-	        <div class="row">
-	            <div class="col-lg-8 col-md-10 mx-auto">
-	                <div class="site-heading">
-	                    <h1>Se connecter</h1>
-	                    <span class="subheading">Entrez vos informations dans le formulaire ci-dessous</span>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	</header>
+    <h1>Se connecter</h1>
+    <span class="subheading">Entrez vos informations dans le formulaire ci-dessous</span>
 
 {% endblock %}
 
 {% block mainContent %}
-
-	<div class="container">
-	    <div class="row">
-	        <div class="col-lg-8 col-md-10 mx-auto">
 				
-			    <form name="authenfication" id="authentificationForm" novalidate>
-			        <div class="control-group">
-			            <div class="form-group floating-label-form-group controls">
-			                <label>Identifiant</label>
-			                <input type="text" class="form-control" placeholder="Identifiant" id="id" required data-validation-required-message="Veuillez écrire votre identifiant.">
-			                <p class="help-block text-danger"></p>
-			            </div>
-			        </div>
-			        <div class="control-group">
-			            <div class="form-group floating-label-form-group controls">
-			                <label>Mot de passe</label>
-			                <input type="password" class="form-control" placeholder="Mot de passe" id="password" required data-validation-required-message="Veuillez écrire votre mot de passe.">
-			                <p class="help-block text-danger"></p>
-			            </div>
-			        </div>
-				    <br>
-				    <div id="success"></div>
-				    <div class="form-group">
-				        <button type="submit" class="btn btn-primary" id="authentificationButton">Connexion</button>
-				    </div>
-				</form>
-
-	        </div>
+    <form action="/auth" method="POST" name="authenfication" id="authentificationForm" novalidate>
+        <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+                <label>Identifiant</label>
+                <input type="text" class="form-control" placeholder="Identifiant" name="id" id="id" required data-validation-required-message="Veuillez écrire votre identifiant.">
+                <p class="help-block text-danger"></p>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+                <label>Mot de passe</label>
+                <input type="password" class="form-control" placeholder="Mot de passe" name="password" id="password" required data-validation-required-message="Veuillez écrire votre mot de passe.">
+                <p class="help-block text-danger"></p>
+            </div>
+        </div>
+	    <br>
+	    <div id="success"></div>
+	    <div class="form-group">
+	        <button type="submit" class="btn btn-primary" id="authentificationButton">Connexion</button>
 	    </div>
-	</div>
-
-	<hr>
+	</form>
 
 {% endblock %}
