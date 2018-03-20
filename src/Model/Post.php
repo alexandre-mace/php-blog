@@ -68,7 +68,7 @@ class Post extends Model
                     "property"  => "lastWriteDate"
                 ],
                 "is_reported"            => [
-                    "type"      => "boolean",
+                    "type"      => "integer",
                     "property"  => "isReported"
                 ],
             ]

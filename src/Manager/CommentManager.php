@@ -46,5 +46,22 @@ class CommentManager extends Manager
 		$arrayReturned = array('nbPages' => $nbPages, 'results' => $results);
 		return $arrayReturned;
 	}
-
+	
+	public function getReportedComments($page)
+	{
+		$sqlQuery = "SELECT * FROM comments WHERE is_reported = 1";
+		$statement = $this->pdo->query($sqlQuery);
+		$nbComments = $statement->rowCount();
+		$nbPages = ceil($nbComments / 10);
+        $start = ($page-1)*10;
+		$sqlQuery = "SELECT * FROM comments WHERE is_reported = 1 ORDER BY added_at DESC LIMIT $start, 10";
+		$statement = $this->pdo->prepare($sqlQuery);
+		$statement->execute();
+		$results = $statement->fetchAll(\PDO::FETCH_ASSOC);
+		array_walk($results, function(&$comment) {
+			$comment = (new Comment())->hydrate($comment);
+		});
+		$arrayReturned = array('nbPages' => $nbPages, 'results' => $results);
+		return $arrayReturned;
+	}
 }

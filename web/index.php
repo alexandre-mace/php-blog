@@ -20,6 +20,7 @@ $router->addRoute(new Route("post", "/post/:id/:page", ["id" => "[\d]+", "page" 
 $router->addRoute(new Route("posts", "/posts/:page", ["page" => "[\d]*"], PostController::class, "showPaginatedPosts"));
 $router->addRoute(new Route("reportedPosts", "/reportedposts/:page", ["page" => "[\d]*"], PostController::class, "showReportedPosts"));
 $router->addRoute(new Route("comments", "/comments/:page", ["page" => "[\d]*"], CommentController::class, "showUncheckedComments"));
+$router->addRoute(new Route("reportedComments", "/reportedcomments/:page", ["page" => "[\d]*"], CommentController::class, "showReportedComments"));
 $router->addRoute(new Route("contact", "/contact", [], BlogController::class, "showContact"));
 $router->addRoute(new Route("authPage", "/authpage", [], BlogController::class, "showAuth"));
 
@@ -32,6 +33,7 @@ $router->addRoute(new Route("deleteComment", "/deletecomment/:id", ["id" => "[\d
 $router->addRoute(new Route("reportPost", "/reportpost/:id", ["id" => "[\d]+"], PostController::class, "reportPost"));
 $router->addRoute(new Route("unReportPost", "/unreportpost/:id", ["id" => "[\d]+"], PostController::class, "unreportPost"));
 $router->addRoute(new Route("reportComment", "/reportcomment/:id", ["id" => "[\d]+"], CommentController::class, "reportComment"));
+$router->addRoute(new Route("unReportComment", "/unreportcomment/:id", ["id" => "[\d]+"], CommentController::class, "unreportComment"));
 $router->addRoute(new Route("checkComment", "/checkcomment/:id", ["id" => "[\d]+"], CommentController::class, "checkComment"));
 $router->addRoute(new Route("auth", "/auth", [], AuthController::class, "auth"));
 

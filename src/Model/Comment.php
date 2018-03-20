@@ -58,11 +58,11 @@ class Comment extends Model
                     "property"  => "addedAt"
                 ],
                 "is_checked"            => [
-                    "type"      => "boolean",
+                    "type"      => "integer",
                     "property"  => "isChecked"
                 ],                
                 "is_reported"            => [
-                    "type"      => "boolean",
+                    "type"      => "integer",
                     "property"  => "isReported"
                 ],                
             ]
