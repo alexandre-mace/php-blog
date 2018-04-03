@@ -32,7 +32,7 @@ class User extends Model
                     "property"  => "password"
                 ],
                 "is_admin"            => [
-                    "type"      => "boolean",
+                    "type"      => "integer",
                     "property"  => "isAdmin"
                 ]
             ]

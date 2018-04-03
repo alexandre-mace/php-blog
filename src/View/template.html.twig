@@ -47,7 +47,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/">Accueil</a>
                         </li>
-                        {% if session.user is defined and session.user.is_admin == 1 %}
+                        {% if session.user is defined and session.user.isAdmin == 1 %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/posts/1" role="button" aria-haspopup="true" aria-expanded="false">Les posts <span class="badge badge-danger">0</span></a>
                                 <div class="dropdown-menu">
@@ -85,6 +85,11 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-10 mx-auto">
                         <div class="site-heading">
+                            {% if session.flashBag.success or session.flashBag.failure is not empty %}
+                                <div class="alert alert-{{ session.flashBag.success is not empty ? "success" : "danger" }} mb-5" role="alert">
+                                    {{ session.flashBag.success is not empty ? getFlashBag('success') : getFlashBag('failure') }}
+                                </div>
+                            {% endif %}                          
                             {% block pageHeader %}{% endblock %}
                         </div>                       
                     </div>

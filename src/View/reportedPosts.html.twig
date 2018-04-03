@@ -23,7 +23,7 @@
                 Dernière modification le {{ post.lastWriteDate|date('d-m-Y') }}
             </p>
         </div>
-        {% if session.user is defined and session.user.is_admin == 1 %}
+        {% if session.user is defined and session.user.isAdmin == 1 %}
             <a class="btn btn-primary" href="/unreportpost/{{ post.id }}">Annuler le signalement</a> 
             <a class="btn btn-primary" href="/update/{{ post.id }}">Modifier</a> 
             <a class="btn btn-primary" href="/delete/{{ post.id }}">Supprimer</a>

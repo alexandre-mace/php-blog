@@ -4,7 +4,6 @@ namespace Controller;
 
 use App\Controller;
 use Model\User;
-use Model\Post;
 
 /**
 * Authentifications controller
@@ -12,25 +11,26 @@ use Model\Post;
 class AuthController extends Controller
 {
 	
-	public function auth($page = 1)
+	public function auth()
 	{
 		$userManager = $this->getDatabase()->getManager(User::class);
 
-		if (isset($_POST['id'], $_POST['password'])) {
-			unset($_SESSION['user']);
-			$result = $userManager->isValid($_POST['id'], $_POST['password']);
-			if ($result) {
-				$user = $userManager->getUser($_POST['id']);
-				$_SESSION['user'] = $user;
-				return $this->redirect("posts", [
-            		"page" => 1,
-		        ]);
+		if (isset(($this->request->getPost())['id'])) {
+			$this->request->setSession('user', "");
+
+			if (!is_null($userManager->find($this->request->getPost()['id']))) {
+				$user = $userManager->find($this->request->getPost()['id']);
+
+				if (password_verify(($this->request->getPost())['password'], $user->getPassword()))	{
+					$this->request->setSession('user', $user);
+					$this->request->addFlashBag('success', 'Bonjour ' . $user->getId() . ' l\'authentification a réussi !');
+					return $this->redirect("index", []);
+				}
 			}
-			return $this->redirect("posts", [
-            	"page" => 1,
-			]);			
 		}
+		$this->request->addFlashBag('failure', 'L\'authentification a échoué, veuillez rééssayer.');
 		return $this->render("auth.html.twig", []);
+
 	}
 
 }

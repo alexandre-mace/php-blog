@@ -30,6 +30,7 @@ $router->addRoute(new Route("update", "/update/:id", ["id" => "[\d]+"], PostCont
 $router->addRoute(new Route("delete", "/delete/:id", ["id" => "[\d]+"], PostController::class, "deletePost"));
 $router->addRoute(new Route("deleteComment", "/deletecomment/:id", ["id" => "[\d]+"], CommentController::class, "deleteComment"));
 
+$router->addRoute(new Route("likePost", "/likepost/:id", ["id" => "[\d]+"], PostController::class, "likePost"));
 $router->addRoute(new Route("reportPost", "/reportpost/:id", ["id" => "[\d]+"], PostController::class, "reportPost"));
 $router->addRoute(new Route("unReportPost", "/unreportpost/:id", ["id" => "[\d]+"], PostController::class, "unreportPost"));
 $router->addRoute(new Route("reportComment", "/reportcomment/:id", ["id" => "[\d]+"], CommentController::class, "reportComment"));

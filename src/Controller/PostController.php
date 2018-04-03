@@ -18,13 +18,11 @@ class PostController extends Controller
 		$commentManager = $this->getDatabase()->getManager(Comment::class);
 		$post = $postManager->find($id);
 		$results = $commentManager->getCommentsByPostId($id, $page);
-		$comments = $results['results'];
-		$nbPages = $results['nbPages'];
 		return $this->render("post.html.twig", [
-            "post" => $post,
-            "comments" => $comments,
             "page" => $page,
-            "nbPages" => $nbPages
+            "post" => $post,
+            "comments" => $results['results'],
+            "nbPages" => $results['nbPages']
         ]);
 	}
 
@@ -32,14 +30,24 @@ class PostController extends Controller
 	{ 
 		$manager = $this->getDatabase()->getManager(Post::class);
 		$results = $manager->getPaginatedPosts($page);
-		$posts = $results['results'];
-		$nbPages = $results['nbPages'];
 		return $this->render("posts.html.twig", [
-            "posts" => $posts,
             "page" => $page,
-            "nbPages" => $nbPages
+            "posts" => $results['results'],
+            "nbPages" => $results['nbPages']
         ]);
 	}
+
+	public function showReportedPosts($page = 1)
+	{ 
+		$manager = $this->getDatabase()->getManager(Post::class);
+		$results = $manager->getReportedPosts($page);
+		return $this->render("reportedPosts.html.twig", [
+            "page" => $page,
+            "posts" => $results['results'],
+            "nbPages" => $results['nbPages']
+        ]);
+	}
+	
 	public function addPost()
 	{
 		$manager = $this->getDatabase()->getManager(Post::class);
@@ -50,7 +58,10 @@ class PostController extends Controller
 		$post->setContent("Lorem Ipsum");
 		$post->setAuthor("Lorem");
 		$manager->insert($post);
-		return $this->redirect("post", ["id" => $post->getId()]);
+		return $this->redirect("post", [
+			"id" => $post->getId(),
+			"page" => 1
+		]);
 	}
 
 	public function updatePost($id)
@@ -71,18 +82,19 @@ class PostController extends Controller
 		return $this->redirect("posts", ["page" => 1]);
 	}
 
-	public function showReportedPosts($page = 1)
-	{ 
+	public function likePost($id)
+	{
 		$manager = $this->getDatabase()->getManager(Post::class);
-		$results = $manager->getReportedPosts($page);
-		$posts = $results['results'];
-		$nbPages = $results['nbPages'];
-		return $this->render("reportedPosts.html.twig", [
-            "posts" => $posts,
-            "page" => $page,
-            "nbPages" => $nbPages
-        ]);
+		$post = $manager->find($id);	
+		$post->addLike();
+		$post->setLastWriteDate(NULL);
+		$manager->update($post);
+		return $this->redirect("post", [
+			"id" => $post->getId(),
+			"page" => 1
+		]);
 	}
+
 	public function reportPost($id)
 	{
 		$manager = $this->getDatabase()->getManager(Post::class);
@@ -94,6 +106,7 @@ class PostController extends Controller
             "page" => 1
         ]);		
 	}
+
 	public function unReportPost($id)
 	{
 		$manager = $this->getDatabase()->getManager(Post::class);

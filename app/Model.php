@@ -16,7 +16,7 @@ abstract class Model
     public function hydrate($result)
     {
         if(empty($result)) {
-            throw new ModelException("Aucun résultat n'a été trouvé !");
+            return NULL;
         }
         $this->originalData = $result;
         foreach($result as $column => $value) {

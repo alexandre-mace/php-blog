@@ -48,6 +48,24 @@ class Request
 		return $this->session;
 	}
 
+	public function setSession($key, $value)
+	{
+		$this->session[$key] = $value;
+		$_SESSION[$key] = $value;
+	}
+
+	public function addFlashBag($type, $value)
+	{
+		$this->session['flashBag'][$type][] = $value;
+		$_SESSION['flashBag'][$type][] = $value;	
+	}
+
+	public function getFlashBag($type) 
+	{ 
+		array_shift($this->session['flashBag'][$type]);
+		return array_shift($_SESSION['flashBag' ][$type]);
+	}
+
 	public function getCookie()
 	{
 		return $this->cookie;

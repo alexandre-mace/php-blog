@@ -16,14 +16,19 @@ class CommentController extends Controller
 		$manager = $this->getDatabase()->getManager(Comment::class);
 		$comment = new Comment();
 		$comment->setPostId($postId);
-		$comment->setAuthor($_POST['author']);
-		$comment->setContent($_POST['content']);
+		$comment->setAuthor((($this->request)->getPost())['author']);
+		$comment->setContent((($this->request)->getPost())['content']);
 		$comment->setAddedAt(new \DateTime());
-		$manager->insert($comment);		
+		$comment->setLikes(0);
+		$comment->setIsChecked(0);
+		$comment->setIsReported(0);
+		$manager->insert($comment);	
+		$this->request->addFlashBag('success', 'Votre commentaire a bien été enregistré, il sera vérifié auprès d\'un administrateur avant publication.');
 		return $this->redirect("post", [
 			"id" => $comment->getPostId(),
 			"page" => 1
 		]);
+
 	}
 
 	public function updateComment($id)
@@ -51,12 +56,10 @@ class CommentController extends Controller
 	{ 
 		$manager = $this->getDatabase()->getManager(Comment::class);
 		$results = $manager->getUncheckedComments($page);
-		$comments = $results['results'];
-		$nbPages = $results['nbPages'];
 		return $this->render("comments.html.twig", [
-            "comments" => $comments,
             "page" => $page,
-            "nbPages" => $nbPages
+            "comments" => $results['results'],
+            "nbPages" => $results['nbPages']
         ]);
 	}
 
@@ -64,12 +67,10 @@ class CommentController extends Controller
 	{ 
 		$manager = $this->getDatabase()->getManager(Comment::class);
 		$results = $manager->getReportedComments($page);
-		$comments = $results['results'];
-		$nbPages = $results['nbPages'];
 		return $this->render("reportedComments.html.twig", [
-            "comments" => $comments,
             "page" => $page,
-            "nbPages" => $nbPages
+            "comments" => $results['results'],
+            "nbPages" => $results['nbPages']
         ]);
 	}
 	

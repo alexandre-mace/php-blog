@@ -18,7 +18,7 @@
                 {{ comment.content }}
             </p>
         </div>
-        {% if session.user is defined and session.user.is_admin == 1 %}
+        {% if session.user is defined and session.user.isAdmin == 1 %}
             <a class="btn btn-primary" href="/unreportcomment/{{ comment.id }}">Annuler le signalement</a> 
             <a class="btn btn-primary" href="/delete/{{ comment.id }}">Supprimer</a>
         {% endif %}

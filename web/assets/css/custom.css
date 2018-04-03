@@ -27,10 +27,11 @@ a:focus, a:hover {
     border: 2px solid #2A2C43 !important;
     color: #2A2C43 !important;
 }
-.btn-primary:hover {
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
     background-color: #2A2C43 !important;
     border: 2px solid #2A2C43 !important;
     color: #fff !important;
+    box-shadow: unset !important;
 }
 .page-item.active .page-link {
     z-index: 2;
@@ -48,4 +49,7 @@ a:focus, a:hover {
 .disabled a
 {
 	color: #868e96 !important;
+}
+.dropdown-item:active {
+    background-color: unset !important;
 }

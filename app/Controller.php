@@ -10,7 +10,7 @@ use App\Database;
 
 class Controller
 {
-	private $request;
+	protected $request;
 
 	private $router;
 
@@ -44,7 +44,12 @@ class Controller
 
 	protected function render($filename, $data = [])
 	{
-		$this->twig->addGlobal('session', $_SESSION);
+		$this->twig->addGlobal('session', $this->request->getSession());
+		$function = new \Twig_Function('getFlashBag', function ($type) {
+		    return $this->request->getFlashBag($type);
+		});
+		$this->twig->addFunction($function);
+		var_dump($this->request->getSession());
 		$view = $this->twig->load($filename);
 		$content = $view->render($data);
 		return new Response($content);

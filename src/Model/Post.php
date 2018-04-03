@@ -140,6 +140,11 @@ class Post extends Model
 		$this->likes = $likes;
 	}
 
+	public function addLike()
+	{
+		$this->likes++;
+	}
+	
 	public function getAddedAt()
 	{
 		return $this->addedAt;
