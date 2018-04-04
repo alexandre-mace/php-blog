@@ -64,4 +64,20 @@ class CommentManager extends Manager
 		$arrayReturned = array('nbPages' => $nbPages, 'results' => $results);
 		return $arrayReturned;
 	}
+
+	public function countReportedComments()
+	{
+		$sqlQuery = "SELECT * FROM comments WHERE is_reported = 1";
+		$statement = $this->pdo->query($sqlQuery);
+		$nbComments = $statement->rowCount();
+		return $nbComments;	
+	}
+
+	public function countUncheckedComments()
+	{
+		$sqlQuery = "SELECT * FROM comments WHERE is_checked = 0";
+		$statement = $this->pdo->query($sqlQuery);
+		$nbComments = $statement->rowCount();
+		return $nbComments;
+	}
 }

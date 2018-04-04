@@ -9,7 +9,7 @@ use Controller\PostController;
 use Controller\CommentController;
 use Controller\BlogController;
 use Controller\AuthController;
-
+use Controller\UserController;
 
 $request = Request::createFromGlobals();
 
@@ -23,9 +23,14 @@ $router->addRoute(new Route("comments", "/comments/:page", ["page" => "[\d]*"], 
 $router->addRoute(new Route("reportedComments", "/reportedcomments/:page", ["page" => "[\d]*"], CommentController::class, "showReportedComments"));
 $router->addRoute(new Route("contact", "/contact", [], BlogController::class, "showContact"));
 $router->addRoute(new Route("authPage", "/authpage", [], BlogController::class, "showAuth"));
+$router->addRoute(new Route("addAdminPage", "/addadminpage", [], BlogController::class, "showAddAdmin"));
+$router->addRoute(new Route("addPostPage", "/addpostpage", [], BlogController::class, "showAddPost"));
+
+
 
 $router->addRoute(new Route("addPost", "/addpost", [], PostController::class, "addPost"));
 $router->addRoute(new Route("addComment", "/addcomment/:id", ["id" => "[\d]+"], CommentController::class, "addComment"));
+$router->addRoute(new Route("addAdmin", "/addadmin", [], UserController::class, "addAdmin"));
 $router->addRoute(new Route("update", "/update/:id", ["id" => "[\d]+"], PostController::class, "updatePost"));
 $router->addRoute(new Route("delete", "/delete/:id", ["id" => "[\d]+"], PostController::class, "deletePost"));
 $router->addRoute(new Route("deleteComment", "/deletecomment/:id", ["id" => "[\d]+"], CommentController::class, "deleteComment"));

@@ -50,17 +50,24 @@ class PostController extends Controller
 	
 	public function addPost()
 	{
-		$manager = $this->getDatabase()->getManager(Post::class);
-		$post = new Post();
-		$post->setAddedAt(new \DateTime());
-		$post->setTitle("test");
-		$post->setIntro("Lorem Ipsum");
-		$post->setContent("Lorem Ipsum");
-		$post->setAuthor("Lorem");
-		$manager->insert($post);
-		return $this->redirect("post", [
-			"id" => $post->getId(),
-			"page" => 1
+		if ($this->verify($this->request->getPost())) {
+
+			$manager = $this->getDatabase()->getManager(Post::class);
+			$post = new Post();
+			$post->setAddedAt(new \DateTime());
+			$post->setTitle($this->request->getPost()['title']);
+			$post->setIntro($this->request->getPost()['introduction']);
+			$post->setContent($this->request->getPost()['content']);
+			$post->setAuthor($this->request->getSession()['user']->getId());
+			$manager->insert($post);
+			$this->request->addFlashBag('success', 'Votre post a bien été ajouté !');
+			return $this->redirect("post", [
+				"id" => $post->getId(),
+				"page" => 1
+			]);
+		}
+		$this->request->addFlashBag('failure', 'L\'ajout de votre post a échoué, veuillez remplir tous les champs.');
+		return $this->redirect("addPostPage", [
 		]);
 	}
 
@@ -102,6 +109,7 @@ class PostController extends Controller
 		$post->setIsReported(1);
 		$post->setLastWriteDate(NULL);
 		$manager->update($post);
+		$this->request->setSession('reportedPosts', $manager->countReportedPosts());
 		return $this->redirect("reportedPosts", [
             "page" => 1
         ]);		
@@ -114,6 +122,7 @@ class PostController extends Controller
 		$post->setIsReported(0);
 		$post->setLastWriteDate(NULL);
 		$manager->update($post);
+		$this->request->setSession('reportedPosts', $manager->countReportedPosts());
 		return $this->redirect("reportedPosts", [
             "page" => 1
         ]);		

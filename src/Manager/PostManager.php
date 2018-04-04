@@ -63,4 +63,11 @@ class PostManager extends Manager
 		return $arrayReturned;
 	}
 
+	public function countReportedPosts()
+	{
+		$sqlQuery = "SELECT * FROM posts WHERE is_reported = 1";
+		$statement = $this->pdo->query($sqlQuery);
+		$nbPosts = $statement->rowCount();
+		return $nbPosts;		
+	}
 }

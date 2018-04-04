@@ -13,22 +13,29 @@ class CommentController extends Controller
 	
 	public function addComment($postId)
 	{
-		$manager = $this->getDatabase()->getManager(Comment::class);
-		$comment = new Comment();
-		$comment->setPostId($postId);
-		$comment->setAuthor((($this->request)->getPost())['author']);
-		$comment->setContent((($this->request)->getPost())['content']);
-		$comment->setAddedAt(new \DateTime());
-		$comment->setLikes(0);
-		$comment->setIsChecked(0);
-		$comment->setIsReported(0);
-		$manager->insert($comment);	
-		$this->request->addFlashBag('success', 'Votre commentaire a bien été enregistré, il sera vérifié auprès d\'un administrateur avant publication.');
+		if ($this->verify($this->request->getPost())) {
+
+			$manager = $this->getDatabase()->getManager(Comment::class);
+			$comment = new Comment();
+			$comment->setPostId($postId);
+			$comment->setAuthor($this->request->getPost()['author']);
+			$comment->setContent($this->request->getPost()['content']);
+			$comment->setAddedAt(new \DateTime());
+			$comment->setLikes(0);
+			$comment->setIsChecked(0);
+			$comment->setIsReported(0);
+			$manager->insert($comment);	
+			$this->request->addFlashBag('success', 'Votre commentaire a bien été enregistré, il sera vérifié auprès d\'un administrateur avant publication.');
+			return $this->redirect("post", [
+				"id" => $comment->getPostId(),
+				"page" => 1
+			]);
+		}
+		$this->request->addFlashBag('failure', 'L\'ajout de votre commentaire a échoué, veuillez remplir tous les champs.');
 		return $this->redirect("post", [
-			"id" => $comment->getPostId(),
+			"id" => $postId,
 			"page" => 1
 		]);
-
 	}
 
 	public function updateComment($id)
@@ -80,6 +87,7 @@ class CommentController extends Controller
 		$comment = $manager->find($id);	
 		$comment->setIsChecked(1);
 		$manager->update($comment);
+		$this->request->setSession('uncheckedComments', $manager->countUncheckedComments());
 		return $this->redirect("comments", [
             "page" => 1
         ]);
@@ -91,6 +99,7 @@ class CommentController extends Controller
 		$comment = $manager->find($id);	
 		$comment->setIsReported(1);
 		$manager->update($comment);
+		$this->request->setSession('reportedComments', $manager->countReportedComments());
 		return $this->redirect("reportedComments", [
             "page" => 1
         ]);		
@@ -101,6 +110,7 @@ class CommentController extends Controller
 		$comment = $manager->find($id);	
 		$comment->setIsReported(0);
 		$manager->update($comment);
+		$this->request->setSession('reportedComments', $manager->countReportedComments());
 		return $this->redirect("reportedComments", [
             "page" => 1
         ]);		

@@ -49,7 +49,6 @@ class Controller
 		    return $this->request->getFlashBag($type);
 		});
 		$this->twig->addFunction($function);
-		var_dump($this->request->getSession());
 		$view = $this->twig->load($filename);
 		$content = $view->render($data);
 		return new Response($content);
@@ -58,5 +57,15 @@ class Controller
 	protected function json($data)
 	{
 		return JsonResponse($data);
+	}
+
+	protected function verify($array)
+	{
+		foreach ($array as $key => $value) {
+			if (!isset($value) OR empty(trim($value))) {
+				return false;
+			}
+			return true;
+		}
 	}
 }

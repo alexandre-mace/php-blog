@@ -30,4 +30,13 @@ class BlogController extends Controller
 		return $this->render("auth.html.twig", []);
 	}
 	
+	public function showAddAdmin()
+	{
+		return $this->render("addAdmin.html.twig", []);
+	}
+
+	public function showAddPost()
+	{
+		return $this->render("addPost.html.twig", []);
+	}
 }

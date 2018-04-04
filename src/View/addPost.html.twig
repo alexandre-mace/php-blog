@@ -3,33 +3,31 @@
 {% block pageHeader %}
 
     <h1>Nouveau post</h1>
-    <p class="post-meta">
-        Veuillez remplir le formulaire ci-dessous pour ajouter votre nouveau post
-    </p>
+    <span class="subheading">Veuillez remplir le formulaire ci-dessous pour ajouter votre nouveau post !</span>
 
 {% endblock %}
 
 {% block mainContent %}
 				
-    <form name="addPost" id="postForm" novalidate>
+    <form method="POST" action="/addpost" name="addPost" id="postForm" novalidate>
         <div class="control-group">
             <div class="form-group floating-label-form-group controls">
                 <label>Titre</label>
-                <input type="text" class="form-control" placeholder="Titre" id="title" required data-validation-required-message="Veuillez écrire votre titre.">
+                <input type="text" class="form-control" placeholder="Titre" name="title" id="title" required data-validation-required-message="Veuillez écrire votre titre.">
                 <p class="help-block text-danger"></p>
             </div>
         </div>
        	<div class="control-group">
 	        <div class="form-group floating-label-form-group controls">
 	            <label>Introduction</label>
-	            <textarea rows="3" class="form-control" placeholder="Introduction" id="introduction" required data-validation-required-message="Veuillez écrire votre introduction."></textarea>
+	            <textarea rows="3" class="form-control" placeholder="Introduction" name="introduction" id="introduction" required data-validation-required-message="Veuillez écrire votre introduction."></textarea>
 	            <p class="help-block text-danger"></p>
 	        </div>
 	    </div>
 	    <div class="control-group">
 	        <div class="form-group floating-label-form-group controls">
 	            <label>Contenu</label>
-	            <textarea rows="15" class="form-control" placeholder="Contenu" id="content" required data-validation-required-message="Veuillez écrire votre contenu."></textarea>
+	            <textarea rows="15" class="form-control" placeholder="Contenu" name="content" id="content" required data-validation-required-message="Veuillez écrire votre contenu."></textarea>
 	            <p class="help-block text-danger"></p>
 	        </div>
 	    </div>
