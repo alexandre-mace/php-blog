@@ -21,13 +21,11 @@ class Post extends Model
 
 	private $author;
 
-	private $likes;
+	private $likes = 0;
 
 	private $addedAt;
 
 	private $lastWriteDate;
-
-	private $isReported;
 
     public static function metadata()
     {
@@ -41,15 +39,48 @@ class Post extends Model
                 ],
                 "title"            => [
                     "type"      => "string",
-                    "property"  => "title"
+                    "property"  => "title",
+                    "constraints"   => [
+	                    "required" => [
+	                    	"message" => "Veuillez écrire un titre"
+	                    ],
+                    	"length" => [
+	                    	"min" 		 => 5,
+	                    	"minMessage" => "Le titre doit contenir au moins 5 caractères",
+	                    	"max"        => 50,
+	                    	"maxMessage" => "Le titre doit contenir 50 caractères maximum"
+	                    ]
+                    ]
                 ],
                 "intro"            => [
                     "type"      => "string",
-                    "property"  => "intro"
+                    "property"  => "intro",
+                    "constraints"   => [
+	                    "required" => [
+	                    	"message" => "Veuillez écrire une introduction"
+	                    ],
+                    	"length" => [
+	                    	"min" 		 => 35,
+	                    	"minMessage" => "L'introduction doit contenir au moins 35 caractères",
+	                    	"max"        => 350,
+	                    	"maxMessage" => "L'introduction doit contenir 350 caractères maximum"
+	                    ]
+                    ]
                 ],
                 "content"            => [
                     "type"      => "string",
-                    "property"  => "content"
+                    "property"  => "content",
+                    "constraints"   => [
+	                    "required" => [
+	                    	"message" => "Veuillez écrire un contenu"
+	                    ],
+                    	"length" => [
+	                    	"min" 		 => 500,
+	                    	"minMessage" => "Le contenu doit contenir au moins 500 caractères",
+	                    	"max"        => 5000,
+	                    	"maxMessage" => "Le contenu doit contenir 5000 caractères maximum"
+	                    ]
+                    ]
                 ],
                 "author"            => [
                     "type"      => "string",
@@ -66,11 +97,7 @@ class Post extends Model
                 "last_write_date"            => [
                     "type"      => "datetime",
                     "property"  => "lastWriteDate"
-                ],
-                "is_reported"            => [
-                    "type"      => "integer",
-                    "property"  => "isReported"
-                ],
+                ]
             ]
         ];
     }
@@ -163,15 +190,5 @@ class Post extends Model
 	public function setLastWriteDate($lastWriteDate)
 	{
 		$this->lastWriteDate = $lastWriteDate;
-	}
-
-	public function getIsReported()
-	{
-		return $this->isReported;
-	}
-	
-	public function setIsReported($isReported)
-	{
-		$this->isReported = $isReported;
 	}
 }

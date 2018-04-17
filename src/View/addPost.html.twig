@@ -13,21 +13,21 @@
         <div class="control-group">
             <div class="form-group floating-label-form-group controls">
                 <label>Titre</label>
-                <input type="text" class="form-control" placeholder="Titre" name="title" id="title" required data-validation-required-message="Veuillez écrire votre titre.">
+                <input type="text" class="form-control" placeholder="Titre" value="{{ post.title }}" name="title" id="title" required data-validation-required-message="Veuillez écrire votre titre.">
                 <p class="help-block text-danger"></p>
             </div>
         </div>
        	<div class="control-group">
 	        <div class="form-group floating-label-form-group controls">
 	            <label>Introduction</label>
-	            <textarea rows="3" class="form-control" placeholder="Introduction" name="introduction" id="introduction" required data-validation-required-message="Veuillez écrire votre introduction."></textarea>
+	            <textarea rows="3" class="form-control" placeholder="Introduction" value="{{ post.intro }}" name="intro" id="intro" required data-validation-required-message="Veuillez écrire votre introduction."></textarea>
 	            <p class="help-block text-danger"></p>
 	        </div>
 	    </div>
 	    <div class="control-group">
 	        <div class="form-group floating-label-form-group controls">
 	            <label>Contenu</label>
-	            <textarea rows="15" class="form-control" placeholder="Contenu" name="content" id="content" required data-validation-required-message="Veuillez écrire votre contenu."></textarea>
+	            <textarea rows="15" class="form-control" placeholder="Contenu" value="{{ post.content }}" name="content" id="content" required data-validation-required-message="Veuillez écrire votre contenu."></textarea>
 	            <p class="help-block text-danger"></p>
 	        </div>
 	    </div>

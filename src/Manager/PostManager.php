@@ -44,30 +44,4 @@ class PostManager extends Manager
 		$arrayReturned = array('nbPages' => $nbPages, 'results' => $results);
 		return $arrayReturned;
 	}
-
-	public function getReportedPosts($page)
-	{
-		$sqlQuery = "SELECT * FROM posts WHERE is_reported = 1";
-		$statement = $this->pdo->query($sqlQuery);
-		$nbPosts = $statement->rowCount();
-		$nbPages = ceil($nbPosts / 10);
-        $start = ($page-1)*10;
-		$sqlQuery = "SELECT * FROM posts WHERE is_reported = 1 ORDER BY added_at DESC LIMIT $start, 10";
-		$statement = $this->pdo->prepare($sqlQuery);
-		$statement->execute();
-		$results = $statement->fetchAll(\PDO::FETCH_ASSOC);
-		array_walk($results, function(&$post) {
-			$post = (new Post())->hydrate($post);
-		});
-		$arrayReturned = array('nbPages' => $nbPages, 'results' => $results);
-		return $arrayReturned;
-	}
-
-	public function countReportedPosts()
-	{
-		$sqlQuery = "SELECT * FROM posts WHERE is_reported = 1";
-		$statement = $this->pdo->query($sqlQuery);
-		$nbPosts = $statement->rowCount();
-		return $nbPosts;		
-	}
 }

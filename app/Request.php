@@ -45,24 +45,22 @@ class Request
 
 	public function getSession()
 	{
-		return $this->session;
+		return $_SESSION;
 	}
 
 	public function setSession($key, $value)
 	{
-		$this->session[$key] = $value;
 		$_SESSION[$key] = $value;
 	}
 
 	public function addFlashBag($type, $value)
 	{
-		$this->session['flashBag'][$type][] = $value;
 		$_SESSION['flashBag'][$type][] = $value;	
+
 	}
 
 	public function getFlashBag($type) 
 	{ 
-		array_shift($this->session['flashBag'][$type]);
 		return array_shift($_SESSION['flashBag' ][$type]);
 	}
 
@@ -76,6 +74,11 @@ class Request
 		return $this->server;
 	}
 
+	public function getMethod()
+	{
+		return $this->server["REQUEST_METHOD"];
+	}
+	
 	public function getRequest()
 	{
 		return $this->request;

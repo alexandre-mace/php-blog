@@ -10,7 +10,6 @@ use Model\Post;
 */
 class BlogController extends Controller
 {
-
 	public function index()
 	{
 		$manager = $this->getDatabase()->getManager(Post::class);
@@ -19,24 +18,8 @@ class BlogController extends Controller
             "lastPosts" => $lastPosts,
         ]);
 	}
-
 	public function showContact()
 	{
 		return $this->render("contact.html.twig", []);
-	}
-
-	public function showAuth()
-	{
-		return $this->render("auth.html.twig", []);
-	}
-	
-	public function showAddAdmin()
-	{
-		return $this->render("addAdmin.html.twig", []);
-	}
-
-	public function showAddPost()
-	{
-		return $this->render("addPost.html.twig", []);
 	}
 }

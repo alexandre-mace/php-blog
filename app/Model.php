@@ -9,17 +9,43 @@ abstract class Model
 {
 	public $originalData = [];
 
+    private $errors = [];
+
 	public abstract static function metadata();
 	
 	public abstract static function getManager();
+
+    public function isValid() 
+    {
+        foreach($this->metadata()["columns"] as $name => $definition) {
+            if (isset($definition["constraints"])) {
+                foreach($definition["constraints"] as $type => $details) {
+
+                    if ($type == "required" && !$this->{'get' . ucfirst($definition["property"])}()) {
+                        $this->errors[] = $details["message"];
+                    }
+                    if ($type == "length" && isset($details["min"]) && strlen(trim($this->{'get' . ucfirst($definition["property"])}())) < $details["min"]) {
+                        $this->errors[] = $details["minMessage"];
+                    }
+                                    
+                    if ($type == "length" && isset($details["max"]) && strlen(trim($this->{'get' . ucfirst($definition["property"])}())) > $details["max"]) {
+                        $this->errors[] = $details["maxMessage"];
+                    }
+
+                }
+            }
+        }
+        return count($this->errors) == 0;
+    }
 
     public function hydrate($result)
     {
         if(empty($result)) {
             return NULL;
         }
-        $this->originalData = $result;
+
         foreach($result as $column => $value) {
+            $this->originalData[$column] = $value;
             $this->hydrateProperty($column, $value);
         }
         return $this;
@@ -60,5 +86,10 @@ abstract class Model
         $primaryKeyColumn = $this::metadata()["primaryKey"];
         $property = $this::metadata()["columns"][$primaryKeyColumn]["property"];
         return $this->{'get'. ucfirst($property)}();
+    }
+
+    public function getErrors()
+    {
+        return $this->errors;
     }
 }

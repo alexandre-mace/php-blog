@@ -4,7 +4,7 @@ namespace Controller;
 
 use App\Controller;
 use Model\User;
-use Model\Post;
+use Model\Report;
 use Model\Comment;
 
 
@@ -28,19 +28,18 @@ class AuthController extends Controller
 					$this->request->setSession('user', $user);
 					$this->request->addFlashBag('success', 'Bonjour ' . $user->getId() . ' l\'authentification a réussi !');
 					if ($user->getIsAdmin() == 1) {
-						$postManager = $this->getDatabase()->getManager(Post::class);
+						$reportManager = $this->getDatabase()->getManager(Report::class);
 						$commentManager = $this->getDatabase()->getManager(Comment::class);
-						$this->request->setSession('reportedPosts', $postManager->countReportedPosts());
-						$this->request->setSession('reportedComments', $commentManager->countReportedComments());
+						$this->request->setSession('reportedPosts', $reportManager->countReported('posts'));
+						$this->request->setSession('reportedComments', $reportManager->countReported('comments'));
 						$this->request->setSession('uncheckedComments', $commentManager->countUncheckedComments());
 					}
 					return $this->redirect("index", []);
 				}
 			}
+			$this->request->addFlashBag('failure', 'L\'authentification a échoué, veuillez rééssayer.');
 		}
-		$this->request->addFlashBag('failure', 'L\'authentification a échoué, veuillez rééssayer.');
 		return $this->render("auth.html.twig", []);
-
 	}
 
 }

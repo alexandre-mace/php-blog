@@ -3,40 +3,38 @@
 {% block pageHeader %}
 
     <h1>Modifier un post</h1>
-    <p class="post-meta">
-        Veuillez remplir le formulaire ci-dessous pour modifier votre post
-    </p>
+    <span class="subheading">Veuillez remplir le formulaire ci-dessous pour modifier le post !</span>
 
 {% endblock %}
 
 {% block mainContent %}
 				
-    <form name="modifyPost" id="modifyPostForm" novalidate>
+    <form method="POST" action="/update/{{ post.id }}" name="updatePost" id="updatePostForm" novalidate>
         <div class="control-group">
             <div class="form-group floating-label-form-group controls">
                 <label>Titre</label>
-                <input type="text" class="form-control" value="{{ post.title }}" id="title" required data-validation-required-message="Veuillez écrire votre titre.">
+                <input type="text" class="form-control" name="title" value="{{ post.title }}" id="title" required data-validation-required-message="Veuillez écrire votre titre.">
                 <p class="help-block text-danger"></p>
             </div>
         </div>
        	<div class="control-group">
 	        <div class="form-group floating-label-form-group controls">
 	            <label>Introduction</label>
-	            <textarea rows="3" class="form-control" value="{{ post.intro }}" id="introduction" required data-validation-required-message="Veuillez écrire votre introduction."></textarea>
+	            <textarea rows="3" class="form-control" name="intro" id="introduction" required data-validation-required-message="Veuillez écrire votre introduction.">{{ post.intro }}</textarea>
 	            <p class="help-block text-danger"></p>
 	        </div>
 	    </div>
 	    <div class="control-group">
 	        <div class="form-group floating-label-form-group controls">
 	            <label>Contenu</label>
-	            <textarea rows="50" class="form-control" value="{{ post.content }}" id="content" required data-validation-required-message="Veuillez écrire votre contenu."></textarea>
+	            <textarea rows="50" class="form-control" name="content" id="content" required data-validation-required-message="Veuillez écrire votre contenu.">{{ post.content }}</textarea>
 	            <p class="help-block text-danger"></p>
 	        </div>
 	    </div>
 	    <br>
 	    <div id="success"></div>
 	    <div class="form-group">
-	        <button type="submit" class="btn btn-primary" id="modifyPostButton">Modifier votre post</button>
+	        <button type="submit" class="btn btn-primary" id="updatePostButton">Modifier votre post</button>
 	    </div>
 	</form>
 

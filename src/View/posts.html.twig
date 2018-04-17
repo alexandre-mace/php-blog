@@ -9,8 +9,8 @@
 
 {% block mainContent %}
 
-    {% if session.user is defined %}
-        <a class="btn btn-primary" href="/add">Ajouter un nouveau post</a>
+    {% if session.user is defined and session.user.isAdmin == 1 %}
+        <a class="btn btn-primary" href="/addpost">Ajouter un nouveau post</a>
     {% endif %}
 
     {% for post in posts %}

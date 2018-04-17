@@ -36,6 +36,18 @@ class Manager
 		return (new $this->model)->hydrate($result);
 	}
 
+	public function getFoosByBar($foos, $foo, $bar)
+	{
+		$sqlQuery = "SELECT * FROM " . $foos . " WHERE " . $foo . " = " .$bar;
+		$statement = $this->pdo->query($sqlQuery);
+		$objects = $statement->fetchAll(\PDO::FETCH_ASSOC);
+		var_dump($this->model);
+		array_walk($objects, function(&$object) {
+			$object = (new $this->model)->hydrate($object);
+		});
+		return $objects;
+	}
+
 	public function insert(Model $model)
 	{
 		$set = [];

@@ -9,7 +9,7 @@
 
 {% block mainContent %}
 
-    {% for comment in comments %}
+    {% for report in reports %}
         <div class="post-preview">
             <p class="post-meta">
                 Posté par {{ comment.author }} le {{ comment.addedAt|date('d-m-Y') }}
@@ -17,9 +17,10 @@
             <p>
                 {{ comment.content }}
             </p>
+            <p>Raison du signalement : {{ report.reason }}</p>
         </div>
         {% if session.user is defined and session.user.isAdmin == 1 %}
-            <a class="btn btn-primary" href="/unreportcomment/{{ comment.id }}">Annuler le signalement</a> 
+            <a class="btn btn-primary" href="/unreportcomment/{{ report.id }}">Annuler le signalement</a> 
             <a class="btn btn-primary" href="/delete/{{ comment.id }}">Supprimer</a>
         {% endif %}
         <hr>

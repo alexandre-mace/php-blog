@@ -45,10 +45,7 @@ class Controller
 	protected function render($filename, $data = [])
 	{
 		$this->twig->addGlobal('session', $this->request->getSession());
-		$function = new \Twig_Function('getFlashBag', function ($type) {
-		    return $this->request->getFlashBag($type);
-		});
-		$this->twig->addFunction($function);
+		$this->twig->addGlobal('request', $this->request);
 		$view = $this->twig->load($filename);
 		$content = $view->render($data);
 		return new Response($content);

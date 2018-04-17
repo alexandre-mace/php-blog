@@ -18,13 +18,11 @@ class Comment extends Model
 
 	private $author;
 
-	private $likes;
+	private $likes = 0;
 
 	private $addedAt;
 
-	private $isChecked;
-
-	private $isReported;
+	private $isChecked = 0;
 
 
     public static function metadata()
@@ -43,11 +41,33 @@ class Comment extends Model
                 ],
                 "content"            => [
                     "type"      => "string",
-                    "property"  => "content"
+                    "property"  => "content",
+                    "constraints"   => [
+	                    "required" => [
+	                    	"message" => "Veuillez écrire un commentaire"
+	                    ],
+                    	"length" => [
+	                    	"min" 		 => 1,
+	                    	"minMessage" => "Le commentaire doit contenir au moins 1 caractère",
+	                    	"max"        => 800,
+	                    	"maxMessage" => "Le commentaire doit contenir 800 caractères maximum"
+	                    ]
+                    ]
                 ],
                 "author"            => [
                     "type"      => "string",
-                    "property"  => "author"
+                    "property"  => "author",
+                    "constraints"   => [
+	                    "required" => [
+	                    	"message" => "Veuillez écrire votre nom"
+	                    ],
+                    	"length" => [
+	                    	"min" 		 => 1,
+	                    	"minMessage" => "Le nom doit contenir au moins 1 caractère",
+	                    	"max"        => 30,
+	                    	"maxMessage" => "Le nom doit contenir 30 caractères maximum"
+	                    ]
+                    ]
                 ],
                 "likes"            => [
                     "type"      => "integer",
@@ -60,11 +80,7 @@ class Comment extends Model
                 "is_checked"            => [
                     "type"      => "integer",
                     "property"  => "isChecked"
-                ],                
-                "is_reported"            => [
-                    "type"      => "integer",
-                    "property"  => "isReported"
-                ],                
+                ]             
             ]
         ];
     }
@@ -124,6 +140,11 @@ class Comment extends Model
 		$this->likes = $likes;
 	}
 
+	public function addLike()
+	{
+		$this->likes++;
+	}
+
 	public function getAddedAt()
 	{
 		return $this->addedAt;
@@ -142,15 +163,5 @@ class Comment extends Model
 	public function setIsChecked($isChecked)
 	{
 		$this->isChecked = $isChecked;
-	}
-
-	public function getIsReported()
-	{
-		return $this->isReported;
-	}
-	
-	public function setIsReported($isReported)
-	{
-		$this->isReported = $isReported;
 	}
 }

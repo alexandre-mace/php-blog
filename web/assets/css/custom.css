@@ -7,10 +7,10 @@ button {
     cursor: pointer;
     outline: inherit;
 }
-.fa-heart:hover, a, .page-link {
+.fa-heart:hover, a, .page-link, .post-likes, .comment-likes {
 	color: #2A2C43 !important;
 }
-.subheading, .nav-link, .fa-heart, .post-page-heart:hover
+.subheading, .nav-link, .fa-heart
 {
 	color: #f2b632 !important;
 }
@@ -52,4 +52,13 @@ a:focus, a:hover {
 }
 .dropdown-item:active {
     background-color: unset !important;
+}
+article p, h2, h1, h3 {
+    word-wrap: break-word;
+}
+.post-likes {
+    font-size: 3em;
+}
+.comment-likes {
+    font-size: 2em;
 }

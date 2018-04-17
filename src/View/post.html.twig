@@ -2,8 +2,8 @@
 
 {% block pageHeader %}
 
-    <h1> {{ post.title }} <span class="badge"><i class="fa fa-heart post-page-heart"></i> {{ post.likes }}</span></h1>
-    <h2 class="subheading white"> {{ post.intro }} </h2>
+    <h1>{{ post.title }}</h1>
+    <h2 class="subheading"> {{ post.intro }} </h2>
     <p class="post-meta">
         Dernière modification le {{ post.lastWriteDate|date('d-m-Y') }} par {{ post.author }}
     </p>
@@ -13,10 +13,10 @@
 {% block mainContent %}
 
 	<article class="mb-5">
-        <p> {{ post.content }} </p>
+        <p> {{ post.content }}</p>
         <div class="row justify-content-end">
         	<div class="col-4 text-center">
-        		<button data-toggle="tooltip" data-placement="top" title="J'aime ce contenu"><a href="/likepost/{{ post.id }}"><i class="fa fa-heart fa-2x"></i></a></button>
+        		<button><a href="/likepost/{{ post.id }}"><span class="badge"><i data-toggle="tooltip" data-placement="top" title="J'aime ce contenu" class="fa fa-heart fa-3x"></i><span class="post-likes"> {{ post.likes }}</span></span></a></button>
         	</div>
           	<div class="col-4 text-right">
           		<button data-toggle="modal" data-placement="top" data-target="#postModal" title="Signaler ce contenu"><i class="fa fa-flag fa-2x"></i></button>
@@ -35,7 +35,7 @@
                   <form method="POST" action="/reportpost/{{ post.id }}">
                     <div class="form-group">
                       <label for="reportFormControlTextarea">Quelle est la raison du signalement ?</label>
-                      <textarea name="cause" class="form-control" id="reportFormControlTextarea" rows="3"></textarea>
+                      <textarea name="reason" class="form-control" id="reportFormControlTextarea" rows="3"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Envoyer</button>
                   </form>
@@ -60,7 +60,7 @@
             </p>
             <div class="row justify-content-end">
             	<div class="col-4 text-center">
-            		<button data-toggle="tooltip" data-placement="top" title="J'aime ce contenu"><i class="fa fa-heart"></i></button>
+                <button><a href="/likecomment/{{ comment.id }}"><span class="badge"><i data-toggle="tooltip" data-placement="top" title="J'aime ce contenu" class="fa fa-heart fa-2x"></i><span class="comment-likes"> {{ comment.likes }}</span></span></a></button>
             	</div>
               	<div class="col-4 text-right">
               		<button data-toggle="modal" data-placement="top" data-target="#commentModal{{ comment.id }}" title="Signaler ce contenu"><i class="fa fa-flag"></i></button>
@@ -79,7 +79,7 @@
                     <form method="POST" action="/reportcomment/{{ comment.id }}">
                       <div class="form-group">
                         <label for="reportFormControlTextarea">Quelle est la raison du signalement ?</label>
-                        <textarea name="cause" class="form-control" id="reportFormControlTextarea" rows="3"></textarea>
+                        <textarea name="reason" class="form-control" id="reportFormControlTextarea" rows="3"></textarea>
                       </div>
                       <button type="submit" class="btn btn-primary">Envoyer</button>
                     </form>
@@ -129,26 +129,35 @@
     {% endif %}
 
 	{% if session.user %}			
-	    <form method="POST" action="/addcomment/{{ post.id }}" name="addComment" id="commentForm" novalidate>
-	        <div class="control-group">
-	            <div class="form-group floating-label-form-group controls">
-	                <label>Pseudo</label>
-	                <input type="text" class="form-control" placeholder="Pseudo" name="author" id="pseudo" required data-validation-required-message="Veuillez écrire votre pseudo.">
-	                <p class="help-block text-danger"></p>
-	            </div>
-	        </div>
-		    <div class="control-group">
-		        <div class="form-group floating-label-form-group controls">
-		            <label>Commentaire</label>
-		            <textarea rows="5" class="form-control" placeholder="Commentaire" name="content" id="commentaire" required data-validation-required-message="Veuillez écrire un commentaire."></textarea>
-		            <p class="help-block text-danger"></p>
-		        </div>
-		    </div>
-		    <br>
-		    <div id="success"></div>
-		    <div class="form-group">
-		        <button type="submit" class="btn btn-primary" id="addCommentButton">Ajouter un commentaire</button>
-		    </div>
+    {% if comment.errors is defined and comment.errors is not empty %}
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for error in comment.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    <form method="POST" action="/addcomment/{{ post.id }}/{{ page }}" name="addComment" id="commentForm" novalidate>
+      <div class="control-group">
+          <div class="form-group floating-label-form-group controls">
+              <label>Pseudo</label>
+              <input type="text" class="form-control" placeholder="Pseudo" name="author" id="pseudo" required data-validation-required-message="Veuillez écrire votre pseudo.">
+              <p class="help-block text-danger"></p>
+          </div>
+      </div>
+      <div class="control-group">
+        <div class="form-group floating-label-form-group controls">
+            <label>Commentaire</label>
+            <textarea rows="5" class="form-control" placeholder="Commentaire" name="content" id="commentaire" required data-validation-required-message="Veuillez écrire un commentaire."></textarea>
+            <p class="help-block text-danger"></p>
+        </div>
+      </div>
+	    <br>
+	    <div id="success"></div>
+	    <div class="form-group">
+	    <button type="submit" class="btn btn-primary" id="addCommentButton">Ajouter un commentaire</button>
+	    </div>
 		</form>
 	{% endif %}
 

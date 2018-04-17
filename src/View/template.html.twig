@@ -51,9 +51,9 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/posts/1" role="button" aria-haspopup="true" aria-expanded="false">Les posts <span class="badge badge-danger">{{ session.reportedPosts }}</span></a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="/addpostpage">Ajouter un post</a>
                                     <a class="dropdown-item" href="/posts/1">Tous les posts</a>
                                     <a class="dropdown-item" href="/reportedposts/1">Posts signalés <span class="badge badge-danger">{{ session.reportedPosts }}</span></a>
+                                    <a class="dropdown-item" href="/addpost">Ajouter un post</a>                                    
                                 </div>
                             </li>
 
@@ -65,7 +65,7 @@
                                 </div>
                             </li>        
                             <li class="nav-item">
-                                <a class="nav-link" href="/addadminpage">Ajouter un administrateur</a>
+                                <a class="nav-link" href="/addadmin">Ajouter un administrateur</a>
                             </li>            
                         {% else %}
                         <li class="nav-item">
@@ -91,7 +91,7 @@
                         <div class="site-heading">
                             {% if session.flashBag.success or session.flashBag.failure is not empty %}
                                 <div class="alert alert-{{ session.flashBag.success is not empty ? "success" : "danger" }} mb-5" role="alert">
-                                    {{ session.flashBag.success is not empty ? getFlashBag('success') : getFlashBag('failure') }}
+                                    {{ session.flashBag.success is not empty ? request.getFlashBag('success') : request.getFlashBag('failure') }}
                                 </div>
                             {% endif %}                          
                             {% block pageHeader %}{% endblock %}
@@ -105,7 +105,25 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
-                    {% block mainContent %}{% endblock %}
+                {% if post.errors is defined and post.errors is not empty %}
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for error in post.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {% if report.errors is defined and report.errors is not empty %}
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for error in report.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {% block mainContent %}{% endblock %}
                 </div>
             </div>
         </div>
@@ -135,7 +153,7 @@
                             </li>
                         </ul>
                         <div class="text-center">
-                            <a href="/authpage">Se connecter</a>                                                     <!-- Lien à modifier -->       
+                            <a href="/auth">Se connecter</a>                                                     <!-- Lien à modifier -->       
                         </div>
                         <p class="copyright text-muted">Copyright &copy; <a href="https://alexandremace.com">Alexandre Macé</a> 2018</p>
                     </div>
