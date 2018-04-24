@@ -18,7 +18,7 @@ class CommentManager extends Manager
 		$nbComments = $statement->rowCount();
 		$nbPages = ceil($nbComments / 10);
         $start = ($page-1)*10;
-		$sqlQuery = "SELECT * FROM comments WHERE post_id = ? AND is_checked = 1 ORDER BY added_at DESC LIMIT $start, 10";
+		$sqlQuery = "SELECT * FROM comments WHERE post_id = ? AND is_checked = 1 ORDER BY added_at ASC LIMIT $start, 10";
 		$statement = $this->pdo->prepare($sqlQuery);
 		$statement->execute(array($postId));
 		$results = $statement->fetchAll(\PDO::FETCH_ASSOC);

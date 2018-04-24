@@ -14,9 +14,9 @@ class Report extends Model
 
 	private $type;
 
-	private $postId;
+	private $post;
 
-	private $commentId;
+	private $comment;
 
 	private $reason;
 
@@ -38,12 +38,14 @@ class Report extends Model
                     "property"  => "type"
                 ],              
                 "post_id"            => [
-                    "type"      => "integer",
-                    "property"  => "postId"
+                    "type"      => "model",
+                    "property"  => "post",
+                    "class" 	=> "Post"
                 ],
                 "comment_id"            => [
-                    "type"      => "integer",
-                    "property"  => "commentId"
+                    "type"      => "model",
+                    "property"  => "comment",
+                    "class" => "Comment"
                 ],
                 "reason"            => [
                     "type"      => "string",
@@ -54,9 +56,7 @@ class Report extends Model
 	                    ],
                     	"length" => [
 	                    	"min" 		 => 1,
-	                    	"minMessage" => "Le commentaire doit contenir au moins 1 caractère",
-	                    	"max"        => 255,
-	                    	"maxMessage" => "Le commentaire doit contenir 255 caractères maximum"
+	                    	"minMessage" => "Le commentaire doit contenir au moins 1 caractère"
 	                    ]
                     ]
                 ],
@@ -92,24 +92,24 @@ class Report extends Model
 		$this->type = $type;
 	}
 
-	public function getPostId()
+	public function getPost()
 	{
-		return $this->postId;
+		return $this->post;
 	}
 
-	public function setPostId($postId)
+	public function setPost($post)
 	{
-		$this->postId = $postId;
+		$this->post = $post;
 	}
 
-	public function getCommentId()
+	public function getComment()
 	{
-		return $this->commentId;
+		return $this->comment;
 	}
 
-	public function setCommentId($commentId)
+	public function setComment($comment)
 	{
-		$this->commentId = $commentId;
+		$this->comment = $comment;
 	}
 	public function getReason()
 	{

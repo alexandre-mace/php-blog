@@ -14,21 +14,22 @@ class CommentController extends Controller
 {
 	public function addComment($postId, $page = 1)
 	{
+		$postManager = $this->getDatabase()->getManager(Post::class);
+		$post = $postManager->find($postId);		
 		$comment = new Comment();
-		$comment->setPostId($postId);
+		$comment->setPost($post);
 		$comment->setAddedAt(new \DateTime());
 		if ($this->request->getMethod() == "POST" && $comment->hydrate($this->request->getPost())->isValid()) {
-			$manager = $this->getDatabase()->getManager(Comment::class);
-			$manager->insert($comment);
+			$commentManager = $this->getDatabase()->getManager(Comment::class);
+			$commentManager->insert($comment);
 			$this->request->addFlashBag('success', 'Votre commentaire a bien été enregistré, il sera vérifié auprès d\'un administrateur avant publication.');
+			$this->request->setSession('uncheckedComments', $commentManager->countUncheckedComments());
 			return $this->redirect("post", [
-				"id" => $comment->getPostId(),
+				"id" => $postId,
 				"page" => 1
 			]);
 		}
-		$postManager = $this->getDatabase()->getManager(Post::class);
 		$commentManager = $this->getDatabase()->getManager(Comment::class);
-		$post = $postManager->find($postId);
 		$results = $commentManager->getCommentsByPostId($postId, $page);
 		return $this->render("post.html.twig", [
 			"post" => $post,
@@ -43,35 +44,133 @@ class CommentController extends Controller
 	{
 		$manager = $this->getDatabase()->getManager(Comment::class);
 		$comment = $manager->find($id);
-		$manager->update($comment);
-		return $this->redirect("post", [
-			"id" => $comment->getPostId(),
-			"page" => 1
+		if ($comment && $this->request->getMethod() == "POST" && $comment->hydrate($this->request->getPost(), 1)->isValid()) {
+			$manager->update($comment);
+			$this->request->addFlashBag('success', 'Le commentaire a bien été mis à jour');
+			return $this->redirect("reportedComments", [
+				"page" => 1
+			]);
+		}
+		return $this->render("updateComment.html.twig", [
+			"comment" => $comment
 		]);
 	}
 
 	public function deleteComment($id)
 	{
 		$commentManager = $this->getDatabase()->getManager(Comment::class);
-		$reportManager = $this->getDatabase()->getManager(Report::class);
-		$reports = $reportManager->getFoosByBar('reports', 'comment_id', $id);
-		foreach ($reports as $key => $report) {
-			$reportManager->remove($report);
-		}
 		$comment = $commentManager->find($id);
-		$commentManager->remove($comment);
-		$this->request->addFlashBag('success', 'Le commentaire a bien été supprimé !');
-		$this->request->setSession('uncheckedComments', $commentManager->countUncheckedComments());
-		$this->request->setSession('reportedComments', $reportManager->countReported('comment'));
-		return $this->redirect("comments", [
+		if ($comment) {
+			$commentManager->remove($comment);
+			$this->request->addFlashBag('success', 'Le commentaire a bien été supprimé !');
+			$this->request->setSession('uncheckedComments', $commentManager->countUncheckedComments());
+			$reportManager = $this->getDatabase()->getManager(Report::class);
+			$this->request->setSession('reportedComments', $reportManager->countReported('comment'));
+			return $this->redirect("uncheckedComments", [
+				"page" => 1
+			]);
+		}
+		$this->request->addFlashBag('failure', 'Aucun commentaire correspondant à votre demande n\'a été trouvé.');
+		$route = $this->router->getRouteByRequest();
+		return $this->redirect("uncheckedComments", [
 			"page" => 1
 		]);
 	}
+
+	public function likeComment($id)
+	{
+		$manager = $this->getDatabase()->getManager(Comment::class);
+		$comment = $manager->find($id);	
+		if ($comment) {
+			$comment->addLike();
+			$manager->update($comment);
+			$this->request->addFlashBag('success', 'Votre like a bien été pris en compte !');
+			return $this->redirect("post", [
+				"id" => $comment->getPost()->getId(), 
+				"page" => 1
+			]);
+		}
+		$this->request->addFlashBag('failure', 'Aucun commentaire correspondant à votre demande n\'a été trouvé.');
+		return $this->redirect("post", [
+			"id" => $comment->getPostId(), 
+			"page" => 1
+		]);
+	}
+
+	public function checkComment($id)
+	{
+		$manager = $this->getDatabase()->getManager(Comment::class);
+		$comment = $manager->find($id);	
+		if ($comment) {
+			$comment->setIsChecked(1);
+			$manager->update($comment);
+			$this->request->addFlashBag('success', 'Le commentaire a bien été validé !');
+			$this->request->setSession('uncheckedComments', $manager->countUncheckedComments());
+			return $this->redirect("uncheckedComments", [
+	            "page" => 1
+	        ]);
+		}
+		$this->request->addFlashBag('failure', 'Aucun commentaire correspondant à votre demande n\'a été trouvé.');
+		return $this->redirect("uncheckeComments", [
+			"page" => 1
+		]);
+	}
+
+	public function reportComment($id, $page = 1)
+	{
+		$report = new Report();
+		$report->setAddedAt(new \DateTime());
+		$report->setType('comment');
+		$commentManager = $this->getDatabase()->getManager(Comment::class);
+		$comment = $commentManager->find($id);
+		$report->setComment($comment);
+		if ($this->request->getMethod() == "POST" && $report->hydrate($this->request->getPost())->isValid()) {
+			$reportManager = $this->getDatabase()->getManager(Report::class);
+			$reportManager->insert($report);
+			$this->request->addFlashBag('success', 'Le commentaire a bien été signalé !');
+			$this->request->setSession('reportedComments', $reportManager->countReported('comment'));
+			return $this->redirect("post", [
+				"id" => $comment->getPost()->getId(),
+				"page" => $page
+			]);
+		}
+		$postManager = $this->getDatabase()->getManager(Post::class);
+		$post = $postManager->find($comment->getPost()->getId());
+		$results = $commentManager->getCommentsByPostId($id, $page);
+		return $this->render("post.html.twig", [
+            "page" => $page,
+            "post" => $post,
+            "report" => $report,
+            "comments" => $results['results'],
+            "nbPages" => $results['nbPages']
+        ]);
+	}
+
+	public function unReportComment($id)
+	{
+		$reportManager = $this->getDatabase()->getManager(Report::class);
+		$report = $reportManager->find($id);
+		if ($report) {
+			$reportManager->remove($report);
+			$this->request->addFlashBag('success', 'Le signalement a bien été supprimé !');
+			$this->request->setSession('reportedComments', $reportManager->countReported('comment'));
+			$commentManager = $this->getDatabase()->getManager(Comment::class);
+			$this->request->setSession('uncheckedComments', $commentManager->countUncheckedComments());
+			return $this->redirect("reportedComments", [
+	            "page" => 1
+	        ]);		
+		}	
+		$this->request->addFlashBag('failure', 'Aucun signalement correspondant à votre demande n\'a été trouvé.');
+		return $this->redirect("reportedComments", [
+			"page" => 1
+		]);
+	}
+
 	public function showUncheckedComments($page = 1)
 	{ 
 		$manager = $this->getDatabase()->getManager(Comment::class);
 		$results = $manager->getUncheckedComments($page);
-		return $this->render("comments.html.twig", [
+		return $this->render("uncheckedcomments.html.twig", [
             "page" => $page,
             "comments" => $results['results'],
             "nbPages" => $results['nbPages']
@@ -81,81 +180,11 @@ class CommentController extends Controller
 	public function showReportedComments($page = 1)
 	{ 
 		$reportManager = $this->getDatabase()->getManager(Report::class);
-		$commentManager = $this->getDatabase()->getManager(Comment::class);
 		$results = $reportManager->getReported($page, 'comment');
-		var_dump($results['results']);
-		foreach ($results['results'] as $key => $comment) {
-			$comments[] = $commentManager->find($comment->getCommentId());
-		}
-		return $this->render("reportedPosts.html.twig", [
+		return $this->render("reportedComments.html.twig", [
             "page" => $page,
-            "comments" => $comments,
             "reports" => $results['results'],
             "nbPages" => $results['nbPages']
         ]);
-	}
-
-	public function likeComment($id)
-	{
-		$manager = $this->getDatabase()->getManager(Comment::class);
-		$comment = $manager->find($id);	
-		$comment->addLike();
-		$manager->update($comment);
-		$this->request->addFlashBag('success', 'Votre like a bien été pris en compte !');
-		return $this->redirect("post", [
-			"id" => $comment->getPostId(),
-			"page" => 1
-		]);
-	}
-
-	public function checkComment($id)
-	{
-		$manager = $this->getDatabase()->getManager(Comment::class);
-		$comment = $manager->find($id);	
-		$comment->setIsChecked(1);
-		$manager->update($comment);
-		$this->request->setSession('uncheckedComments', $manager->countUncheckedComments());
-		return $this->redirect("comments", [
-            "page" => 1
-        ]);
-	}
-	public function reportCommment($id, $page = 1)
-	{
-		$report = new Report();
-		$report->setAddedAt(new \DateTime());
-		$report->setType('comment');
-		$report->setCommentId($id);
-		if ($this->request->getMethod() == "POST" && $report->hydrate($this->request->getPost())->isValid()) {
-			$reportManager = $this->getDatabase()->getManager(Report::class);
-			$reportManager->insert($report);
-			$this->request->addFlashBag('success', 'Le commentaire a bien été signalé !');
-			$this->request->setSession('reportedPosts', $reportManager->countReported('comment'));
-			return $this->redirect("post", [
-				"id" => $id,
-				"page" => $page
-			]);
-		}
-		$postManager = $this->getDatabase()->getManager(Post::class);
-		$commentManager = $this->getDatabase()->getManager(Comment::class);
-		$post = $postManager->find($id);
-		$results = $commentManager->getCommentsByPostId($id, $page);
-		return $this->render("post.html.twig", [
-            "page" => $page,
-            "post" => $post,
-            "report" =>$report,
-            "comments" => $results['results'],
-            "nbPages" => $results['nbPages']
-        ]);
-	}
-
-	public function unReportComment($id)
-	{
-		$reportManager = $this->getDatabase()->getManager(Report::class);
-		$report = $reportManager->find($id);	
-		$reportManager->remove($report);
-		$this->request->setSession('reportedPosts', $reportManager->countReported('post'));
-		return $this->redirect("reportedComments", [
-            "page" => 1
-        ]);		
 	}
 }

@@ -12,7 +12,7 @@ class Comment extends Model
 {
 	private $id;
 
-	private $postId;
+	private $post;
 
 	private $content;
 
@@ -36,8 +36,9 @@ class Comment extends Model
                     "property"  => "id"
                 ],
                 "post_id"            => [
-                    "type"      => "integer",
-                    "property"  => "postId"
+                    "type"      => "model",
+                    "property"  => "post",
+                    "class" 	=> "Post"
                 ],
                 "content"            => [
                     "type"      => "string",
@@ -59,13 +60,13 @@ class Comment extends Model
                     "property"  => "author",
                     "constraints"   => [
 	                    "required" => [
-	                    	"message" => "Veuillez écrire votre nom"
+	                    	"message" => "Veuillez écrire votre pseudo"
 	                    ],
                     	"length" => [
 	                    	"min" 		 => 1,
-	                    	"minMessage" => "Le nom doit contenir au moins 1 caractère",
-	                    	"max"        => 30,
-	                    	"maxMessage" => "Le nom doit contenir 30 caractères maximum"
+	                    	"minMessage" => "Le pseudo doit contenir au moins 1 caractère",
+	                    	"max"        => 80,
+	                    	"maxMessage" => "Le pseudo doit contenir 80 caractères maximum"
 	                    ]
                     ]
                 ],
@@ -100,14 +101,14 @@ class Comment extends Model
 		$this->id = $id;
 	}
 
-	public function getPostId()
+	public function getPost()
 	{
-		return $this->postId;
+		return $this->post;
 	}
 
-	public function setPostId($postId)
+	public function setPost($post)
 	{
-		$this->postId = $postId;
+		$this->post = $post;
 	}
 
 	public function getContent()

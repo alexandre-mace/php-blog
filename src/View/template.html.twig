@@ -60,7 +60,7 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/comments/1" role="button" aria-haspopup="true" aria-expanded="false">Les commentaires <span class="badge badge-danger">{{ session.reportedComments + session.uncheckedComments }}</span></a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="/comments/1">Commentaires non validés <span class="badge badge-danger">{{ session.uncheckedComments }}</span></a>
+                                    <a class="dropdown-item" href="/uncheckedcomments/1">Commentaires non validés <span class="badge badge-danger">{{ session.uncheckedComments }}</span></a>
                                     <a class="dropdown-item" href="/reportedcomments/1">Commentaires signalés <span class="badge badge-danger">{{ session.reportedComments }}</span></a>
                                 </div>
                             </li>        
@@ -109,6 +109,15 @@
                     <div class="alert alert-danger" role="alert">
                         <ul>
                             {% for error in post.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {% if comment.errors is defined and comment.errors is not empty %}
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for error in comment.errors %}
                                 <li>{{ error }}</li>
                             {% endfor %}
                         </ul>

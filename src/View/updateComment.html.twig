@@ -1,0 +1,45 @@
+{% extends'template.html.twig' %}
+
+{% block pageHeader %}
+
+    <h1>Modifier un post</h1>
+    <span class="subheading">Veuillez remplir le formulaire ci-dessous pour modifier le post !</span>
+
+{% endblock %}
+
+{% block mainContent %}
+				
+	{% if session.user %}			
+    {% if comment.errors is defined and comment.errors is not empty %}
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for error in comment.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    <form method="POST" action="/updatecomment/{{ comment.id }}" name="addComment" id="commentForm" novalidate>
+      <div class="control-group">
+          <div class="form-group floating-label-form-group controls">
+              <label>Pseudo</label>
+              <input type="text" class="form-control" placeholder="Pseudo" name="author" id="pseudo"  value="{{ comment.author }}" required data-validation-required-message="Veuillez écrire votre pseudo.">
+              <p class="help-block text-danger"></p>
+          </div>
+      </div>
+      <div class="control-group">
+        <div class="form-group floating-label-form-group controls">
+            <label>Commentaire</label>
+            <textarea rows="5" class="form-control" placeholder="Commentaire" name="content" id="commentaire" required data-validation-required-message="Veuillez écrire un commentaire.">{{ comment.content }}</textarea>
+            <p class="help-block text-danger"></p>
+        </div>
+      </div>
+	    <br>
+	    <div id="success"></div>
+	    <div class="form-group">
+	    <button type="submit" class="btn btn-primary" id="addCommentButton">Modifier le commentaire</button>
+	    </div>
+		</form>
+	{% endif %}
+
+{% endblock %}

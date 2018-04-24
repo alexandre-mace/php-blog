@@ -10,7 +10,7 @@ button {
 .fa-heart:hover, a, .page-link, .post-likes, .comment-likes {
 	color: #2A2C43 !important;
 }
-.subheading, .nav-link, .fa-heart
+.subheading, .nav-link, .fa-heart, .not-clickable-heart:hover
 {
 	color: #f2b632 !important;
 }
@@ -56,9 +56,17 @@ a:focus, a:hover {
 article p, h2, h1, h3 {
     word-wrap: break-word;
 }
+.post-heart, .post-flag {
+    font-size: 1.5em;
+}
+.comment-heart, .comment-flag {
+    font-size: 1.25em;
+}
 .post-likes {
-    font-size: 3em;
+    font-size: 1.5em;
+    font-weight: 700;
 }
 .comment-likes {
-    font-size: 2em;
+    font-size: 1.25em;
+    font-weight: 600;
 }

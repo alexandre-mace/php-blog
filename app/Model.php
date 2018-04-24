@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Model\Post;
 /**
 * Class Model for all src/models
 */
@@ -38,10 +39,20 @@ abstract class Model
         return count($this->errors) == 0;
     }
 
-    public function hydrate($result)
+    public function hydrate($result, $update = 0)
     {
         if(empty($result)) {
             return NULL;
+        }
+
+        if ($update = 1) {
+            foreach ($this::metadata()["columns"] as $name => $definition) {
+                $this->originalData[$name] = $definition["property"];
+            }
+            foreach($result as $column => $value) {
+                $this->hydrateProperty($column, $value);
+            }
+        return $this;
         }
 
         foreach($result as $column => $value) {
@@ -64,6 +75,10 @@ abstract class Model
                 $datetime = \DateTime::createFromFormat("Y-m-d H:i:s", $value);
                 $this->{'set' . ucfirst($this::metadata()["columns"][$column]["property"])}($datetime);
                 break;
+            case "model":
+                $manager = Database::getInstance()->getManager('Model\\' . $this::metadata()["columns"][$column]["class"]);
+                $object = $manager->find($value); 
+                $this->{'set' . ucfirst($this::metadata()["columns"][$column]["property"])}($object);
         }
     }
 
@@ -73,6 +88,9 @@ abstract class Model
 		if ($value instanceof \DateTime) {
 			return $value->format("Y-m-d H:i:s");
 		}
+        if ($value instanceof Model) {
+            return $value->getId();
+        }
 		return $value;
 	}
 

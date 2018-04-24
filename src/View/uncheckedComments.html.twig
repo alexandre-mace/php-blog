@@ -12,7 +12,7 @@
     {% for comment in comments %}
         <div class="post-preview">
             <p class="post-meta">
-               Posté par {{ comment.author }} le {{ comment.addedAt|date('d-m-Y') }} <span class="badge"><i class="fa fa-heart post-page-heart"></i> {{ comment.likes }}</span>
+               Posté par {{ comment.author }} le {{ comment.addedAt|date('d-m-Y H:i') }}</span>
             </p>       
             <p>
                 {{ comment.content }} 

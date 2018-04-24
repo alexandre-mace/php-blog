@@ -41,7 +41,6 @@ class Manager
 		$sqlQuery = "SELECT * FROM " . $foos . " WHERE " . $foo . " = " .$bar;
 		$statement = $this->pdo->query($sqlQuery);
 		$objects = $statement->fetchAll(\PDO::FETCH_ASSOC);
-		var_dump($this->model);
 		array_walk($objects, function(&$object) {
 			$object = (new $this->model)->hydrate($object);
 		});

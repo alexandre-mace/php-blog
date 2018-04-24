@@ -5,7 +5,7 @@
     <h1>{{ post.title }}</h1>
     <h2 class="subheading"> {{ post.intro }} </h2>
     <p class="post-meta">
-        Dernière modification le {{ post.lastWriteDate|date('d-m-Y') }} par {{ post.author }}
+        Dernière modification le {{ post.lastWriteDate|date('d-m-Y H:i') }} par {{ post.author }}
     </p>
 
 {% endblock %}
@@ -16,10 +16,10 @@
         <p> {{ post.content }}</p>
         <div class="row justify-content-end">
         	<div class="col-4 text-center">
-        		<button><a href="/likepost/{{ post.id }}"><span class="badge"><i data-toggle="tooltip" data-placement="top" title="J'aime ce contenu" class="fa fa-heart fa-3x"></i><span class="post-likes"> {{ post.likes }}</span></span></a></button>
+        		<button><a href="/likepost/{{ post.id }}"><i data-toggle="tooltip" data-placement="top" title="J'aime ce contenu" class="fa fa-heart post-heart"></i><span class="post-likes"> {{ post.likes }}</span></a></button>
         	</div>
-          	<div class="col-4 text-right">
-          		<button data-toggle="modal" data-placement="top" data-target="#postModal" title="Signaler ce contenu"><i class="fa fa-flag fa-2x"></i></button>
+          	<div class="col-4 text-right align-self-center">
+          		<button data-toggle="modal" data-placement="top" data-target="#postModal" title="Signaler ce contenu"><i class="fa fa-flag post-flag"></i></button>
         	</div>
           <!-- Modal -->
           <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
@@ -35,7 +35,7 @@
                   <form method="POST" action="/reportpost/{{ post.id }}">
                     <div class="form-group">
                       <label for="reportFormControlTextarea">Quelle est la raison du signalement ?</label>
-                      <textarea name="reason" class="form-control" id="reportFormControlTextarea" rows="3"></textarea>
+                      <textarea name="reason" class="form-control" id="reportFormControlTextarea" rows="3">{{ report.reason }}</textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Envoyer</button>
                   </form>
@@ -53,17 +53,17 @@
     {% for comment in comments %}
         <div class="post-preview">
             <p class="post-meta">
-             	Posté par {{ comment.author }} le {{ comment.addedAt|date('d-m-Y') }}
+             	Posté par {{ comment.author }} le {{ comment.addedAt|date('d-m-Y H:i') }}
             </p>
             <p>
             	{{ comment.content }}
             </p>
             <div class="row justify-content-end">
             	<div class="col-4 text-center">
-                <button><a href="/likecomment/{{ comment.id }}"><span class="badge"><i data-toggle="tooltip" data-placement="top" title="J'aime ce contenu" class="fa fa-heart fa-2x"></i><span class="comment-likes"> {{ comment.likes }}</span></span></a></button>
+                <button><a href="/likecomment/{{ comment.id }}"><i data-toggle="tooltip" data-placement="top" title="J'aime ce contenu" class="fa fa-heart comment-heart"></i><span class="comment-likes"> {{ comment.likes }}</span></a></button>
             	</div>
               	<div class="col-4 text-right">
-              		<button data-toggle="modal" data-placement="top" data-target="#commentModal{{ comment.id }}" title="Signaler ce contenu"><i class="fa fa-flag"></i></button>
+              		<button data-toggle="modal" data-placement="top" data-target="#commentModal{{ comment.id }}" title="Signaler ce contenu"><i class="fa fa-flag comment-flag"></i></button>
             	</div>
             </div>
             <div class="modal fade" id="commentModal{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel{{ comment.id }}" aria-hidden="true">
@@ -79,7 +79,7 @@
                     <form method="POST" action="/reportcomment/{{ comment.id }}">
                       <div class="form-group">
                         <label for="reportFormControlTextarea">Quelle est la raison du signalement ?</label>
-                        <textarea name="reason" class="form-control" id="reportFormControlTextarea" rows="3"></textarea>
+                        <textarea name="reason" class="form-control" id="reportFormControlTextarea" rows="3">{{ report.reason }}</textarea>
                       </div>
                       <button type="submit" class="btn btn-primary">Envoyer</button>
                     </form>
@@ -142,14 +142,14 @@
       <div class="control-group">
           <div class="form-group floating-label-form-group controls">
               <label>Pseudo</label>
-              <input type="text" class="form-control" placeholder="Pseudo" name="author" id="pseudo" required data-validation-required-message="Veuillez écrire votre pseudo.">
+              <input type="text" class="form-control" placeholder="Pseudo" name="author" id="pseudo"  value="{{ comment.author }}" required data-validation-required-message="Veuillez écrire votre pseudo.">
               <p class="help-block text-danger"></p>
           </div>
       </div>
       <div class="control-group">
         <div class="form-group floating-label-form-group controls">
             <label>Commentaire</label>
-            <textarea rows="5" class="form-control" placeholder="Commentaire" name="content" id="commentaire" required data-validation-required-message="Veuillez écrire un commentaire."></textarea>
+            <textarea rows="5" class="form-control" placeholder="Commentaire" name="content" id="commentaire" required data-validation-required-message="Veuillez écrire un commentaire.">{{ comment.content }}</textarea>
             <p class="help-block text-danger"></p>
         </div>
       </div>

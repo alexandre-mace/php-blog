@@ -12,7 +12,7 @@ class Controller
 {
 	protected $request;
 
-	private $router;
+	protected $router;
 
 	protected $twig;
 

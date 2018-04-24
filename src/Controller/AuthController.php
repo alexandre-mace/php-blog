@@ -30,8 +30,8 @@ class AuthController extends Controller
 					if ($user->getIsAdmin() == 1) {
 						$reportManager = $this->getDatabase()->getManager(Report::class);
 						$commentManager = $this->getDatabase()->getManager(Comment::class);
-						$this->request->setSession('reportedPosts', $reportManager->countReported('posts'));
-						$this->request->setSession('reportedComments', $reportManager->countReported('comments'));
+						$this->request->setSession('reportedPosts', $reportManager->countReported('post'));
+						$this->request->setSession('reportedComments', $reportManager->countReported('comment'));
 						$this->request->setSession('uncheckedComments', $commentManager->countUncheckedComments());
 					}
 					return $this->redirect("index", []);

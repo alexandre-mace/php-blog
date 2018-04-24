@@ -11,20 +11,20 @@
 
     {% for report in reports %}
         <div class="post-preview">
-            <a href="/post/{{ report.postid }}/1">
+            <a href="/post/{{ report.post.id }}/1">
                 <h2 class="post-title">
-                    {{ post.title }} <span class="badge"><i class="fa fa-heart post-page-heart"></i> {{ post.likes }}</span>
+                    {{ report.post.title }} <span class="badge"><i class="fa fa-heart not-clickable-heart"></i> {{ report.post.likes }}</span>
                 </h2>
                 <p>Raison du signalement : {{ report.reason }}</p>
             </a>
             <p class="post-meta">
-                Dernière modification le {{ post.lastWriteDate|date('d-m-Y') }}
+                Dernière modification le {{ post.lastWriteDate|date('d-m-Y H:i') }}
             </p>
         </div>
         {% if session.user is defined and session.user.isAdmin == 1 %}
             <a class="btn btn-primary" href="/unreportpost/{{ report.id }}">Annuler le signalement</a> 
-            <a class="btn btn-primary" href="/update/{{ post.id }}">Modifier</a> 
-            <a class="btn btn-primary" href="/delete/{{ post.id }}">Supprimer</a>
+            <a class="btn btn-primary" href="/updatepost/{{ report.post.id }}">Modifier</a> 
+            <a class="btn btn-primary" href="/deletepost/{{ report.post.id }}">Supprimer</a>
         {% endif %}
         <hr>
     {% endfor %}
