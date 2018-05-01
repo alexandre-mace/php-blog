@@ -12,13 +12,18 @@ class Comment extends Model
 {
 	private $id;
 
-	private $postId;
+	private $post;
 
 	private $content;
 
 	private $author;
 
+	private $likes = 0;
+
 	private $addedAt;
+
+	private $isChecked = 0;
+
 
     public static function metadata()
     {
@@ -31,21 +36,52 @@ class Comment extends Model
                     "property"  => "id"
                 ],
                 "post_id"            => [
-                    "type"      => "integer",
-                    "property"  => "postId"
+                    "type"      => "model",
+                    "property"  => "post",
+                    "class" 	=> "Post"
                 ],
                 "content"            => [
                     "type"      => "string",
-                    "property"  => "content"
+                    "property"  => "content",
+                    "constraints"   => [
+	                    "required" => [
+	                    	"message" => "Veuillez écrire un commentaire"
+	                    ],
+                    	"length" => [
+	                    	"min" 		 => 1,
+	                    	"minMessage" => "Le commentaire doit contenir au moins 1 caractère",
+	                    	"max"        => 800,
+	                    	"maxMessage" => "Le commentaire doit contenir 800 caractères maximum"
+	                    ]
+                    ]
                 ],
                 "author"            => [
                     "type"      => "string",
-                    "property"  => "author"
+                    "property"  => "author",
+                    "constraints"   => [
+	                    "required" => [
+	                    	"message" => "Veuillez écrire votre pseudo"
+	                    ],
+                    	"length" => [
+	                    	"min" 		 => 1,
+	                    	"minMessage" => "Le pseudo doit contenir au moins 1 caractère",
+	                    	"max"        => 80,
+	                    	"maxMessage" => "Le pseudo doit contenir 80 caractères maximum"
+	                    ]
+                    ]
                 ],
+                "likes"            => [
+                    "type"      => "integer",
+                    "property"  => "likes"
+                ],                   
                 "added_at"            => [
                     "type"      => "datetime",
                     "property"  => "addedAt"
-                ]
+                ],
+                "is_checked"            => [
+                    "type"      => "integer",
+                    "property"  => "isChecked"
+                ]             
             ]
         ];
     }
@@ -55,14 +91,24 @@ class Comment extends Model
 		return CommentManager::class;
 	}
 
-	public function getPostId()
+	public function getId()
 	{
-		return $this->postId;
+		return $this->id;
 	}
 
-	public function setPostId($postId)
+	public function setId($id)
 	{
-		$this->postId = $postId;
+		$this->id = $id;
+	}
+
+	public function getPost()
+	{
+		return $this->post;
+	}
+
+	public function setPost($post)
+	{
+		$this->post = $post;
 	}
 
 	public function getContent()
@@ -85,6 +131,21 @@ class Comment extends Model
 		$this->author = $author;
 	}
 
+	public function getLikes()
+	{
+		return $this->likes;
+	}
+	
+	public function setLikes($likes)
+	{
+		$this->likes = $likes;
+	}
+
+	public function addLike()
+	{
+		$this->likes++;
+	}
+
 	public function getAddedAt()
 	{
 		return $this->addedAt;
@@ -93,5 +154,15 @@ class Comment extends Model
 	public function setAddedAt($addedAt)
 	{
 		$this->addedAt = $addedAt;
+	}
+
+	public function getIsChecked()
+	{
+		return $this->isChecked;
+	}
+	
+	public function setIsChecked($isChecked)
+	{
+		$this->isChecked = $isChecked;
 	}
 }

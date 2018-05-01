@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Model\Post;
 /**
 * Class Model for all src/models
 */
@@ -9,17 +10,44 @@ abstract class Model
 {
 	public $originalData = [];
 
+    private $errors = [];
+
 	public abstract static function metadata();
 	
 	public abstract static function getManager();
 
-    public function hydrate($result)
+    public function isValid() 
+    {
+        foreach($this->metadata()["columns"] as $name => $definition) {
+            if (isset($definition["constraints"])) {
+                foreach($definition["constraints"] as $type => $details) {
+
+                    if ($type == "required" && !$this->{'get' . ucfirst($definition["property"])}()) {
+                        $this->errors[] = $details["message"];
+                    }
+                    if ($type == "length" && isset($details["min"]) && strlen(trim($this->{'get' . ucfirst($definition["property"])}())) < $details["min"]) {
+                        $this->errors[] = $details["minMessage"];
+                    }
+                                    
+                    if ($type == "length" && isset($details["max"]) && strlen(trim($this->{'get' . ucfirst($definition["property"])}())) > $details["max"]) {
+                        $this->errors[] = $details["maxMessage"];
+                    }
+
+                }
+            }
+        }
+        return count($this->errors) == 0;
+    }
+
+    public function hydrate($result, $update = 0)
     {
         if(empty($result)) {
-            throw new ModelException("Aucun résultat n'a été trouvé !");
+            return NULL;
         }
-        $this->originalData = $result;
         foreach($result as $column => $value) {
+            if ($update == 0) {
+                $this->originalData[$column] = $value;
+            }
             $this->hydrateProperty($column, $value);
         }
         return $this;
@@ -34,10 +62,17 @@ abstract class Model
             case "string":
                 $this->{'set' . ucfirst($this::metadata()["columns"][$column]["property"])}($value);
                 break;
+            case "html":
+                $this->{'set' . ucfirst($this::metadata()["columns"][$column]["property"])}(html_entity_decode($value));
+                break;
             case "datetime":
                 $datetime = \DateTime::createFromFormat("Y-m-d H:i:s", $value);
                 $this->{'set' . ucfirst($this::metadata()["columns"][$column]["property"])}($datetime);
                 break;
+            case "model":
+                $manager = Database::getInstance()->getManager('Model\\' . $this::metadata()["columns"][$column]["class"]);
+                $object = $manager->find($value); 
+                $this->{'set' . ucfirst($this::metadata()["columns"][$column]["property"])}($object);
         }
     }
 
@@ -47,6 +82,9 @@ abstract class Model
 		if ($value instanceof \DateTime) {
 			return $value->format("Y-m-d H:i:s");
 		}
+        if ($value instanceof Model) {
+            return $value->getId();
+        }
 		return $value;
 	}
 
@@ -60,5 +98,10 @@ abstract class Model
         $primaryKeyColumn = $this::metadata()["primaryKey"];
         $property = $this::metadata()["columns"][$primaryKeyColumn]["property"];
         return $this->{'get'. ucfirst($property)}();
+    }
+
+    public function getErrors()
+    {
+        return $this->errors;
     }
 }

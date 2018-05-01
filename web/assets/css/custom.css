@@ -7,10 +7,10 @@ button {
     cursor: pointer;
     outline: inherit;
 }
-.fa-heart:hover, a, .page-link {
+.fa-heart:hover, a, .page-link, .post-likes, .comment-likes {
 	color: #2A2C43 !important;
 }
-.subheading, .nav-link, .fa-heart, .post-page-heart:hover
+.subheading, .nav-link, .fa-heart, .not-clickable-heart:hover
 {
 	color: #f2b632 !important;
 }
@@ -27,10 +27,11 @@ a:focus, a:hover {
     border: 2px solid #2A2C43 !important;
     color: #2A2C43 !important;
 }
-.btn-primary:hover {
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
     background-color: #2A2C43 !important;
     border: 2px solid #2A2C43 !important;
     color: #fff !important;
+    box-shadow: unset !important;
 }
 .page-item.active .page-link {
     z-index: 2;
@@ -48,4 +49,32 @@ a:focus, a:hover {
 .disabled a
 {
 	color: #868e96 !important;
+}
+.dropdown-item:active {
+    background-color: unset !important;
+}
+article p, h2, h1, h3 {
+    word-wrap: break-word;
+}
+.post-heart, .post-flag {
+    font-size: 1.5em;
+}
+.comment-heart, .comment-flag {
+    font-size: 1.25em;
+}
+.post-likes {
+    font-size: 1.5em;
+    font-weight: 700;
+}
+.comment-likes {
+    font-size: 1.25em;
+    font-weight: 600;
+}
+.floating-label-form-group label {
+    font-size: 1.5em !important;
+    top: 0em !important;
+    opacity: 1 !important; 
+}
+.floating-label-form-group-with-focus label {
+  color: #f2b632 !important; 
 }

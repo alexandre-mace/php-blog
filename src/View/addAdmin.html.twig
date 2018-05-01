@@ -1,0 +1,34 @@
+{% extends'template.html.twig' %}
+
+{% block pageHeader %}
+
+    <h1>Nouvel Administrateur</h1>
+    <span class="subheading">Veuillez remplir le formulaire ci-dessous pour ajouter le nouvel administrateur !</span>
+        
+{% endblock %}
+
+{% block mainContent %}
+
+    <form action="/addAdmin" method="POST" name="addAdmin" id="addAdminForm" novalidate>
+        <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+                <label>Identifiant</label>
+                <input type="text" class="form-control" placeholder="Identifiant" name="id" id="id" required data-validation-required-message="Veuillez écrire l'identifiant.">
+                <p class="help-block text-danger"></p>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+                <label>Mot de passe</label>
+                <input type="password" class="form-control" placeholder="Mot de passe" name="password" id="password" required data-validation-required-message="Veuillez écrire le mot de passe.">
+                <p class="help-block text-danger"></p>
+            </div>
+        </div>
+      <br>
+      <div id="success"></div>
+      <div class="form-group">
+          <button type="submit" class="btn btn-primary" id="authentificationButton">Inscription</button>
+      </div>
+  </form>
+
+{% endblock %}

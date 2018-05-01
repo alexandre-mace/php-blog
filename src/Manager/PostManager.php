@@ -44,5 +44,4 @@ class PostManager extends Manager
 		$arrayReturned = array('nbPages' => $nbPages, 'results' => $results);
 		return $arrayReturned;
 	}
-
 }

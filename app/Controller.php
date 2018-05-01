@@ -10,11 +10,11 @@ use App\Database;
 
 class Controller
 {
-	private $request;
+	protected $request;
 
-	private $router;
+	protected $router;
 
-	private $twig;
+	protected $twig;
 
 	private $database;
 
@@ -44,6 +44,8 @@ class Controller
 
 	protected function render($filename, $data = [])
 	{
+		$this->twig->addGlobal('session', $this->request->getSession());
+		$this->twig->addGlobal('request', $this->request);
 		$view = $this->twig->load($filename);
 		$content = $view->render($data);
 		return new Response($content);
@@ -52,5 +54,15 @@ class Controller
 	protected function json($data)
 	{
 		return JsonResponse($data);
+	}
+
+	protected function verify($array)
+	{
+		foreach ($array as $key => $value) {
+			if (!isset($value) OR empty(trim($value))) {
+				return false;
+			}
+			return true;
+		}
 	}
 }

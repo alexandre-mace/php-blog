@@ -21,7 +21,9 @@
         <!-- Custom styles for this template -->
         <link rel="stylesheet" href="/web/assets/css/clean-blog.css"/>
         <link rel="stylesheet" href="/web/assets/css/custom.css"/>
-
+        
+        <!-- externals -->
+        <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
     </head>
 
     <body>
@@ -29,7 +31,15 @@
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand" href="/"><span class="white">Alexandre Macé</span></a>
+                <a class="navbar-brand" href="/">
+                    <span class="white">
+                        {% if session.user.id is defined %}
+                            Salut {{ session.user.id }} !
+                        {% else %}
+                            Alexandre Macé
+                        {% endif %}
+                    </span>
+                </a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fa fa-bars"></i>
@@ -39,9 +49,31 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/">Accueil</a>
                         </li>
+                        {% if session.user is defined and session.user.isAdmin == 1 %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/posts/1" role="button" aria-haspopup="true" aria-expanded="false">Les posts <span class="badge badge-danger">{{ session.reportedPosts }}</span></a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/posts/1">Tous les posts</a>
+                                    <a class="dropdown-item" href="/reportedposts/1">Posts signalés <span class="badge badge-danger">{{ session.reportedPosts }}</span></a>
+                                    <a class="dropdown-item" href="/addpost">Ajouter un post</a>                                    
+                                </div>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/comments/1" role="button" aria-haspopup="true" aria-expanded="false">Les commentaires <span class="badge badge-danger">{{ session.reportedComments + session.uncheckedComments }}</span></a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/uncheckedcomments/1">Commentaires non validés <span class="badge badge-danger">{{ session.uncheckedComments }}</span></a>
+                                    <a class="dropdown-item" href="/reportedcomments/1">Commentaires signalés <span class="badge badge-danger">{{ session.reportedComments }}</span></a>
+                                </div>
+                            </li>        
+                            <li class="nav-item">
+                                <a class="nav-link" href="/addadmin">Ajouter un administrateur</a>
+                            </li>            
+                        {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="/posts/1">Les posts</a>
-                        </li>
+                        </li>                        
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="/contact">Contact</a>
                         </li>
@@ -54,12 +86,59 @@
         </nav>
 
         <!-- Page Header -->
-        {% block pageHeader %}{% endblock %}
+        <header class="masthead" style="background-color: #2A2C43;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 mx-auto">
+                        <div class="site-heading">
+                            {% if session.flashBag.success or session.flashBag.failure is not empty %}
+                                <div class="alert alert-{{ session.flashBag.success is not empty ? "success" : "danger" }} mb-5" role="alert">
+                                    {{ session.flashBag.success is not empty ? request.getFlashBag('success') : request.getFlashBag('failure') }}
+                                </div>
+                            {% endif %}                          
+                            {% block pageHeader %}{% endblock %}
+                        </div>                       
+                    </div>
+                </div>
+            </div>
+        </header>
 
         <!-- Main Content -->
         <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                {% if post.errors is defined and post.errors is not empty %}
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for error in post.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {% if comment.errors is defined and comment.errors is not empty %}
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for error in comment.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {% if report.errors is defined and report.errors is not empty %}
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for error in report.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
                 {% block mainContent %}{% endblock %}
+                </div>
+            </div>
         </div>
+        <hr>
 
         <!-- Footer -->
         <footer>
@@ -100,7 +179,6 @@
         <!-- Custom scripts for this template -->
         <script src="/web/assets/js/clean-blog.min.js"></script>
         <script src="/web/assets/js/custom.js"></script>
-
     </body>
 
 </html>

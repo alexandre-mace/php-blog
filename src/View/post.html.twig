@@ -2,99 +2,163 @@
 
 {% block pageHeader %}
 
-	<header class="masthead" style="background-color: #2A2C43">
-	    <div class="container">
-	        <div class="row">
-	            <div class="col-lg-8 col-md-10 mx-auto">
-	                <div class="post-heading">
-	                    <h1> {{ post.title }} <span class="badge"><i class="fa fa-heart post-page-heart"></i> {{ post.likes }}</span></h1>
-	                    <h2 class="subheading white"> {{ post.intro }} </h2>
-                        <p class="post-meta">
-                            Dernière modification le {{ post.lastWriteDate|date('d-m-Y') }} par {{ post.author }}
-                        </p>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	</header>
+    <h1>{{ post.title }}</h1>
+    <h2 class="subheading"> {{ post.intro }} </h2>
+    <p class="post-meta">
+        Dernière modification le {{ post.lastWriteDate|date('d-m-Y H:i') }} par {{ post.author }}
+    </p>
 
 {% endblock %}
 
 {% block mainContent %}
 
 	<article class="mb-5">
-	    <div class="container">
-	        <div class="row">
-	            <div class="col-lg-8 col-md-10 mx-auto">
-	                
-	                <p> {{ post.content }} </p>
-	                <div class="row justify-content-end">
-	                	<div class="col-4 text-center">
-	                		<button data-toggle="tooltip" data-placement="top" title="J'aime ce contenu"><i class="fa fa-heart fa-2x"></i></button>
-	                	</div>
-	                  	<div class="col-4 text-right">
-	                  		<button data-toggle="tooltip" data-placement="top" title="Signaler ce contenu"><i class="fa fa-flag fa-2x"></i></button>
-	                	</div>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
+        <p> {{ post.content|raw }}</p>
+        <div class="row justify-content-end">
+        	<div class="col-4 text-center">
+        		<button><a href="/likepost/{{ post.id }}"><i data-toggle="tooltip" data-placement="top" title="J'aime ce contenu" class="fa fa-heart post-heart"></i><span class="post-likes"> {{ post.likes }}</span></a></button>
+        	</div>
+          	<div class="col-4 text-right align-self-center">
+          		<button data-toggle="modal" data-placement="top" data-target="#postModal" title="Signaler ce contenu"><i class="fa fa-flag post-flag"></i></button>
+        	</div>
+          <!-- Modal -->
+          <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="postModalLabel">Signalement de contenu</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form method="POST" action="/reportpost/{{ post.id }}">
+                    <div class="form-group">
+                      <label for="reportFormControlTextarea">Quelle est la raison du signalement ?</label>
+                      <textarea name="reason" class="form-control" id="reportFormControlTextarea" rows="3">{{ report.reason }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 	</article>
 
-	<div class="container">
-	    <div class="row">
-	        <div class="col-lg-8 col-md-10 mx-auto">
-				
-			    {% for comment in post.comments %}
+    {% if comments is not empty %}
+    <hr>
+	{% endif %}
 
-		            <div class="post-preview">
-		                <p class="post-meta">
-		                	Posté par {{ comment.author }}  le {{ comment.date }}
-		                </p>
-		                <p>
-		                	{{ comment.content }}
-		                </p>
-		            </div>
+    {% for comment in comments %}
+        <div class="post-preview">
+            <p class="post-meta">
+             	Posté par {{ comment.author }} le {{ comment.addedAt|date('d-m-Y H:i') }}
+            </p>
+            <p>
+            	{{ comment.content }}
+            </p>
+            <div class="row justify-content-end">
+            	<div class="col-4 text-center">
+                <button><a href="/likecomment/{{ comment.id }}"><i data-toggle="tooltip" data-placement="top" title="J'aime ce contenu" class="fa fa-heart comment-heart"></i><span class="comment-likes"> {{ comment.likes }}</span></a></button>
+            	</div>
+              	<div class="col-4 text-right">
+              		<button data-toggle="modal" data-placement="top" data-target="#commentModal{{ comment.id }}" title="Signaler ce contenu"><i class="fa fa-flag comment-flag"></i></button>
+            	</div>
+            </div>
+            <div class="modal fade" id="commentModal{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel{{ comment.id }}" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="commentModalLabel{{ comment.id }}">Signalement de contenu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST" action="/reportcomment/{{ comment.id }}">
+                      <div class="form-group">
+                        <label for="reportFormControlTextarea">Quelle est la raison du signalement ?</label>
+                        <textarea name="reason" class="form-control" id="reportFormControlTextarea" rows="3">{{ report.reason }}</textarea>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Envoyer</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <hr>      
+    {% endfor %}
 
-		            <hr>
-			        
-			    {% endfor %}
+    {% if nbPages > 1 %}
+    {% set nearbyPagesLimit = 2 %}
+        <nav aria-label="comments pagination">
+            <ul class="pagination pagination-lg justify-content-center">
+                {% if page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="/post/{{ post.id }}/1" aria-label="Previous">
+                            <span aria-hidden="true"><i class="fa fa-angle-double-left"></i></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="/post/{{ post.id }}/{{ page - 1 }}" tabindex="-1">Précédent</a>
+                    </li> 
+                {% endif %}
 
-	        </div>
+                {% for p in range(max(page - nearbyPagesLimit, 1), min(page + nearbyPagesLimit, nbPages)) %}
+                    <li class="page-item {{ p==page ? "active" }}">
+                        <a class="page-link" href="/post/{{ post.id }}/{{ p }}">{{ p }}<span class="sr-only">(current)</span></a>
+                    </li>
+                {% endfor %}
+
+                {% if page < nbPages %}
+                    <li class="page-item">
+                        <a class="page-link" href="/post/{{ post.id }}/{{ page + 1 }}">Suivant</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="/post/{{ post.id }}/{{ nbPages }}" aria-label="Next">
+                            <span aria-hidden="true"><i class="fa fa-angle-double-right"></i></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                 {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+
+	{% if session.user %}			
+    {% if comment.errors is defined and comment.errors is not empty %}
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for error in comment.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    <form method="POST" action="/addcomment/{{ post.id }}/{{ page }}" name="addComment" id="commentForm" novalidate>
+      <div class="control-group">
+          <div class="form-group floating-label-form-group controls">
+              <label>Pseudo</label>
+              <input type="text" class="form-control" placeholder="Veuillez écrire votre pseudo." name="author" id="pseudo"  value="{{ comment.author }}" required data-validation-required-message="Veuillez écrire votre pseudo.">
+              <p class="help-block text-danger"></p>
+          </div>
+      </div>
+      <div class="control-group">
+        <div class="form-group floating-label-form-group controls">
+            <label>Commentaire</label>
+            <textarea rows="5" class="form-control" placeholder="Vous pouvez écrire un commentaire ici." name="content" id="commentaire" required data-validation-required-message="Veuillez écrire un commentaire.">{{ comment.content }}</textarea>
+            <p class="help-block text-danger"></p>
+        </div>
+      </div>
+	    <br>
+	    <div id="success"></div>
+	    <div class="form-group">
+	    <button type="submit" class="btn btn-primary" id="addCommentButton">Ajouter un commentaire</button>
 	    </div>
-	</div>
-	
-	<div class="container">
-	    <div class="row">
-	        <div class="col-lg-8 col-md-10 mx-auto">
-				
-			    <form name="addComment" id="commentForm" novalidate>
-			        <div class="control-group">
-			            <div class="form-group floating-label-form-group controls">
-			                <label>Pseudo</label>
-			                <input type="text" class="form-control" placeholder="Pseudo" id="pseudo" required data-validation-required-message="Veuillez écrire votre pseudo.">
-			                <p class="help-block text-danger"></p>
-			            </div>
-			        </div>
-				    <div class="control-group">
-				        <div class="form-group floating-label-form-group controls">
-				            <label>Ajouter un commentaire</label>
-				            <textarea rows="5" class="form-control" placeholder="Commentaire" id="commentaire" required data-validation-required-message="Veuillez écrire un commentaire."></textarea>
-				            <p class="help-block text-danger"></p>
-				        </div>
-				    </div>
-				    <br>
-				    <div id="success"></div>
-				    <div class="form-group">
-				        <button type="submit" class="btn btn-primary" id="addCommentButton">Ajouter un commentaire</button>
-				    </div>
-				</form>
-
-	        </div>
-	    </div>
-	</div>
-
-
-	<hr>
+		</form>
+	{% endif %}
 
 {% endblock %}
