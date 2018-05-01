@@ -70,3 +70,11 @@ article p, h2, h1, h3 {
     font-size: 1.25em;
     font-weight: 600;
 }
+.floating-label-form-group label {
+    font-size: 1.5em !important;
+    top: 0em !important;
+    opacity: 1 !important; 
+}
+.floating-label-form-group-with-focus label {
+  color: #f2b632 !important; 
+}

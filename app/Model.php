@@ -44,19 +44,10 @@ abstract class Model
         if(empty($result)) {
             return NULL;
         }
-
-        if ($update = 1) {
-            foreach ($this::metadata()["columns"] as $name => $definition) {
-                $this->originalData[$name] = $definition["property"];
-            }
-            foreach($result as $column => $value) {
-                $this->hydrateProperty($column, $value);
-            }
-        return $this;
-        }
-
         foreach($result as $column => $value) {
-            $this->originalData[$column] = $value;
+            if ($update == 0) {
+                $this->originalData[$column] = $value;
+            }
             $this->hydrateProperty($column, $value);
         }
         return $this;
@@ -70,6 +61,9 @@ abstract class Model
                 break;
             case "string":
                 $this->{'set' . ucfirst($this::metadata()["columns"][$column]["property"])}($value);
+                break;
+            case "html":
+                $this->{'set' . ucfirst($this::metadata()["columns"][$column]["property"])}(html_entity_decode($value));
                 break;
             case "datetime":
                 $datetime = \DateTime::createFromFormat("Y-m-d H:i:s", $value);

@@ -47,8 +47,8 @@ class Post extends Model
                     	"length" => [
 	                    	"min" 		 => 5,
 	                    	"minMessage" => "Le titre doit contenir au moins 5 caractères",
-	                    	"max"        => 50,
-	                    	"maxMessage" => "Le titre doit contenir 50 caractères maximum"
+	                    	"max"        => 100,
+	                    	"maxMessage" => "Le titre doit contenir 100 caractères maximum"
 	                    ]
                     ]
                 ],
@@ -68,7 +68,7 @@ class Post extends Model
                     ]
                 ],
                 "content"            => [
-                    "type"      => "string",
+                    "type"      => "html",
                     "property"  => "content",
                     "constraints"   => [
 	                    "required" => [
@@ -77,8 +77,8 @@ class Post extends Model
                     	"length" => [
 	                    	"min" 		 => 500,
 	                    	"minMessage" => "Le contenu doit contenir au moins 500 caractères",
-	                    	"max"        => 5000,
-	                    	"maxMessage" => "Le contenu doit contenir 5000 caractères maximum"
+	                    	"max"        => 10000,
+	                    	"maxMessage" => "Le contenu doit contenir 10000 caractères maximum"
 	                    ]
                     ]
                 ],
