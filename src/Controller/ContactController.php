@@ -37,7 +37,7 @@ class ContactController extends Controller
 
 		// Create a message
 		$message = (new \Swift_Message('blogOC'))
-		  ->setFrom([$this->request->getPost('email') => $this->request->getPost('prenom')])
+		  ->setFrom([$this->request->getPost('email') => $this->request->getPost('surname') . ' ' . $this->request->getPost('name')])
 		  ->setTo([getEnv("MAIL_USER") => 'blogOC'])
 		  ->setBody($this->request->getPost('message'))
 		  ;
