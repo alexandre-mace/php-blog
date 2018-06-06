@@ -33,16 +33,16 @@ School blog project : Create a PHP Blog with admin system using composer and twi
 </VirtualHost>
 
 Moreover, you also have to adapt the 30rd line of the /src/Controller/ContactController to have the right 'smtp' protocol. 
-Here is an exemple :
+Here is an example :
 $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl'))
 
 ## Theme used
-I used the clean blog theme for this project. You can fin the them here https://startbootstrap.com/template-overviews/clean-blog/ which is currently working with bootstrap 4.
+I used the clean blog theme for this project. You can find it here https://startbootstrap.com/template-overviews/clean-blog/ which is currently working with bootstrap 4.
 
 ## Administration section
-The database comes with an administrator already registered.
-id = a
-password = aaaaaa
+The database comes with an administrator already registered in it.
+id = 'a'
+password = 'aaaaaa'
 
 The connection section is accessible at the bottom of any page.
     
