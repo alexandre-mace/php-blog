@@ -29,7 +29,6 @@ class Database
                 getEnv("DB_PASSWORD")
             );
 		}
-
 		return self::$_databaseInstance;
 	}
 
@@ -44,7 +43,6 @@ class Database
 		if (!isset($this->managers[$model])) {
 			$this->managers[$model] = new $managerClass($this->pdo, $model);
 		}
-
 		return $this->managers[$model];
 	}
 }

@@ -7,7 +7,7 @@ use App\Router\Router;
 use App\Router\Route;
 use Controller\PostController;
 use Controller\CommentController;
-use Controller\BlogController;
+use Controller\ContactController;
 use Controller\AuthController;
 use Controller\UserController;
 
@@ -15,9 +15,7 @@ $request = Request::createFromGlobals();
 
 $router = New Router($request);
 
-$router->addRoute(new Route("index", "/", [], BlogController::class, "index"));
-$router->addRoute(new Route("contact", "/contact", [], BlogController::class, "contact"));
-
+$router->addRoute(new Route("index", "/", [], PostController::class, "showLastPosts"));
 $router->addRoute(new Route("post", "/post/:id/:page", ["id" => "[\d]+", "page" => "[\d]*"], PostController::class, "showPost"));
 $router->addRoute(new Route("posts", "/posts/:page", ["page" => "[\d]*"], PostController::class, "showPaginatedPosts"));
 $router->addRoute(new Route("reportedPosts", "/reportedposts/:page", ["page" => "[\d]*"], PostController::class, "showReportedPosts"));
@@ -45,6 +43,8 @@ $router->addRoute(new Route("deleteUser", "/deleteuser/:id", ["id" => "[\w]+"], 
 $router->addRoute(new Route("checkUser", "/checkuser/:id", ["id" => "[\w]+"], UserController::class, "checkUser"));
 
 $router->addRoute(new Route("auth", "/auth", [], AuthController::class, "auth"));
+
+$router->addRoute(new Route("contact", "/contact", [], ContactController::class, "contact"));
 
 $route = $router->getRouteByRequest();
 $response = $route->call($request, $router);

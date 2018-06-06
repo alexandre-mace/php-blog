@@ -6,19 +6,10 @@ use App\Controller;
 use Model\Post;
 
 /**
-* BlogController
+* ContactController
 */
-class BlogController extends Controller
+class ContactController extends Controller
 {
-
-	public function index()
-	{
-		$manager = $this->getDatabase()->getManager(Post::class);
-		$lastPosts = $manager->getLastPosts();
-		return $this->render("index.html.twig", [
-            "lastPosts" => $lastPosts,
-        ]);
-	}
 
 	public function contact()
 	{

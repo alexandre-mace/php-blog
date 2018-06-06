@@ -13,6 +13,7 @@ use Model\Comment;
 */
 class UserController extends Controller
 {
+	
 	public function addAdmin()
 	{
 		$this->isGranted('admin');

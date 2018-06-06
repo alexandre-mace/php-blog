@@ -1,22 +1,17 @@
-<script>
-  FontAwesomeConfig = { searchPseudoElements: true };
-</script>
-
 button {
-    background: none;
-    color: inherit;
-    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    outline: inherit;
+    background: none !important;
+    color: inherit !important;
+    border: none !important;
+    font: inherit !important;
+    cursor: pointer !important;
+    outline: inherit !important;
 }
 a.nav-link {
-    text-align: center;
+    text-align: center !important;
 }
 .alert {
-    font-size: 1.1em;
-    font-weight: 600;
+    font-size: 1.1em !important;
+    font-weight: 600 !important
 }
 .fa-heart:hover, a, .page-link, .post-likes, .comment-likes {
 	color: #2A2C43 !important;
@@ -55,7 +50,7 @@ a:focus, a:hover {
     box-shadow: unset !important;
 }
 .post-preview>a:focus, .post-preview>a:hover {
-    text-decoration: none;
+    text-decoration: none !important;
     color: #f2b632 !important;
 }
 .white {
@@ -69,21 +64,21 @@ a:focus, a:hover {
     background-color: unset !important;
 }
 article p, h2, h1, h3 {
-    word-wrap: break-word;
+    word-wrap: break-word !important;
 }
 .post-heart, .post-flag {
-    font-size: 1.5em;
+    font-size: 1.5em !important;
 }
 .comment-heart, .comment-flag {
-    font-size: 1.25em;
+    font-size: 1.25em !important;
 }
 .post-likes {
-    font-size: 1.5em;
-    font-weight: 700;
+    font-size: 1.5em !important;
+    font-weight: 700 !important;
 }
 .comment-likes {
-    font-size: 1.25em;
-    font-weight: 600;
+    font-size: 1.25em !important;
+    font-weight: 600 !important;
 }
 .floating-label-form-group label {
     font-size: 1.5em !important;
@@ -92,14 +87,4 @@ article p, h2, h1, h3 {
 }
 .floating-label-form-group-with-focus label {
   color: #f2b632 !important; 
-}
-.successIcon::after {
-  display: none;
-  font-family: "Font Awesome 5 Solid";
-  content: "\f058";
-}
-.dangerIcon::after {
-  display: none;
-  font-family: "Font Awesome 5 Solid";
-  content: "\f119";
 }

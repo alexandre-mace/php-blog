@@ -8,10 +8,11 @@ use Model\Post;
 use Model\Report;
 
 /**
-* ¨CommentController
+* CommentController
 */
 class CommentController extends Controller
 {
+
 	public function addComment($postId, $page = 1)
 	{
 		$this->isGranted('user');
@@ -122,7 +123,6 @@ class CommentController extends Controller
 
 	public function reportComment($id, $page = 1)
 	{
-		$this->isGranted('admin');
 		$report = new Report();
 		$report->setAddedAt(new \DateTime());
 		$report->setType('comment');

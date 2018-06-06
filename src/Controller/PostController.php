@@ -12,6 +12,7 @@ use Model\Report;
 */
 class PostController extends Controller
 {
+	
 	public function addPost()
 	{
 		$this->isGranted('admin');
@@ -138,6 +139,15 @@ class PostController extends Controller
 		return $this->redirect("reportedPosts", [
 			"page" => 1
 		]);
+	}
+
+	public function showLastPosts()
+	{
+		$manager = $this->getDatabase()->getManager(Post::class);
+		$lastPosts = $manager->getLastPosts();
+		return $this->render("index.html.twig", [
+            "lastPosts" => $lastPosts,
+        ]);
 	}
 
 	public function showPost($id, $page = 1)

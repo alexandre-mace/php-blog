@@ -3,8 +3,8 @@
 {% block pageHeader %}
 
     <h1>{{ post.title }}</h1>
-    <h2 class="subheading"> {{ post.intro }} </h2>
-    <p class="post-meta">
+    <h2 class="subheading pt-4"> {{ post.intro }} </h2>
+    <p class="post-meta pt-3">
         Dernière modification le {{ post.lastWriteDate|date('d-m-Y H:i') }} par {{ post.author }}
     </p>
 

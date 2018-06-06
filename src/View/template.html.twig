@@ -35,15 +35,16 @@
                     <div class="col-lg-8 col-md-10 mx-auto">
                         <div class="site-heading">
                             {% if session.flashBag.success or session.flashBag.failure is not empty %}
-                                <div class="alert alert-{{ session.flashBag.success is not empty ? "success successIcon" : "danger dangerIcon" }} mb-5" role="alert">
+                                <div class="alert alert-{{ session.flashBag.success is not empty ? "success" : "danger" }} mb-5" role="alert">
                                     {{ session.flashBag.success is not empty ? request.getFlashBag('success') : request.getFlashBag('failure') }}
+                                    {{ session.flashBag.success is not empty ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-frown"></i>' }}
                                 </div>            
                             {% endif %}
                             {% if post.errors is defined and post.errors is not empty %}
                                 <div class="alert alert-danger" role="alert">
                                     <ul>
                                         {% for error in post.errors %}
-                                            <li class="dangerIcon">{{ error }} </li>
+                                            <li>{{ error }} <i class="fas fa-frown"></i></li>
                                         {% endfor %}
                                     </ul>
                                 </div>
@@ -52,7 +53,7 @@
                                 <div class="alert alert-danger" role="alert">
                                     <ul>
                                         {% for error in comment.errors %}
-                                            <li class="dangerIcon">{{ error }} </li>
+                                            <li>{{ error }} <i class="fas fa-frown"></i></li>
                                         {% endfor %}
                                     </ul>
                                 </div>
@@ -61,7 +62,7 @@
                                 <div class="alert alert-danger" role="alert">
                                     <ul>
                                         {% for error in user.errors %}
-                                            <li class="dangerIcon">{{ error }} </li>
+                                            <li>{{ error }} <i class="fas fa-frown"></i></li>
                                         {% endfor %}
                                     </ul>
                                 </div>
@@ -70,7 +71,7 @@
                                 <div class="alert alert-danger" role="alert">
                                     <ul>
                                         {% for error in report.errors %}
-                                            <li class="dangerIcon">{{ error }} </li>
+                                            <li>{{ error }} <i class="fas fa-frown"></i></li>
                                         {% endfor %}
                                     </ul>
                                 </div>
@@ -119,15 +120,11 @@
         </footer>
 
         <!-- Externals -->
-        <script>
-            FontAwesomeConfig = { searchPseudoElements: true };
-        </script>
-        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.10.0/trumbowyg.min.js"></script>
-
+        
         <!-- Custom scripts for this template -->
         <script src="/web/assets/js/clean-blog.min.js"></script>
         <script src="/web/assets/js/custom.js"></script>

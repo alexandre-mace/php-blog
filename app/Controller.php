@@ -69,7 +69,7 @@ class Controller
 
 	protected function isGranted($role)
 	{
-		if (!empty($this->request->getSession('user')) and !$this->request->getSession('user')['user']->getIsAdmin() and $role = 'admin') {
+		if (!empty($this->request->getSession('user')) and !$this->request->getSession()['user']->getIsAdmin() and $role == 'admin') {
 			throw new \Exception("Vous n'avez pas les autorisations nécessaires pour accéder à cette page.");		
 		}
 		if (empty($this->request->getSession('user'))) {

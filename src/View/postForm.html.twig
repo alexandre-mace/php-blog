@@ -1,19 +1,19 @@
 <div class="control-group">
     <div class="form-group floating-label-form-group controls">
-        <label>Titre</label>
-        <input type="text" class="form-control" value="{{ post.title }}" name="title">
+        <label for="title">Titre</label>
+        <input type="text" class="form-control" value="{{ post.title }}" name="title" id="title">
     </div>
 </div> 	
 	<div class="control-group">
     <div class="form-group floating-label-form-group controls mt-2">
-        <label>Introduction</label>
-        <textarea rows="3" class="form-control" name="intro">{{ post.intro }}</textarea>
+        <label for="intro">Introduction</label>
+        <textarea rows="3" class="form-control" name="intro" id="intro">{{ post.intro }}</textarea>
     </div>
 </div>
 <div class="control-group">
     <div class="form-group floating-label-form-group controls mt-2">
-        <label>Contenu</label>
-        <textarea class="form-control trumbowyg" name="content">{{ post.content }}</textarea>
+        <label for="content">Contenu</label>
+        <textarea class="form-control trumbowyg" name="content" id="content">{{ post.content }}</textarea>
     </div>
 </div>
 <br>
