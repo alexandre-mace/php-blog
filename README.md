@@ -9,28 +9,27 @@ School blog project : Create a PHP Blog with admin system using composer and twi
 
  Here is an example of mine (WAMP + Windows 10) :
 
-MySQL : Cascade sur contraintes clés étrangères
 <VirtualHost *:80>
-  ServerName blogOC.local
-  ServerAlias localhost
-  DocumentRoot C:\wamp64\www\blogOC
-  SetEnv ENV "dev"
-  SetEnv DB_HOST "your host"
-  SetEnv DB_NAME "blog_oc_db"
-  SetEnv DB_USER "root"
-  SetEnv DB_PASSWORD ""
-  SetEnv MAIL_USER "your email"
-  SetEnv MAIL_PASSWORD "your password"
-  <Directory "C:\wamp64\www\blogOC">
-    Options +Indexes +Includes +FollowSymLinks +MultiViews
-    Require local
-    <IfModule mod_rewrite.c>
-        Options -MultiViews
-        RewriteEngine On
-        RewriteCond %{REQUEST_FILENAME} !-f
-        RewriteRule ^(.*)$ web/index.php [QSA,L]
-    </IfModule>
-  </Directory>
+    ServerName blogOC.local
+    ServerAlias localhost
+    DocumentRoot C:\wamp64\www\blogOC
+    SetEnv ENV "dev"
+    SetEnv DB_HOST "your host"
+    SetEnv DB_NAME "blog_oc_db"
+    SetEnv DB_USER "root"
+    SetEnv DB_PASSWORD ""
+    SetEnv MAIL_USER "your email"
+    SetEnv MAIL_PASSWORD "your password"
+    <Directory "C:\wamp64\www\blogOC">
+        Options +Indexes +Includes +FollowSymLinks +MultiViews
+        Require local
+        <IfModule mod_rewrite.c>
+            Options -MultiViews
+            RewriteEngine On
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteRule ^(.*)$ web/index.php [QSA,L]
+        </IfModule>
+    </Directory>
 </VirtualHost>
 
 Moreover, you also have to adapt the 30rd line of the /src/Controller/ContactController to have the right 'smtp' protocol. 
