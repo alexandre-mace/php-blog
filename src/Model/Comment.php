@@ -57,18 +57,7 @@ class Comment extends Model
                 ],
                 "author"            => [
                     "type"      => "string",
-                    "property"  => "author",
-                    "constraints"   => [
-	                    "required" => [
-	                    	"message" => "Veuillez écrire votre pseudo"
-	                    ],
-                    	"length" => [
-	                    	"min" 		 => 1,
-	                    	"minMessage" => "Le pseudo doit contenir au moins 1 caractère",
-	                    	"max"        => 80,
-	                    	"maxMessage" => "Le pseudo doit contenir 80 caractères maximum"
-	                    ]
-                    ]
+                    "property"  => "author"
                 ],
                 "likes"            => [
                     "type"      => "integer",

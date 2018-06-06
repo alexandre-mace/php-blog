@@ -3,6 +3,8 @@
 namespace App;
 
 use Model\Post;
+use Model\User;
+
 /**
 * Class Model for all src/models
 */
@@ -11,6 +13,7 @@ abstract class Model
 	public $originalData = [];
 
     private $errors = [];
+
 
 	public abstract static function metadata();
 	
@@ -25,10 +28,12 @@ abstract class Model
                     if ($type == "required" && !$this->{'get' . ucfirst($definition["property"])}()) {
                         $this->errors[] = $details["message"];
                     }
+                    if ($type == "unique" && !is_null(Database::getInstance()->getManager(get_class($this))->find($this->{'get' . ucfirst($definition["property"])}()))) {
+                        $this->errors[] = $details["message"];
+                    }
                     if ($type == "length" && isset($details["min"]) && strlen(trim($this->{'get' . ucfirst($definition["property"])}())) < $details["min"]) {
                         $this->errors[] = $details["minMessage"];
-                    }
-                                    
+                    }                               
                     if ($type == "length" && isset($details["max"]) && strlen(trim($this->{'get' . ucfirst($definition["property"])}())) > $details["max"]) {
                         $this->errors[] = $details["maxMessage"];
                     }
@@ -62,12 +67,12 @@ abstract class Model
             case "string":
                 $this->{'set' . ucfirst($this::metadata()["columns"][$column]["property"])}($value);
                 break;
-            case "html":
-                $this->{'set' . ucfirst($this::metadata()["columns"][$column]["property"])}(html_entity_decode($value));
-                break;
             case "datetime":
                 $datetime = \DateTime::createFromFormat("Y-m-d H:i:s", $value);
                 $this->{'set' . ucfirst($this::metadata()["columns"][$column]["property"])}($datetime);
+                break;
+            case "password":
+                $this->{'set' . ucfirst($this::metadata()["columns"][$column]["property"])}($value);                
                 break;
             case "model":
                 $manager = Database::getInstance()->getManager('Model\\' . $this::metadata()["columns"][$column]["class"]);

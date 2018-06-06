@@ -1,3 +1,7 @@
+<script>
+  FontAwesomeConfig = { searchPseudoElements: true };
+</script>
+
 button {
     background: none;
     color: inherit;
@@ -6,6 +10,13 @@ button {
     font: inherit;
     cursor: pointer;
     outline: inherit;
+}
+a.nav-link {
+    text-align: center;
+}
+.alert {
+    font-size: 1.1em;
+    font-weight: 600;
 }
 .fa-heart:hover, a, .page-link, .post-likes, .comment-likes {
 	color: #2A2C43 !important;
@@ -20,10 +31,11 @@ button {
 }
 a:focus, a:hover {
     color: #f2b632 !important;
-    text-decoration: unset;
+    text-decoration: unset !important;
 }
 .btn-primary {
-    background-color: unset; !important;
+    font-weight: 600 !important;
+    background-color: unset !important;
     border: 2px solid #2A2C43 !important;
     color: #2A2C43 !important;
 }
@@ -36,8 +48,11 @@ a:focus, a:hover {
 .page-item.active .page-link {
     z-index: 2;
     color: #fff !important;
-    background-color: #2A2C43;
-    border-color: #2A2C43;
+    background-color: #2A2C43 !important;
+    border-color: #2A2C43 !important;
+}
+.page-link:focus {
+    box-shadow: unset !important;
 }
 .post-preview>a:focus, .post-preview>a:hover {
     text-decoration: none;
@@ -77,4 +92,14 @@ article p, h2, h1, h3 {
 }
 .floating-label-form-group-with-focus label {
   color: #f2b632 !important; 
+}
+.successIcon::after {
+  display: none;
+  font-family: "Font Awesome 5 Solid";
+  content: "\f058";
+}
+.dangerIcon::after {
+  display: none;
+  font-family: "Font Awesome 5 Solid";
+  content: "\f119";
 }

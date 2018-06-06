@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
-
     <head>
-
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="School blog project : Creating a PHP Blog with admin system using composer and twig.">
@@ -10,80 +8,25 @@
 
         <title>Alexandre Macé - Étudiant en developpement web</title>
 
-        <!-- Bootstrap core CSS -->
-        <link rel="stylesheet" href="/../vendor/twbs/bootstrap/dist/css/bootstrap.min.css"/>
-
         <!-- Custom fonts for this template -->
-        <link href="/../vendor/fortawesome/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
         <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'/>
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'/>
 
         <!-- Custom styles for this template -->
         <link rel="stylesheet" href="/web/assets/css/clean-blog.css"/>
         <link rel="stylesheet" href="/web/assets/css/custom.css"/>
-        
+
+
+
         <!-- externals -->
-        <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.10.0/ui/trumbowyg.min.css"/>
     </head>
 
     <body>
-
         <!-- Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-            <div class="container">
-                <a class="navbar-brand" href="/">
-                    <span class="white">
-                        {% if session.user.id is defined %}
-                            Salut {{ session.user.id }} !
-                        {% else %}
-                            Alexandre Macé
-                        {% endif %}
-                    </span>
-                </a>
-                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fa fa-bars"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Accueil</a>
-                        </li>
-                        {% if session.user is defined and session.user.isAdmin == 1 %}
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/posts/1" role="button" aria-haspopup="true" aria-expanded="false">Les posts <span class="badge badge-danger">{{ session.reportedPosts }}</span></a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="/posts/1">Tous les posts</a>
-                                    <a class="dropdown-item" href="/reportedposts/1">Posts signalés <span class="badge badge-danger">{{ session.reportedPosts }}</span></a>
-                                    <a class="dropdown-item" href="/addpost">Ajouter un post</a>                                    
-                                </div>
-                            </li>
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/comments/1" role="button" aria-haspopup="true" aria-expanded="false">Les commentaires <span class="badge badge-danger">{{ session.reportedComments + session.uncheckedComments }}</span></a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="/uncheckedcomments/1">Commentaires non validés <span class="badge badge-danger">{{ session.uncheckedComments }}</span></a>
-                                    <a class="dropdown-item" href="/reportedcomments/1">Commentaires signalés <span class="badge badge-danger">{{ session.reportedComments }}</span></a>
-                                </div>
-                            </li>        
-                            <li class="nav-item">
-                                <a class="nav-link" href="/addadmin">Ajouter un administrateur</a>
-                            </li>            
-                        {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/posts/1">Les posts</a>
-                        </li>                        
-                        {% endif %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/contact">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/web/assets/docs/cv.pdf" target="_blank">CV</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        {% include 'navigation.html.twig' %}
 
         <!-- Page Header -->
         <header class="masthead" style="background-color: #2A2C43;">
@@ -92,10 +35,46 @@
                     <div class="col-lg-8 col-md-10 mx-auto">
                         <div class="site-heading">
                             {% if session.flashBag.success or session.flashBag.failure is not empty %}
-                                <div class="alert alert-{{ session.flashBag.success is not empty ? "success" : "danger" }} mb-5" role="alert">
+                                <div class="alert alert-{{ session.flashBag.success is not empty ? "success successIcon" : "danger dangerIcon" }} mb-5" role="alert">
                                     {{ session.flashBag.success is not empty ? request.getFlashBag('success') : request.getFlashBag('failure') }}
+                                </div>            
+                            {% endif %}
+                            {% if post.errors is defined and post.errors is not empty %}
+                                <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        {% for error in post.errors %}
+                                            <li class="dangerIcon">{{ error }} </li>
+                                        {% endfor %}
+                                    </ul>
                                 </div>
-                            {% endif %}                          
+                            {% endif %}
+                            {% if comment.errors is defined and comment.errors is not empty %}
+                                <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        {% for error in comment.errors %}
+                                            <li class="dangerIcon">{{ error }} </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            {% if user.errors is defined and user.errors is not empty %}
+                                <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        {% for error in user.errors %}
+                                            <li class="dangerIcon">{{ error }} </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            {% if report.errors is defined and report.errors is not empty %}
+                                <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        {% for error in report.errors %}
+                                            <li class="dangerIcon">{{ error }} </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}                                                      
                             {% block pageHeader %}{% endblock %}
                         </div>                       
                     </div>
@@ -107,34 +86,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
-                {% if post.errors is defined and post.errors is not empty %}
-                    <div class="alert alert-danger" role="alert">
-                        <ul>
-                            {% for error in post.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}
-                {% if comment.errors is defined and comment.errors is not empty %}
-                    <div class="alert alert-danger" role="alert">
-                        <ul>
-                            {% for error in comment.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}
-                {% if report.errors is defined and report.errors is not empty %}
-                    <div class="alert alert-danger" role="alert">
-                        <ul>
-                            {% for error in report.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}
-                {% block mainContent %}{% endblock %}
+                    {% block mainContent %}{% endblock %}
                 </div>
             </div>
         </div>
@@ -148,37 +100,36 @@
                         <ul class="list-inline text-center">
                             <li class="list-inline-item">
                                 <a href="https://www.linkedin.com/in/alexandre-mac%C3%A9/">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
-                                    </span>
+                                    <i class="fab fa-linkedin fa-3x"></i>
                                 </a>
                             </li>
                             <li class="list-inline-item">
                                 <a href="https://github.com/alexandre-mace">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                    </span>
+                                    <i class="fab fa-github-square fa-3x"></i>
                                 </a>
                             </li>
                         </ul>
-                        <div class="text-center">
-                            <a href="/auth">Se connecter</a>                                                     <!-- Lien à modifier -->       
+                        <div class="text-center mt-2">
+                            <a href="/auth">Se connecter</a> - <a href="/adduser">S'inscrire</a>  
                         </div>
-                        <p class="copyright text-muted">Copyright &copy; <a href="https://alexandremace.com">Alexandre Macé</a> 2018</p>
+                        <p class="copyright text-muted mt-2">Copyright &copy; <a href="https://alexandremace.com">Alexandre Macé</a> 2018</p>
                     </div>
                 </div>
             </div>
         </footer>
 
-        <!-- Bootstrap core JavaScript -->
-        <script src="/../vendor/components/jquery/jquery.min.js"></script>
-        <script src="/../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Externals -->
+        <script>
+            FontAwesomeConfig = { searchPseudoElements: true };
+        </script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.10.0/trumbowyg.min.js"></script>
 
         <!-- Custom scripts for this template -->
         <script src="/web/assets/js/clean-blog.min.js"></script>
         <script src="/web/assets/js/custom.js"></script>
     </body>
-
 </html>

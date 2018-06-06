@@ -10,6 +10,7 @@ use Model\Post;
 */
 class BlogController extends Controller
 {
+
 	public function index()
 	{
 		$manager = $this->getDatabase()->getManager(Post::class);
@@ -18,22 +19,38 @@ class BlogController extends Controller
             "lastPosts" => $lastPosts,
         ]);
 	}
-	public function showContact()
+
+	public function contact()
 	{
+		if ($this->request->getMethod('POST') AND !empty($this->request->getPost())) {
+			if ($this->verify($this->request->getPost())) {
+				$this->sendMail(); 
+				$this->request->addFlashBag('success', 'Votre mail a bien été envoyé !');
+				return $this->render("contact.html.twig", []);
+			}
+			$this->request->addFlashBag('failure', 'L\'envoi du mail a échoué, veuillez remplir correctement tous les champs.');
+		}
 		return $this->render("contact.html.twig", []);
 	}
+
 	public function sendMail()
 	{
 		// Create the Transport
-		$transport = (new Swift_SmtpTransport('smtp.example.org', 25));
+		$transport = (new \Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl'))
+		  ->setUsername(getEnv("MAIL_USER"))
+		  ->setPassword(getEnv("MAIL_PASSWORD"))
+		;
+
 		// Create the Mailer using your created Transport
-		$mailer = new Swift_Mailer($transport);
+		$mailer = new \Swift_Mailer($transport);
+
 		// Create a message
-		$message = (new Swift_Message('Wonderful Subject'))
-		  ->setFrom(['john@doe.com' => 'John Doe'])
-		  ->setTo(['receiver@domain.org', 'other@domain.org' => 'A name'])
-		  ->setBody('Here is the message itself')
+		$message = (new \Swift_Message('blogOC'))
+		  ->setFrom([$this->request->getPost('email') => $this->request->getPost('prenom')])
+		  ->setTo([getEnv("MAIL_USER") => 'blogOC'])
+		  ->setBody($this->request->getPost('message'))
 		  ;
+
 		// Send the message
 		$result = $mailer->send($message);
 	}

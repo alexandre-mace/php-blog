@@ -14,9 +14,10 @@ class PostController extends Controller
 {
 	public function addPost()
 	{
+		$this->isGranted('admin');
 		$post = new Post();
 		$post->setAddedAt(new \DateTime());
-		$post->setLastWriteDate(new \DateTime());
+		$post->setLastWriteDate(new \DateTime("now", new \DateTimeZone('Europe/Paris')));
 		$post->setAuthor($this->request->getSession()['user']->getId());
 		if ($this->request->getMethod() == "POST" && $post->hydrate($this->request->getPost())->isValid()) {
 			$manager = $this->getDatabase()->getManager(Post::class);
@@ -34,10 +35,11 @@ class PostController extends Controller
 
 	public function updatePost($id)
 	{
+		$this->isGranted('admin');
 		$manager = $this->getDatabase()->getManager(Post::class);
 		$post = $manager->find($id);
 		if ($post && $this->request->getMethod() == "POST" && $post->hydrate($this->request->getPost(), 1)->isValid()) {
-			$post->setLastWriteDate(new \DateTime());
+			$post->setLastWriteDate(new \DateTime("now", new \DateTimeZone('Europe/Paris')));
 			$manager->update($post);
 			$this->request->addFlashBag('success', 'Le post a bien été mis à jour');
 			return $this->redirect("post", [
@@ -52,6 +54,7 @@ class PostController extends Controller
 
 	public function deletePost($id)
 	{
+		$this->isGranted('admin');
 		$postManager = $this->getDatabase()->getManager(Post::class);
 		$post = $postManager->find($id);
 		if ($post) {
@@ -120,6 +123,7 @@ class PostController extends Controller
 
 	public function unReportPost($id)
 	{	
+		$this->isGranted('admin');
 		$reportManager = $this->getDatabase()->getManager(Report::class);
 		$report = $reportManager->find($id);
 		if ($report) {
@@ -163,6 +167,7 @@ class PostController extends Controller
 
 	public function showReportedPosts($page = 1)
 	{ 
+		$this->isGranted('admin');
 		$reportManager = $this->getDatabase()->getManager(Report::class);
 		$results = $reportManager->getReported($page, 'post');
 		return $this->render("reportedPosts.html.twig", [

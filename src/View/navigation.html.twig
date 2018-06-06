@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <span class="white">
+                {% if session.user.id is defined %}
+                    Salut {{ session.user.id }} !
+                {% else %}
+                    Alexandre Macé
+                {% endif %}
+            </span>
+        </a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fa fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Accueil</a>
+                </li>
+                {% if session.user is defined and session.user.isAdmin == 1 %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Les posts <span class="badge badge-danger">{{ session.reportedPosts }}</span></a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/posts/1">Tous les posts</a>
+                            <a class="dropdown-item" href="/reportedposts/1">Posts signalés <span class="badge badge-danger">{{ session.reportedPosts }}</span></a>
+                            <a class="dropdown-item" href="/addpost">Ajouter un post</a>                                    
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Les commentaires <span class="badge badge-danger">{{ session.reportedComments + session.uncheckedComments }}</span></a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/uncheckedcomments/1">Commentaires non validés <span class="badge badge-danger">{{ session.uncheckedComments }}</span></a>
+                            <a class="dropdown-item" href="/reportedcomments/1">Commentaires signalés <span class="badge badge-danger">{{ session.reportedComments }}</span></a>
+                        </div>
+                    </li>  
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Les utilisateurs <span class="badge badge-danger">{{ session.uncheckedUsers }}</span></a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/uncheckedusers/1">Utilisateurs non validés <span class="badge badge-danger">{{ session.uncheckedUsers }}</span></a>
+                            <a class="dropdown-item" href="/addadmin">Ajouter un administrateur</a>
+                        </div>
+                    </li>  
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/posts/1">Les posts</a>
+                </li>                        
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

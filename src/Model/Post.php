@@ -68,7 +68,7 @@ class Post extends Model
                     ]
                 ],
                 "content"            => [
-                    "type"      => "html",
+                    "type"      => "string",
                     "property"  => "content",
                     "constraints"   => [
 	                    "required" => [
