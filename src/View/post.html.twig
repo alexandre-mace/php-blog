@@ -3,8 +3,8 @@
 {% block pageHeader %}
 
     <h1>{{ post.title }}</h1>
-    <h2 class="subheading"> {{ post.intro }} </h2>
-    <p class="post-meta">
+    <h2 class="subheading pt-4"> {{ post.intro }} </h2>
+    <p class="post-meta pt-3">
         Dernière modification le {{ post.lastWriteDate|date('d-m-Y H:i') }} par {{ post.author }}
     </p>
 
@@ -21,28 +21,24 @@
           	<div class="col-4 text-right align-self-center">
           		<button data-toggle="modal" data-placement="top" data-target="#postModal" title="Signaler ce contenu"><i class="fa fa-flag post-flag"></i></button>
         	</div>
-          <!-- Modal -->
-          <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="postModalLabel">Signalement de contenu</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form method="POST" action="/reportpost/{{ post.id }}">
-                    <div class="form-group">
-                      <label for="reportFormControlTextarea">Quelle est la raison du signalement ?</label>
-                      <textarea name="reason" class="form-control" id="reportFormControlTextarea" rows="3">{{ report.reason }}</textarea>
+            <!-- Modal -->
+            <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="postModalLabel">Signalement de contenu</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="/reportpost/{{ post.id }}">
+                                {% include 'reportForm.html.twig' %}
+                            </form>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Envoyer</button>
-                  </form>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
 	</article>
 
@@ -67,25 +63,21 @@
             	</div>
             </div>
             <div class="modal fade" id="commentModal{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel{{ comment.id }}" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="commentModalLabel{{ comment.id }}">Signalement de contenu</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <form method="POST" action="/reportcomment/{{ comment.id }}">
-                      <div class="form-group">
-                        <label for="reportFormControlTextarea">Quelle est la raison du signalement ?</label>
-                        <textarea name="reason" class="form-control" id="reportFormControlTextarea" rows="3">{{ report.reason }}</textarea>
-                      </div>
-                      <button type="submit" class="btn btn-primary">Envoyer</button>
-                    </form>
-                  </div>
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="commentModalLabel{{ comment.id }}">Signalement de contenu</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="/reportcomment/{{ comment.id }}">
+                                {% include 'reportForm.html.twig' %}
+                            </form>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
         </div>
         <hr>      
@@ -127,37 +119,22 @@
             </ul>
         </nav>
     {% endif %}
-
-	{% if session.user %}			
-    {% if comment.errors is defined and comment.errors is not empty %}
-        <div class="alert alert-danger" role="alert">
-            <ul>
-                {% for error in comment.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
-    <form method="POST" action="/addcomment/{{ post.id }}/{{ page }}" name="addComment" id="commentForm" novalidate>
-      <div class="control-group">
-          <div class="form-group floating-label-form-group controls">
-              <label>Pseudo</label>
-              <input type="text" class="form-control" placeholder="Veuillez écrire votre pseudo." name="author" id="pseudo"  value="{{ comment.author }}" required data-validation-required-message="Veuillez écrire votre pseudo.">
-              <p class="help-block text-danger"></p>
-          </div>
-      </div>
-      <div class="control-group">
-        <div class="form-group floating-label-form-group controls">
-            <label>Commentaire</label>
-            <textarea rows="5" class="form-control" placeholder="Vous pouvez écrire un commentaire ici." name="content" id="commentaire" required data-validation-required-message="Veuillez écrire un commentaire.">{{ comment.content }}</textarea>
-            <p class="help-block text-danger"></p>
-        </div>
-      </div>
-	    <br>
-	    <div id="success"></div>
-	    <div class="form-group">
-	    <button type="submit" class="btn btn-primary" id="addCommentButton">Ajouter un commentaire</button>
-	    </div>
+    <br>
+	{% if session.user and session.user.isChecked == 1 %}			
+        {% if comment.errors is defined and comment.errors is not empty %}
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for error in comment.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        <form method="POST" action="/addcomment/{{ post.id }}/{{ page }}" novalidate>
+            {% include 'commentForm.html.twig' %}
+	        <div class="form-group">
+	           <button type="submit" class="btn btn-primary">Ajouter un commentaire</button>
+	       </div>
 		</form>
 	{% endif %}
 

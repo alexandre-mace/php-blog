@@ -9,36 +9,11 @@
 
 {% block mainContent %}
 				
-    <form method="POST" action="/addpost" name="addPost" id="postForm" novalidate>
-        <div class="control-group">
-            <div class="form-group floating-label-form-group controls">
-                <label>Titre</label>
-                <input type="text" class="form-control" placeholder="Titre" value="{{ post.title }}" name="title" id="title" required data-validation-required-message="Veuillez écrire votre titre.">
-                <p class="help-block text-danger"></p>
-            </div>
-        </div>
-       	<div class="control-group">
-	        <div class="form-group floating-label-form-group controls mt-2">
-	            <label>Introduction</label>
-	            <textarea rows="3" class="form-control" placeholder="Introduction" name="intro" id="intro" required data-validation-required-message="Veuillez écrire votre introduction.">{{ post.intro }}</textarea>
-	            <p class="help-block text-danger"></p>
-	        </div>
-	    </div>
-	    <div class="control-group">
-	        <div class="form-group floating-label-form-group controls mt-2">
-	            <label>Contenu</label>
-	            <textarea rows="15" class="form-control" placeholder="Contenu" name="content" id="content" required data-validation-required-message="Veuillez écrire votre contenu.">{{ post.content }}</textarea>
-	            <p class="help-block text-danger"></p>
-				<script>
-					CKEDITOR.replace( 'content' );
-				</script>	            
-	        </div>
-	    </div>
-	    <br>
-	    <div id="success"></div>
-	    <div class="form-group">
-	        <button type="submit" class="btn btn-primary" id="addPostButton">Ajouter votre post</button>
-	    </div>
+    <form method="POST" action="/addpost" novalidate>
+    	{% include 'postForm.html.twig' %}
+    	<div class="form-group">
+    		<button type="submit" class="btn btn-primary">Ajouter votre post</button>
+		</div>
 	</form>
 
 {% endblock %}

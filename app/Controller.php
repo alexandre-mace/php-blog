@@ -10,6 +10,7 @@ use App\Database;
 
 class Controller
 {
+	
 	protected $request;
 
 	protected $router;
@@ -62,7 +63,17 @@ class Controller
 			if (!isset($value) OR empty(trim($value))) {
 				return false;
 			}
-			return true;
+		}
+		return true;
+	}
+
+	protected function isGranted($role)
+	{
+		if (!empty($this->request->getSession('user')) and !$this->request->getSession()['user']->getIsAdmin() and $role == 'admin') {
+			throw new \Exception("Vous n'avez pas les autorisations nécessaires pour accéder à cette page.");		
+		}
+		if (empty($this->request->getSession('user'))) {
+			$this->redirect("auth", [])->send();
 		}
 	}
 }

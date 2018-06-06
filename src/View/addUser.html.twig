@@ -2,14 +2,14 @@
 
 {% block pageHeader %}
 
-    <h1>Nouvel Administrateur</h1>
-    <span class="subheading">Veuillez remplir le formulaire ci-dessous pour ajouter le nouvel administrateur !</span>
+    <h1>Nouvel utilisateur</h1>
+    <span class="subheading">Veuillez remplir le formulaire ci-dessous pour vous inscrire !</span>
         
 {% endblock %}
 
 {% block mainContent %}
 
-    <form action="/addAdmin" method="POST" novalidate>
+    <form action="/addUser" method="POST" novalidate>
         {% include 'userForm.html.twig' %}
 		<div class="form-group">
 			<button type="submit" class="btn btn-primary">Inscription</button>

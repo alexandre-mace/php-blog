@@ -1,8 +1,10 @@
 {% extends'template.html.twig' %}
 
 {% block pageHeader %}
-	<h1>Blog d'Alexandre Macé</h1>
-	<span class="subheading">Développeur web en formation chez OpenClassrooms</span>
+	
+    <h1>Alexandre Macé, développeur passionné</h1>
+	<span class="subheading pt-4">Développeur web en formation chez OpenClassrooms</br><a class="nav-link" href="/web/assets/docs/cv.pdf" target="_blank">CV <i class="fas fa-download"></i></a></span>
+    
 {% endblock %}
 
 {% block mainContent %}
@@ -24,9 +26,8 @@
         <hr>
     {% endfor %}
 
-    <!-- Pager -->
     <div class="clearfix">
-        <a class="btn btn-primary float-right" href="/posts/1">Tous les posts</a> <!-- Lien à modifier -->
+        <a class="btn btn-primary float-right" href="/posts/1">Tous les posts</a>
     </div>
 
 {% endblock %}

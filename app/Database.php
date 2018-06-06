@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Request;
+
 class Database 
 {
 
@@ -14,15 +16,19 @@ class Database
 
 	public function __construct($host, $dbName, $username, $password)
 	{
-		$this->pdo = new \PDO("mysql:dbname=$dbName;host=$host", $username, $password); // A modifier
+		$this->pdo = new \PDO("mysql:dbname=$dbName;host=$host", $username, $password);
 	}
 
 	public static function getInstance()
 	{
 		if (is_null(self::$_databaseInstance)) {
-			self::$_databaseInstance = new Database('localhost', 'blog_oc', 'root', '');
+            self::$_databaseInstance = new Database(
+                getEnv("DB_HOST"),
+                getEnv("DB_NAME"),
+                getEnv("DB_USER"),
+                getEnv("DB_PASSWORD")
+            );
 		}
-
 		return self::$_databaseInstance;
 	}
 
@@ -37,7 +43,6 @@ class Database
 		if (!isset($this->managers[$model])) {
 			$this->managers[$model] = new $managerClass($this->pdo, $model);
 		}
-
 		return $this->managers[$model];
 	}
 }

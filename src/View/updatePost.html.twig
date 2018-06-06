@@ -9,36 +9,11 @@
 
 {% block mainContent %}
 				
-    <form method="POST" action="/updatepost/{{ post.id }}" name="updatePost" id="updatePostForm" novalidate>
-        <div class="control-group">
-            <div class="form-group floating-label-form-group controls">
-                <label for="title">Titre</label>
-                <input type="text" class="form-control" name="title" value="{{ post.title }}" id="title" required data-validation-required-message="Veuillez écrire votre titre.">
-                <p class="help-block text-danger"></p>
-            </div>
-        </div>
-       	<div class="control-group">
-	        <div class="form-group floating-label-form-group controls mt-2">
-	            <label>Introduction</label>
-	            <textarea rows="3" class="form-control" name="intro" id="introduction" required data-validation-required-message="Veuillez écrire votre introduction.">{{ post.intro }}</textarea>
-	            <p class="help-block text-danger"></p>
-	        </div>
-	    </div>
-	    <div class="control-group">
-	        <div class="form-group floating-label-form-group controls mt-2">
-	            <label>Contenu</label>
-	            <textarea rows="50" class="form-control" name="content" id="content" required data-validation-required-message="Veuillez écrire votre contenu.">{{ post.content }}</textarea>
-	            <p class="help-block text-danger"></p>
-				<script>
-					CKEDITOR.replace( 'content' );
-				</script>
-	        </div>
-	    </div>
-	    <br>
-	    <div id="success"></div>
-	    <div class="form-group">
-	        <button type="submit" class="btn btn-primary" id="updatePostButton">Modifier votre post</button>
-	    </div>
+    <form method="POST" action="/updatepost/{{ post.id }}" novalidate>
+    	{% include 'postForm.html.twig' %}
+    	<div class="form-group">
+    		<button type="submit" class="btn btn-primary">Modifier votre post</button>
+		</div>
 	</form>
 
 {% endblock %}

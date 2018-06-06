@@ -2,57 +2,56 @@
 
 {% block pageHeader %}
 
-    <h1>Les commentaires signalés</h1>
-    <span class="subheading">Tous les commentaires signalés sont accessibles depuis cette page !</span>
+    <h1>Les utilisateurs non validés</h1>
+    <span class="subheading">Tous les utilisateurs non validés sont accessibles depuis cette page !</span>
 
 {% endblock %}
 
 {% block mainContent %}
 
-    {% for report in reports %}
+    {% for user in users %}
         <div class="post-preview">
-            <p>{{ report.comment.content }}</p>
-            <p>Raison du signalement : {{ report.reason }}</p>
             <p class="post-meta">
-                Posté par {{ report.comment.author }} le {{ report.comment.addedAt|date('d-m-Y H:i') }}
+               Enregistré le {{ user.addedAt|date('d-m-Y H:i') }}</span>
+            </p>       
+            <p>
+               Identifiant : {{ user.id }} 
             </p>
         </div>
-        {% if session.user is defined and session.user.isAdmin == 1 %}
-            <a class="btn btn-primary" href="/unreportcomment/{{ report.id }}">Annuler le signalement</a> 
-            <a class="btn btn-primary" href="/updatecomment/{{ report.comment.id }}">Modifier</a> 
-            <a class="btn btn-primary" href="/deletecomment/{{ report.comment.id }}">Supprimer</a>
-        {% endif %}
+        <a class="btn btn-primary" href="/checkuser/{{ user.id }}">Valider</a> 
+        <a class="btn btn-primary" href="/deleteuser/{{ user.id }}">Supprimer</a>
         <hr>
     {% endfor %}
 
+
     {% if nbPages > 1 %}
     {% set nearbyPagesLimit = 2 %}
-        <nav aria-label="comments pagination">
+        <nav aria-label="users pagination">
             <ul class="pagination pagination-lg justify-content-center">
                 {% if page > 1 %}
                     <li class="page-item">
-                        <a class="page-link" href="/reportedComments/1" aria-label="Previous">
+                        <a class="page-link" href="/users/1" aria-label="Previous">
                             <span aria-hidden="true"><i class="fa fa-angle-double-left"></i></span>
                             <span class="sr-only">Previous</span>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="/reportedComments/{{ page - 1 }}" tabindex="-1">Précédent</a>
+                        <a class="page-link" href="/users/{{ page - 1 }}" tabindex="-1">Précédent</a>
                     </li> 
                 {% endif %}
 
                 {% for p in range(max(page - nearbyPagesLimit, 1), min(page + nearbyPagesLimit, nbPages)) %}
                     <li class="page-item {{ p==page ? "active" }}">
-                        <a class="page-link" href="/reportedComments/{{ p }}">{{ p }}<span class="sr-only">(current)</span></a>
+                        <a class="page-link" href="/users/{{ p }}">{{ p }}<span class="sr-only">(current)</span></a>
                     </li>
                 {% endfor %}
 
                 {% if page < nbPages %}
                     <li class="page-item">
-                        <a class="page-link" href="/reportedComments/{{ page + 1 }}">Suivant</a>
+                        <a class="page-link" href="/users/{{ page + 1 }}">Suivant</a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="/reportedComments/{{ nbPages }}" aria-label="Next">
+                        <a class="page-link" href="/users/{{ nbPages }}" aria-label="Next">
                             <span aria-hidden="true"><i class="fa fa-angle-double-right"></i></span>
                             <span class="sr-only">Next</span>
                         </a>

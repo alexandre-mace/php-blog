@@ -17,6 +17,7 @@ class Request
 
 	private $request;
 
+
 	public function __construct(array $post, array $get, array $session, array $cookie, array $server, array $request)
 	{
 		$this->post = $post;
@@ -33,8 +34,11 @@ class Request
 		return new Request($_POST, $_GET, $_SESSION, $_COOKIE, $_SERVER, $_REQUEST);
 	}
 
-	public function getPost()
+	public function getPost($key = NULL)
 	{
+		if ($key != NULL) {
+			return $this->post[$key];
+		}
 		return $this->post;
 	}
 
@@ -53,17 +57,16 @@ class Request
 		$_SESSION[$key] = $value;
 	}
 
-	public function addFlashBag($type, $value)
-	{
-		$_SESSION['flashBag'][$type][] = $value;	
-
-	}
-
 	public function getFlashBag($type) 
 	{ 
 		return array_shift($_SESSION['flashBag' ][$type]);
 	}
 
+	public function addFlashBag($type, $value)
+	{
+		$_SESSION['flashBag'][$type][] = $value;	
+	}
+	
 	public function getCookie()
 	{
 		return $this->cookie;
@@ -83,7 +86,12 @@ class Request
 	{
 		return $this->request;
 	}
-	
+
+    public function getEnv($key)
+    {
+        return getenv($key);
+    }
+    
 	public function getUri()
 	{
 		return $this->server["REQUEST_URI"];
