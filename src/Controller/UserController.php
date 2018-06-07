@@ -16,6 +16,7 @@ class UserController extends Controller
 	
 	public function addAdmin()
 	{
+		$this->csrf();
 		$this->isGranted('admin');
 		$admin = new User();
 		$admin->setAddedAt(new \DateTime("now", new \DateTimeZone('Europe/Paris')));
@@ -29,12 +30,14 @@ class UserController extends Controller
 			return $this->redirect("index");
 		}
 		return $this->render("addAdmin.html.twig", [
+			"csrf" => $this->request->getSession('csrf')['csrf'],
 			"user" => $admin
 		]);
 	}
 
 	public function addUser()
 	{		
+		$this->csrf();
 		$user = new User();
 		$user->setAddedAt(new \DateTime("now", new \DateTimeZone('Europe/Paris')));
 		if ($this->request->getMethod() == "POST" && $user->hydrate($this->request->getPost())->isValid()) {
@@ -46,6 +49,7 @@ class UserController extends Controller
 			return $this->redirect("index");	
 		}
 		return $this->render("addUser.html.twig", [
+			"csrf" => $this->request->getSession('csrf')['csrf'],
 			"user" => $user
 		]);
 	}

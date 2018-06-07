@@ -15,6 +15,7 @@ class CommentController extends Controller
 
 	public function addComment($postId, $page = 1)
 	{
+		$this->csrf();
 		$this->isGranted('user');
 		$postManager = $this->getDatabase()->getManager(Post::class);
 		$post = $postManager->find($postId);		
@@ -35,6 +36,7 @@ class CommentController extends Controller
 		$commentManager = $this->getDatabase()->getManager(Comment::class);
 		$results = $commentManager->getCommentsByPostId($postId, $page);
 		return $this->render("post.html.twig", [
+			"csrf" => $this->request->getSession('csrf')['csrf'],
 			"post" => $post,
 			"comment" => $comment,
             "comments" => $results['results'],
@@ -45,6 +47,7 @@ class CommentController extends Controller
 
 	public function updateComment($id)
 	{
+		$this->csrf();
 		$this->isGranted('admin');
 		$manager = $this->getDatabase()->getManager(Comment::class);
 		$comment = $manager->find($id);
@@ -56,6 +59,7 @@ class CommentController extends Controller
 			]);
 		}
 		return $this->render("updateComment.html.twig", [
+			"csrf" => $this->request->getSession('csrf')['csrf'],
 			"comment" => $comment
 		]);
 	}
@@ -123,6 +127,7 @@ class CommentController extends Controller
 
 	public function reportComment($id, $page = 1)
 	{
+		$this->csrf();
 		$report = new Report();
 		$report->setAddedAt(new \DateTime());
 		$report->setType('comment');
@@ -143,6 +148,7 @@ class CommentController extends Controller
 		$post = $postManager->find($comment->getPost()->getId());
 		$results = $commentManager->getCommentsByPostId($id, $page);
 		return $this->render("post.html.twig", [
+			"csrf" => $this->request->getSession('csrf')['csrf'],
             "page" => $page,
             "post" => $post,
             "report" => $report,

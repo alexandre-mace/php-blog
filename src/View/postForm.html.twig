@@ -14,6 +14,7 @@
     <div class="form-group floating-label-form-group controls mt-2">
         <label for="content">Contenu</label>
         <textarea class="form-control trumbowyg" name="content" id="content">{{ post.content }}</textarea>
+        <input type="hidden" name="csrf" value="{{ csrf }}">
     </div>
 </div>
 <br>

@@ -13,6 +13,7 @@ class ContactController extends Controller
 
 	public function contact()
 	{
+		$this->csrf();
 		if ($this->request->getMethod('POST') AND !empty($this->request->getPost())) {
 			if ($this->verify($this->request->getPost())) {
 				$this->sendMail(); 
@@ -21,7 +22,9 @@ class ContactController extends Controller
 			}
 			$this->request->addFlashBag('failure', 'L\'envoi du mail a échoué, veuillez remplir correctement tous les champs.');
 		}
-		return $this->render("contact.html.twig", []);
+		return $this->render("contact.html.twig", [
+			"csrf" => $this->request->getSession('csrf')['csrf']
+		]);
 	}
 
 	public function sendMail()
