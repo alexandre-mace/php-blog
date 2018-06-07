@@ -158,11 +158,13 @@ class PostController extends Controller
 
 	public function showPost($id, $page = 1)
 	{
+		$this->csrf();
 		$postManager = $this->getDatabase()->getManager(Post::class);
 		$commentManager = $this->getDatabase()->getManager(Comment::class);
 		$post = $postManager->find($id);
 		$results = $commentManager->getCommentsByPostId($id, $page);
 		return $this->render("post.html.twig", [
+			"csrf" => $this->request->getSession('csrf')['csrf'],
             "page" => $page,
             "post" => $post,
             "comments" => $results['results'],

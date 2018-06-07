@@ -15,6 +15,7 @@ class CommentController extends Controller
 
 	public function addComment($postId, $page = 1)
 	{
+		var_dump($this->request->getSession('csrf')['csrf']);
 		$this->csrf();
 		$this->isGranted('user');
 		$postManager = $this->getDatabase()->getManager(Post::class);

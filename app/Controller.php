@@ -80,6 +80,8 @@ class Controller
 	{
 		if ($this->request->getMethod() == 'POST') {
 			if (!hash_equals($this->request->getSession('csrf')['csrf'], $this->request->getPost('csrf'))) {
+				var_dump($this->request->getSession('csrf')['csrf']);
+				var_dump($this->request->getPost('csrf'));
 				throw new \Exception("CSRF Token failed.");
 			}
 			return;

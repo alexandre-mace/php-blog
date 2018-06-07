@@ -133,6 +133,7 @@
         <form method="POST" action="/addcomment/{{ post.id }}/{{ page }}" novalidate>
             {% include 'commentForm.html.twig' %}
 	        <div class="form-group">
+                <input type="hidden" name="csrf" value="{{ csrf }}">
 	           <button type="submit" class="btn btn-primary">Ajouter un commentaire</button>
 	       </div>
 		</form>
