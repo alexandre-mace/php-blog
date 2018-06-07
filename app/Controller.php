@@ -76,4 +76,16 @@ class Controller
 			$this->redirect("auth", [])->send();
 		}
 	}
+	protected function csrf()
+	{
+		if ($this->request->getMethod() == 'POST') {
+			if (!hash_equals($this->request->getSession('csrf')['csrf'], $this->request->getPost('csrf'))) {
+				throw new \Exception("CSRF Token failed.");
+			}
+			return;
+		}
+		$this->request->setSession('key', bin2hex(random_bytes(32)));
+		$csrf = hash_hmac('md5', 'this is some string', $this->request->getSession('key')['key']);
+		$this->request->setSession('csrf', $csrf);
+	}
 }

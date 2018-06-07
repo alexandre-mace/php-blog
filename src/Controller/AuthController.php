@@ -15,6 +15,7 @@ class AuthController extends Controller
 	
 	public function auth()
 	{
+		$this->csrf();
 		if (isset($this->request->getPost()['id'])) {
 			$userManager = $this->getDatabase()->getManager(User::class);
 
@@ -39,7 +40,9 @@ class AuthController extends Controller
 			}
 			$this->request->addFlashBag('failure', 'L\'authentification a échoué, veuillez rééssayer.');
 		}
-		return $this->render("auth.html.twig", []);
+		return $this->render("auth.html.twig", [
+			"csrf" => $this->request->getSession('csrf')['csrf']
+		]);
 	}
 
 }

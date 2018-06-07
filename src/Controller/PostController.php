@@ -15,6 +15,7 @@ class PostController extends Controller
 	
 	public function addPost()
 	{
+		$this->csrf();
 		$this->isGranted('admin');
 		$post = new Post();
 		$post->setAddedAt(new \DateTime());
@@ -30,12 +31,14 @@ class PostController extends Controller
 			]);
 		}
 		return $this->render("addPost.html.twig", [
+			"csrf" => $this->request->getSession('csrf')['csrf'],
 			"post" => $post
 		]);
 	}
 
 	public function updatePost($id)
 	{
+		$this->csrf();
 		$this->isGranted('admin');
 		$manager = $this->getDatabase()->getManager(Post::class);
 		$post = $manager->find($id);
@@ -49,6 +52,7 @@ class PostController extends Controller
 			]);
 		}
 		return $this->render("updatePost.html.twig", [
+			"csrf" => $this->request->getSession('csrf')['csrf'],
 			"post" => $post
 		]);
 	}
@@ -95,6 +99,7 @@ class PostController extends Controller
 
 	public function reportPost($id, $page = 1)
 	{
+		$this->csrf();
 		$report = new Report();
 		$report->setAddedAt(new \DateTime());
 		$report->setType('post');
@@ -114,6 +119,7 @@ class PostController extends Controller
 		$commentManager = $this->getDatabase()->getManager(Comment::class);
 		$results = $commentManager->getCommentsByPostId($id, $page);
 		return $this->render("post.html.twig", [
+			"csrf" => $this->request->getSession('csrf')['csrf'],
             "page" => $page,
             "post" => $post,
             "report" => $report,
