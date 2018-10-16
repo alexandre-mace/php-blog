@@ -46,6 +46,6 @@ class ContactController extends Controller
 		  ;
 
 		// Send the message
-		$result = $mailer->send($message);
+		$mailer->send($message);
 	}
 }

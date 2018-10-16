@@ -59,7 +59,7 @@ class Controller
 
 	protected function verify($array)
 	{
-		foreach ($array as $key => $value) {
+		foreach ($array as $value) {
 			if (!isset($value) OR empty(trim($value))) {
 				return false;
 			}

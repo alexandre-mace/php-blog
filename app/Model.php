@@ -21,7 +21,7 @@ abstract class Model
 
     public function isValid() 
     {
-        foreach($this->metadata()["columns"] as $name => $definition) {
+        foreach($this->metadata()["columns"] as $definition) {
             if (isset($definition["constraints"])) {
                 foreach($definition["constraints"] as $type => $details) {
 
