@@ -1,4 +1,7 @@
 # BlogOC
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/049008c476e0480ea032ec4fb7ab8a27)](https://app.codacy.com/app/alexandre-mace/oc_p5?utm_source=github.com&utm_medium=referral&utm_content=alexandre-mace/oc_p5&utm_campaign=Badge_Grade_Dashboard)
+
 School blog project : Create a PHP Blog with admin system using composer and twig.
 
 ## Website deployment process
